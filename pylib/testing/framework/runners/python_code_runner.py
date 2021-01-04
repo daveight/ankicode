@@ -1,4 +1,3 @@
-import os
 import re
 import subprocess
 from os.path import normpath
@@ -46,7 +45,6 @@ class PythonCodeRunner(CodeRunner):
         """
         workdir, pythonsrc = create_src_file(src, 'test.py')
         resource_path = get_resource_path()
-        # resource_path = '/opt/dev/dave8/anki'
         if isWin:
             run_cmd = self.WIN_RUN_CMD
         else:

@@ -14,11 +14,6 @@
         /* Enable strict null checks. */
         "noImplicitThis": false,
         /* Raise error on 'this' expressions with an implied 'any' type. */
-        "esModuleInterop": true,
-//        "paths": {
-//            "@module": [
-//                "./src/utils/module"
-//            ]
-//        }
+        "esModuleInterop": true
     }
 }

@@ -26,7 +26,6 @@ from anki.dbproxy import DBProxy
 
 _tmpdir: Optional[str]
 
-
 # Time handling
 ##############################################################################
 

@@ -12,8 +12,6 @@ import threading
 import unicodedata as ucd
 from typing import List, Optional, Tuple
 
-from PyQt5.QtCore import Qt
-
 from testing.framework.anki_testing_api import get_solution_template, run_tests, stop_tests
 from testing.framework.runners.console_logger import ConsoleLogger
 
@@ -66,8 +64,8 @@ class Reviewer:
         self.typeCorrect: str = None  # web init happens before this is set
         self.state: Optional[str] = None
         self.bottom = BottomBar(mw, mw.bottomWeb)
-        self.synchronizer = threading.Event()
-        self.logger = ConsoleLogger(mw.web)
+        self._synchronizer = threading.Event()
+        self._logger = ConsoleLogger(mw.web)
         hooks.card_did_leech.append(self.onLeech)
         self._isCodeQuestion = False
 
@@ -90,7 +88,6 @@ class Reviewer:
         return None
 
     def cleanup(self) -> None:
-        # self.web.eval("codeansJar.destroy()")
         gui_hooks.reviewer_will_end()
 
     # Fetching a card
@@ -274,7 +271,7 @@ class Reviewer:
     ############################################################
     def _answerCard(self, ease: int) -> None:
         "Reschedule card and show next."
-        self.synchronizer.set()
+        self._synchronizer.set()
         if self.mw.state != "review":
             # showing resetRequired screen; ignore key
             return
@@ -440,7 +437,7 @@ class Reviewer:
     def _runTests(self, src):
         self.web.eval("_activateStopButton()")
         self._cleanConsole()
-        run_tests(self.card, src, self._getCurrentLang(), self.logger)
+        run_tests(self.card, src, self._getCurrentLang(), self._logger)
         self.web.eval("_activateRunButton()")
 
     def _cleanConsole(self):
@@ -527,18 +524,6 @@ Please run Tools>Empty Cards"""
                 # can't pass a string in directly, and can't use re.escape as it
                 # escapes too much
                 return "<hr id=answer>"
-
-            #     s = """
-            # <span id="coding-answer" style="font-family: '%s'; font-size: %spx">%s</span>""" % (
-            #         self.typeFont,
-            #         self.typeSize,
-            #         '',
-            #     )
-            #     if hadHR:
-            #         # a hack to ensure the q/a separator falls before the answer
-            #         # comparison when user is using {{FrontSide}}
-            #         s = "<hr id=answer>" + s
-            #     return s
             return re.sub(self.codeAnsPat, repl, buf)
         else:
             # compare with typed answer
@@ -1030,7 +1015,7 @@ time = %(time)d;
 
     def stopTests(self):
         lang = self._getCurrentLang()
-        self.logger.log('Stopping...')
+        self._logger.log('Stopping...')
         stop_tests(lang)
         self.web.eval("_activateRunButton()")
         self.web.eval("_initializeProgress()")

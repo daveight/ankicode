@@ -258,7 +258,6 @@ class AnkiApp(QApplication):
         buf = "raise"
         if args and args[0]:
             buf = os.path.abspath(args[0])
-        #todo: run own server for Bobs
         if self.sendMsg(buf):
             print("Already running; reusing existing instance.")
             return True
