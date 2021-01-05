@@ -346,7 +346,6 @@ function onCutOrCopy() {
     return true;
 }
 
-//here!
 function setFields(fields) {
     let txt = "";
     for (let i = 0; i < fields.length; i++) {
