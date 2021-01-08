@@ -18,7 +18,7 @@ class JavaTestCaseGeneratorTest(unittest.TestCase):
 
     def test_list_of_integer(self):
         self.evaluate_generator(['list(int)[a]'],
-                                'new ArrayListConverter(new IntegerConverter())')
+                                'new ListConverter(new IntegerConverter())')
 
     def test_array_of_integer(self):
         self.evaluate_generator(['array(int)[a]'],
@@ -26,16 +26,16 @@ class JavaTestCaseGeneratorTest(unittest.TestCase):
 
     def test_list_with_nested_array(self):
         self.evaluate_generator(['list(array(array(int)))[a]'],
-                                'new ArrayListConverter(new ArrayConverter(new ArrayConverter(new IntegerConverter()'
+                                'new ListConverter(new ArrayConverter(new ArrayConverter(new IntegerConverter()'
                                 ')))')
 
     def test_array_with_nested_list(self):
         self.evaluate_generator(['array(list(int))[a]'],
-                                'new ArrayConverter(new ArrayListConverter(new IntegerConverter()))')
+                                'new ArrayConverter(new ListConverter(new IntegerConverter()))')
 
     def test_array_of_lists_of_arrays(self):
         self.evaluate_generator(['list(array(list(int)))[a]'],
-                                'new ArrayListConverter(new ArrayConverter(new ArrayListConverter(new '
+                                'new ListConverter(new ArrayConverter(new ListConverter(new '
                                 'IntegerConverter())))')
 
     def test_obj_simple(self):
@@ -50,7 +50,7 @@ class JavaTestCaseGeneratorTest(unittest.TestCase):
 
     def test_obj_nested_list(self):
         self.evaluate_generator(['object(list(int[a]),int[b])<Edge>[a]'],
-                                'new ClassConverter(Arrays.asList(new ArrayListConverter(new IntegerConverter()), '
+                                'new ClassConverter(Arrays.asList(new ListConverter(new IntegerConverter()), '
                                 'new IntegerConverter()),Edge.class)')
 
     def test_obj_nested_object(self):
@@ -60,7 +60,7 @@ class JavaTestCaseGeneratorTest(unittest.TestCase):
 
     def test_list_of_objects(self):
         self.evaluate_generator(['list(object(int[a])<Edge>)[a]'],
-                                'new ArrayListConverter(new ClassConverter(Arrays.asList(new IntegerConverter()),'
+                                'new ListConverter(new ClassConverter(Arrays.asList(new IntegerConverter()),'
                                 'Edge.class))')
 
     def test_array_of_objects(self):

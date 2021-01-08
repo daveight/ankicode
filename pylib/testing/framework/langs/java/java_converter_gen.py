@@ -17,12 +17,12 @@ class JavaConverterGenerator(SyntaxTreeVisitor):
 
     def visit_list(self, node: SyntaxTree, data):
         """
-        Generates ArrayListConverter initializer, which converts input data to java ArrayList type
+        Generates ListConverter initializer, which converts input data to java ArrayList type
         :param node: target syntax tree node
         :param data: corresponding data item
-        :return: java ArrayListConverter initializer
+        :return: java ListConverter initializer
         """
-        return 'new ArrayListConverter(' + self.render(node.first_child()) + ')'
+        return 'new ListConverter(' + self.render(node.first_child()) + ')'
 
     def visit_map(self, node: SyntaxTree, data):
         """
