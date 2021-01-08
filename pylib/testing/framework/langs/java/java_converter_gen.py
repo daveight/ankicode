@@ -76,5 +76,5 @@ class JavaConverterGenerator(SyntaxTreeVisitor):
         :param data: corresponding data item
         :return: java UserTypeConverter initializer
         """
-        return 'new UserTypeConverter(Arrays.asList(' + ', '.join([self.render(node) for node in node.nodes]) + \
+        return 'new ClassConverter(Arrays.asList(' + ', '.join([self.render(node) for node in node.nodes]) + \
                '),' + node.node_type + '.class)'

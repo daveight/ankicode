@@ -14,7 +14,9 @@ class PythonTestSuiteGenerator(TestSuiteGenerator):
 
     IMPORTS = '''
 import datetime
-from testing_lib import *'''
+from test_case import *
+from verifier import *
+from converters import *'''
 
     MAIN_FUNCTION_TEMPLATE = '''
 converters = [%(converters_src)s]

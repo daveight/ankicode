@@ -28,8 +28,8 @@ public class Solution {
         ))
 
         self.assertEqual('''
-import static test_engine.Verifier.verify;
-import static test_engine.Converters.*;
+import static ankitest.Verifier.verify;
+import static ankitest.Converters.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -39,9 +39,8 @@ import java.util.concurrent.*;
 import java.util.*;
 import java.util.stream.*;
 import java.lang.reflect.Method;
-import test_engine.TestCaseParser;
-import test_engine.TestCase;
-import test_engine.Verifier;
+import ankitest.TestCase;
+import ankitest.Verifier;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,7 +68,7 @@ public class Solution {
 		method.setAccessible(true);
 		List<String> lines = Files.lines(Path.of("tmp.txt")).collect(Collectors.toList());
 		for (String line : lines) {
-			TestCase tc = TestCaseParser.parseTestCase(converters, line);
+			TestCase tc = TestCase.parseTestCase(converters, line);
 			long start = System.nanoTime();
 			Object result = null;
 			try {

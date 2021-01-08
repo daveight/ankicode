@@ -32,7 +32,7 @@ class JavaCodeRunner(CodeRunner):
     WIN_RUN_CMD = '{}/libs/jdk/bin/java -Xss10m -classpath {};{}/libs/jdk/lib/java.jar {}'
     UNIX_RUN_CMD = '{}/libs/jdk/bin/java -Xss10m -classpath {}:{}/libs/jdk/lib/java.jar {}'
     CLASS_NAME = 'Solution'
-    PKG_NAME = 'test_engine'
+    PKG_NAME = 'ankitest'
     pid = None
 
     def _run(self, src: str, logger: ConsoleLogger, messages: Dict[str, str]):

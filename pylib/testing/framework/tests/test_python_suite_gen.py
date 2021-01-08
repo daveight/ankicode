@@ -21,7 +21,9 @@ class PythonTestSuiteGeneratorTests(unittest.TestCase):
             failed_msg='''failed'''
         ))
         self.assertEqual('''import datetime
-from testing_lib import *
+from test_case import *
+from verifier import *
+from converters import *
 def solution(a: int, b: int) -> int:
     return a + b
 converters = [IntegerConverter(), IntegerConverter()]

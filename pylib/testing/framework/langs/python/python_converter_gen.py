@@ -76,6 +76,6 @@ class PythonConverterGenerator(SyntaxTreeVisitor):
         :param data: corresponding data item
         :return: python UserTypeConverter initializer
         """
-        return 'UserTypeConverter([' + ', '.join([self.render(node) for node in node.nodes]) + '], ' + \
+        return 'ClassConverter([' + ', '.join([self.render(node) for node in node.nodes]) + '], ' + \
                node.node_type + ')'
 

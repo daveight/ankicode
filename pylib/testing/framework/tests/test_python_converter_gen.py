@@ -38,25 +38,25 @@ class PythonTestCaseGeneratorTest(unittest.TestCase):
 
     def test_obj_simple(self):
         self.evaluate_generator(['object(int[a],int[b])<Edge>[a]'],
-                                'UserTypeConverter([IntegerConverter(), IntegerConverter()])')
+                                'ClassConverter([IntegerConverter(), IntegerConverter()], Edge)')
 
     def test_obj_nested_array(self):
         self.evaluate_generator(['object(array(int[a]),int[b])<Edge>[a]'],
-                                'UserTypeConverter([ListConverter(IntegerConverter()), IntegerConverter()])')
+                                'ClassConverter([ListConverter(IntegerConverter()), IntegerConverter()], Edge)')
 
     def test_obj_nested_list(self):
         self.evaluate_generator(['object(list(int[a]),int[b])<Edge>[a]'],
-                                'UserTypeConverter([ListConverter(IntegerConverter()), IntegerConverter()])')
+                                'ClassConverter([ListConverter(IntegerConverter()), IntegerConverter()], Edge)')
 
     def test_obj_nested_object(self):
         self.evaluate_generator(['object(object(int[a])<Node>[t],int[b])<Edge>[a]'],
-                                'UserTypeConverter([UserTypeConverter([IntegerConverter()]), IntegerConverter()])')
+                                'ClassConverter([ClassConverter([IntegerConverter()], Node), IntegerConverter()], Edge)')
 
     def test_list_of_objects(self):
         self.evaluate_generator(['list(object(int[a])<Edge>)[a]'],
-                                'ListConverter(UserTypeConverter([IntegerConverter()]))')
+                                'ListConverter(ClassConverter([IntegerConverter()], Edge))')
 
     def test_array_of_objects(self):
         self.evaluate_generator(['array(object(int[a])<Edge>)[a]'],
-                                'ListConverter(UserTypeConverter([IntegerConverter()]))')
+                                'ListConverter(ClassConverter([IntegerConverter()], Edge))')
 

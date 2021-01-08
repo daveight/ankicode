@@ -26,8 +26,8 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
     """
 
     IMPORTS = '''
-import static test_engine.Verifier.verify;
-import static test_engine.Converters.*;
+import static ankitest.Verifier.verify;
+import static ankitest.Converters.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -37,9 +37,8 @@ import java.util.concurrent.*;
 import java.util.*;
 import java.util.stream.*;
 import java.lang.reflect.Method;
-import test_engine.TestCaseParser;
-import test_engine.TestCase;
-import test_engine.Verifier;
+import ankitest.TestCase;
+import ankitest.Verifier;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,7 +62,7 @@ import java.util.concurrent.atomic.AtomicInteger;'''
 \t\tmethod.setAccessible(true);
 \t\tList<String> lines = Files.lines(Path.of("%(file_path)s")).collect(Collectors.toList());
 \t\tfor (String line : lines) {
-\t\t\tTestCase tc = TestCaseParser.parseTestCase(converters, line);
+\t\t\tTestCase tc = TestCase.parseTestCase(converters, line);
 \t\t\tlong start = System.nanoTime();
 \t\t\tObject result = null;
 \t\t\ttry {

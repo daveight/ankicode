@@ -40,30 +40,30 @@ class JavaTestCaseGeneratorTest(unittest.TestCase):
 
     def test_obj_simple(self):
         self.evaluate_generator(['object(int[a],int[b])<Edge>[a]'],
-                                'new UserTypeConverter(Arrays.asList(new IntegerConverter(), new IntegerConverter()),'
+                                'new ClassConverter(Arrays.asList(new IntegerConverter(), new IntegerConverter()),'
                                 'Edge.class)')
 
     def test_obj_nested_array(self):
         self.evaluate_generator(['object(array(int[a]),int[b])<Edge>[a]'],
-                                'new UserTypeConverter(Arrays.asList(new ArrayConverter(new IntegerConverter()), '
+                                'new ClassConverter(Arrays.asList(new ArrayConverter(new IntegerConverter()), '
                                 'new IntegerConverter()),Edge.class)')
 
     def test_obj_nested_list(self):
         self.evaluate_generator(['object(list(int[a]),int[b])<Edge>[a]'],
-                                'new UserTypeConverter(Arrays.asList(new ArrayListConverter(new IntegerConverter()), '
+                                'new ClassConverter(Arrays.asList(new ArrayListConverter(new IntegerConverter()), '
                                 'new IntegerConverter()),Edge.class)')
 
     def test_obj_nested_object(self):
         self.evaluate_generator(['object(object(int[a])<Node>[t],int[b])<Edge>[a]'],
-                                'new UserTypeConverter(Arrays.asList(new UserTypeConverter(Arrays.asList(new '
+                                'new ClassConverter(Arrays.asList(new ClassConverter(Arrays.asList(new '
                                 'IntegerConverter()),Node.class), new IntegerConverter()),Edge.class)')
 
     def test_list_of_objects(self):
         self.evaluate_generator(['list(object(int[a])<Edge>)[a]'],
-                                'new ArrayListConverter(new UserTypeConverter(Arrays.asList(new IntegerConverter()),'
+                                'new ArrayListConverter(new ClassConverter(Arrays.asList(new IntegerConverter()),'
                                 'Edge.class))')
 
     def test_array_of_objects(self):
         self.evaluate_generator(['array(object(int[a])<Edge>)[a]'],
-                                'new ArrayConverter(new UserTypeConverter(Arrays.asList(new IntegerConverter()),'
+                                'new ArrayConverter(new ClassConverter(Arrays.asList(new IntegerConverter()),'
                                 'Edge.class))')
