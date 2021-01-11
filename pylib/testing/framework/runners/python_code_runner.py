@@ -33,8 +33,9 @@ class PythonCodeRunner(CodeRunner):
     """
     This class runs source code written in python
     """
-    UNIX_RUN_CMD = 'PYTHONPATH={}/libs/python {}/libs/python/python3 {}'
-    WIN_RUN_CMD = 'set PYTHONPATH={}/libs/python && {}/libs/python/python3 {}'
+    UNIX_RUN_CMD = 'PYTHONPATH={}/libs/python/3.9/lib/python3.9:{}/libs/python/3.9/lib/python3.9/lib-dynload ' \
+                   '{}/libs/python/3.9/bin/python3 {} '
+    WIN_RUN_CMD = 'set PYTHONPATH={}/libs/python && {}/libs/python/Python3.7/python.exe {}'
 
     def _run(self, src: str, logger: ConsoleLogger, messages: Dict[str, str]):
         """
@@ -46,10 +47,10 @@ class PythonCodeRunner(CodeRunner):
         workdir, pythonsrc = create_src_file(src, 'test.py')
         resource_path = get_resource_path()
         if isWin:
-            run_cmd = self.WIN_RUN_CMD
+            cmd = self.WIN_RUN_CMD.format(resource_path, resource_path, pythonsrc.name)
         else:
-            run_cmd = self.UNIX_RUN_CMD
-        cmd = normpath(run_cmd.format(resource_path, resource_path, pythonsrc.name))
+            cmd = self.UNIX_RUN_CMD.format(resource_path, resource_path, resource_path, pythonsrc.name)
+        cmd = normpath(cmd)
         proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.pid = proc.pid
         for line in proc.stdout:
