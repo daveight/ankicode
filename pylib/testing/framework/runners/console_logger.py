@@ -8,16 +8,8 @@ class ConsoleLogger:
     """
     def __init__(self, web):
         self._web = web
-        self._synchronizer = threading.Event()
         self._totalCount = 0
         self._index = 0
-
-    def clean(self):
-        """
-        Clears the state by reseting the internal synchronizer
-        """
-        # TODO: do I need it?
-        self._synchronizer.clear()
 
     def setTotalCount(self, count):
         """
@@ -33,8 +25,6 @@ class ConsoleLogger:
         Used to display a message in the UI
         :param msg: target message
         """
-        # if self.synchronizer.is_set():
-        #     raise Exception('exit')
         if self._totalCount > 0:
             if "<span class='passed'>" in msg:
                 self._index += 1
