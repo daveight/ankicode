@@ -24,6 +24,7 @@ class PythonTestSuiteGeneratorTests(unittest.TestCase):
 from test_case import *
 from verifier import *
 from converters import *
+#begin_user_src
 def solution(a: int, b: int) -> int:
     return a + b
 converters = [IntegerConverter(), IntegerConverter()]
