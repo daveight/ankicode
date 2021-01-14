@@ -3,23 +3,25 @@ import subprocess
 from os.path import normpath
 from typing import Dict
 
-from testing.framework.runners.code_runner import CodeRunner, create_src_file, get_resource_path
+from testing.framework.runners.code_runner import CodeRunner, create_src_file, get_resource_path, get_code_offset
 from testing.framework.runners.console_logger import ConsoleLogger
+from testing.framework.langs.java.java_test_suite_gen import JAVA_USER_SRC_START_MARKER
 from anki.utils import isWin
 
 
-def strip_compile_error(error, file_name):
+def strip_compile_error(error: str, file_name: str, solution_offset: int):
     """
     Parses java compile error log and extract the error information together with the correct line number
     :param error: target error
     :param file_name: target source code file name
+    :param solution_offset: number of lines preceding solution src
     :return: text containing error with the correct line number
     """
     lines = error.split(file_name)
     text = '<span class="error">Compilation Error:</span>\n'
     for line in lines[1:]:
         splitted = line.split(':')
-        line_number = int(splitted[1]) - 20
+        line_number = int(splitted[1]) - solution_offset
         text += str(line_number) + ':' + ''.join(splitted[2:])
     return text.replace('\n', '<br>')
 
@@ -44,17 +46,19 @@ class JavaCodeRunner(CodeRunner):
         """
         workdir, javasrc = create_src_file(src, self.CLASS_NAME + '.java')
         resource_path = get_resource_path()
-        # resource_path = '/opt/dev/dave8/anki/testing'
         logger.log('Compiling...')
+
+        solution_offset = get_code_offset(src, JAVA_USER_SRC_START_MARKER)
 
         cmd = normpath(self.COMPILE_CMD.format(resource_path, javasrc.name, resource_path))
         proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.pid = proc.pid
-        out, err = proc.communicate()
-        if len(err) != 0:
-            logger.log('<span class="error">' + strip_compile_error(err.decode('utf-8'), javasrc.name) + '</span>')
-        if len(err) > 0:
-            return err
+        out, error = proc.communicate()
+        if len(error) != 0:
+            error_text = strip_compile_error(error.decode('utf-8'), javasrc.name, solution_offset)
+            logger.log('<span class="error">' + error_text  + '</span>')
+        if len(error) > 0:
+            return error
 
         logger.log('Running Tests...')
         if isWin:

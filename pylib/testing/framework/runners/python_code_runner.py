@@ -3,15 +3,17 @@ import subprocess
 from os.path import normpath
 from typing import Optional, AnyStr, IO, Dict
 
-from testing.framework.runners.code_runner import CodeRunner, create_src_file, get_resource_path
+from testing.framework.runners.code_runner import CodeRunner, create_src_file, get_resource_path, get_code_offset
 from testing.framework.runners.console_logger import ConsoleLogger
+from testing.framework.langs.python.python_test_suite_gen import PYTHON_USER_SRC_START_MARKER
 from anki.utils import isWin
 
 
-def log_runtime_error(stderr: Optional[IO[AnyStr]], logger: ConsoleLogger):
+def log_runtime_error(stderr: Optional[IO[AnyStr]], solution_offset: int, logger: ConsoleLogger):
     """
     Parses python error log and extracts the error information together with the correct line number
     :param stderr: processes stderror
+    :param solution_offset: number of lines preceding solution src
     :param logger: console logger
     """
     line_number = None
@@ -22,7 +24,7 @@ def log_runtime_error(stderr: Optional[IO[AnyStr]], logger: ConsoleLogger):
             line = str(line_number) + ': ' + line
         result = re.search(r'line (\d+)', line)
         if result is not None:
-            line_number = int(result[1]) - 2
+            line_number = int(result[1]) - solution_offset
             continue
         else:
             line_number = None
@@ -51,8 +53,12 @@ class PythonCodeRunner(CodeRunner):
         else:
             cmd = self.UNIX_RUN_CMD.format(resource_path, resource_path, resource_path, pythonsrc.name)
         cmd = normpath(cmd)
+
+        solution_offset = get_code_offset(src, PYTHON_USER_SRC_START_MARKER)
+
         proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.pid = proc.pid
+
         for line in proc.stdout:
             logger.log(line.decode("utf-8"))
-        log_runtime_error(proc.stderr, logger)
+        log_runtime_error(proc.stderr, solution_offset, logger)

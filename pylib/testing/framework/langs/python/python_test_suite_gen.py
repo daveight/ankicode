@@ -6,6 +6,7 @@ from testing.framework.langs.python.python_converter_gen import PythonConverterG
 from testing.framework.syntax.syntax_tree import SyntaxTree
 from testing.framework.syntax.utils import trim_indent, to_snake_case
 
+PYTHON_USER_SRC_START_MARKER = '#begin_user_src\n'
 
 class PythonTestSuiteGenerator(TestSuiteGenerator):
     """
@@ -58,6 +59,7 @@ for line in lines:
             expected='" + str(test_case.expected) + "',
             result='" + str(result) + "')
         src = trim_indent(self.IMPORTS) + '\n'
+        src += PYTHON_USER_SRC_START_MARKER
         src += trim_indent(solution_src) + '\n'
         converters_src = ', '.join([self.converter_generator.render(node) for node in tree.nodes])
         src += trim_indent(self.MAIN_FUNCTION_TEMPLATE % dict(

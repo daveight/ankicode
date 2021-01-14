@@ -5,6 +5,7 @@ from testing.framework.generators.test_suite_gen import TestSuiteGenerator
 from testing.framework.langs.java.java_converter_gen import JavaConverterGenerator
 from testing.framework.syntax.syntax_tree import SyntaxTree
 
+JAVA_USER_SRC_START_MARKER = '//begin_user_src\n'
 
 def _get_context_variables(ts: TestSuite):
     """
@@ -22,7 +23,7 @@ def _get_context_variables(ts: TestSuite):
 
 class JavaTestSuiteGenerator(TestSuiteGenerator):
     """
-        Generate test suite's source code in java
+        Generates test suite's source code in java
     """
 
     IMPORTS = '''
@@ -104,7 +105,7 @@ import java.util.concurrent.atomic.AtomicInteger;'''
         """
         test_passed_msg = messages['passed_msg'] % _get_context_variables(ts)
         test_failed_msg = messages['failed_msg'] % _get_context_variables(ts)
-        solution_src = self.IMPORTS + '\n' + solution_src
+        solution_src = self.IMPORTS + '\n' + JAVA_USER_SRC_START_MARKER + solution_src
         converters_src = ', '.join([self.converter_generator.render(node) for node in tree.nodes])
         main_src = self.MAIN_FUNCTION_TEMPLATE % dict(
             converters_src=converters_src,

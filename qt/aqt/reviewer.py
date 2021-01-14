@@ -67,7 +67,6 @@ class Reviewer:
         self._synchronizer = threading.Event()
         self._logger = ConsoleLogger(mw.web)
         hooks.card_did_leech.append(self.onLeech)
-        self._isCodeQuestion = False
 
     def show(self) -> None:
         self.mw.col.reset()
@@ -199,6 +198,7 @@ class Reviewer:
         self._reps += 1
         self.state = "question"
         self.typedAnswer: str = None
+        self._isCodeQuestion = False
         c = self.card
         # grab the question and play audio
         q = c.q()
@@ -403,7 +403,6 @@ class Reviewer:
         fld = m.group(1)
         for f in self.card.model()["flds"]:
             if f["name"] == fld:
-                self.typeCorrect = self.card.note()[f["name"]]
                 self.typeFont = f["font"]
                 self.typeSize = f["size"]
                 break

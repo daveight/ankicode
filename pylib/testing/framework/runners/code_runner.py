@@ -37,6 +37,15 @@ def get_resource_path():
 
     return '"' + result + '"'
 
+def get_code_offset(self, src: str, user_src_start_marker: str):
+    """
+    Returns number of lines which precede solution src
+    :param src: solution src
+    :param user_src_start_marker: begin of solution src marker
+    """
+    start_src_index = src.index(user_src_start_marker)
+    return len(src[:start_src_index].split('\n'))
+
 
 class CodeRunner(ABC):
     """
