@@ -174,7 +174,8 @@ class Reviewer:
                 "prism.js",
                 "highlight.js",
                 "jqmeter.js",
-                "codejar.js",
+                "codejar/codejar.js",
+                "codejar/linenumbers.js",
                 "reviewer.js",
             ],
             context=self,
@@ -417,7 +418,7 @@ class Reviewer:
                     <button onclick="pycmd('selectlang');">%(selLanguageLabel)s %(downArrow)s</button>
                     <button onclick="pycmd('selecttheme');">%(selSkinLabel)s %(downArrow)s</button>
                 </div>
-                <div id="codeans" class="editor language-%(language)s" data-gramm="false" contenteditable=true>%(template)s</div>
+                <div id="codeans" class="editor language-%(language)s" data-gramm="false">%(template)s</div>
                 <div id="log" class="editor hljs"></div>
                 <div id="progressbar"></div>
             </div>

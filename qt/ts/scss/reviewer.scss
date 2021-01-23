@@ -188,8 +188,7 @@ button.disabled {
 }
 
 #codeans {
-  height:60vh;
-  text-align:left;
+  overflow-y: auto;
 }
 
 #progressbar {

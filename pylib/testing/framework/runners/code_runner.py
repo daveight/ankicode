@@ -37,7 +37,8 @@ def get_resource_path():
 
     return '"' + result + '"'
 
-def get_code_offset(self, src: str, user_src_start_marker: str):
+
+def get_code_offset(src: str, user_src_start_marker: str):
     """
     Returns number of lines which precede solution src
     :param src: solution src

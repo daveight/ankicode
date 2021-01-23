@@ -1,59 +1,5 @@
-function withLineNumbers(highlight, options = {}) {
-    const opts = Object.assign({ class: "codejar-linenumbers", wrapClass: "codejar-wrap", width: "35px" }, options);
-    let lineNumbers;
-
-    function init(editor, opts) {
-        const css = getComputedStyle(editor);
-        const wrap = document.createElement("div");
-        wrap.className = opts.wrapClass;
-        wrap.style.position = "relative";
-        const lineNumbers = document.createElement("div");
-        lineNumbers.className = opts.class;
-        wrap.appendChild(lineNumbers);
-        // Add own styles
-        lineNumbers.style.position = "absolute";
-        lineNumbers.style.top = "0px";
-        lineNumbers.style.left = "0px";
-        lineNumbers.style.bottom = "0px";
-        lineNumbers.style.width = opts.width;
-        lineNumbers.style.overflow = "hidden";
-        lineNumbers.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
-        lineNumbers.style.color = "#fff";
-        // lineNumbers.style.setProperty("mix-blend-mode", "difference");
-        // Copy editor styles
-        lineNumbers.style.fontFamily = css.fontFamily;
-        lineNumbers.style.fontSize = css.fontSize;
-        lineNumbers.style.lineHeight = css.lineHeight;
-        lineNumbers.style.paddingTop = css.paddingTop;
-        lineNumbers.style.paddingLeft = css.paddingLeft;
-        lineNumbers.style.borderTopLeftRadius = css.borderTopLeftRadius;
-        lineNumbers.style.borderBottomLeftRadius = css.borderBottomLeftRadius;
-        // Tweak editor styles
-        editor.style.paddingLeft = `calc(${opts.width} + ${lineNumbers.style.paddingLeft})`;
-        //editor.style.whiteSpace = "pre";
-        // Swap editor with a wrap
-        editor.parentNode.insertBefore(wrap, editor);
-        wrap.appendChild(editor);
-        return lineNumbers;
-    }
-
-    return function (editor) {
-        highlight(editor);
-        if (!lineNumbers) {
-            lineNumbers = init(editor, opts);
-        }
-        const code = editor.textContent || "";
-        const linesCount = code.replace(/\n+$/, "\n").split("\n").length + 1;
-        let text = "";
-        for (let i = 1; i < linesCount; i++) {
-            text += `${i}\n`;
-        }
-        lineNumbers.innerText = text;
-    };
-}
-
 function CodeJar(editor, highlight, opt = {}) {
-    const options = Object.assign({ tab: "\t", indentOn: /{$/ }, opt);
+    const options = Object.assign({ tab: "\t", indentOn: /{$/, spellcheck: false, addClosing: true }, opt);
     let listeners = [];
     let history = [];
     let at = -1;
@@ -61,8 +7,16 @@ function CodeJar(editor, highlight, opt = {}) {
     let callback;
     let prev; // code content prior keydown event
     let isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+
+    const inner = document.createElement("div");
+    inner.innerHTML = editor.innerHTML
+    inner.style.minHeight = opt.height
+    editor.innerHTML = ''
+    editor.appendChild(inner)
+    editor = inner
+
     editor.setAttribute("contentEditable", isFirefox ? "true" : "plaintext-only");
-    editor.setAttribute("spellcheck", "false");
+    editor.setAttribute("spellcheck", options.spellcheck ? "true" : "false");
     editor.style.outline = "none";
     editor.style.overflowWrap = "break-word";
     editor.style.overflowY = "auto";
@@ -77,10 +31,10 @@ function CodeJar(editor, highlight, opt = {}) {
     let recording = false;
     const shouldRecord = (event) => {
         return !isUndo(event) && !isRedo(event)
-          && event.key !== "Meta"
-          && event.key !== "Control"
-          && event.key !== "Alt"
-          && !event.key.startsWith("Arrow");
+            && event.key !== "Meta"
+            && event.key !== "Control"
+            && event.key !== "Alt"
+            && !event.key.startsWith("Arrow");
     };
     const debounceRecordHistory = debounce((event) => {
         if (shouldRecord(event)) {
@@ -98,7 +52,8 @@ function CodeJar(editor, highlight, opt = {}) {
         prev = toString();
         handleNewLine(event);
         handleTabCharacters(event);
-        handleSelfClosingCharacters(event);
+        if (options.addClosing)
+            handleSelfClosingCharacters(event);
         handleUndoRedo(event);
         if (shouldRecord(event) && !recording) {
             recordHistory();
@@ -330,8 +285,8 @@ function CodeJar(editor, highlight, opt = {}) {
         const lastRecord = history[at];
         if (lastRecord) {
             if (lastRecord.html === html
-              && lastRecord.pos.start === pos.start
-              && lastRecord.pos.end === pos.end)
+                && lastRecord.pos.start === pos.start
+                && lastRecord.pos.end === pos.end)
                 return;
         }
         at++;
@@ -349,7 +304,7 @@ function CodeJar(editor, highlight, opt = {}) {
         const pos = save();
         insert(text);
         highlight(editor);
-        restore({ start: pos.end + text.length, end: pos.end + text.length });
+        restore({ start: pos.start + text.length, end: pos.start + text.length });
     }
     function visit(editor, visitor) {
         const queue = [];
@@ -370,18 +325,18 @@ function CodeJar(editor, highlight, opt = {}) {
         return event.metaKey || event.ctrlKey;
     }
     function isUndo(event) {
-        return isCtrl(event) && !event.shiftKey && event.code === "KeyZ";
+        return isCtrl(event) && !event.shiftKey && event.key === "z";
     }
     function isRedo(event) {
-        return isCtrl(event) && event.shiftKey && event.code === "KeyZ";
+        return isCtrl(event) && event.shiftKey && event.key === "z";
     }
     function insert(text) {
         text = text
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
         document.execCommand("insertHTML", false, text);
     }
     function debounce(cb, wait) {
@@ -416,6 +371,9 @@ function CodeJar(editor, highlight, opt = {}) {
         updateCode(code) {
             editor.textContent = code;
             highlight(editor);
+        },
+        highlight() {
+            highlight(editor)
         },
         onUpdate(cb) {
             callback = cb;

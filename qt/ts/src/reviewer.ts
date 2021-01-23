@@ -41,32 +41,29 @@ function _updateQA(html, fadeTime, onupdate, onshown) {
     onUpdateHook = [onupdate];
     onShownHook = [onshown];
 
-    // fade out current text
     var qa = $("#qa");
-    qa.fadeTo(fadeTime, 0, function () {
-        // update text
-        try {
-            qa.html(html);
-            _initalizeCodeEditor();
-        } catch (err) {
-            qa.html(
-                (
-                    `Invalid HTML on card: ${String(err).substring(0, 2000)}\n` +
-                    String(err.stack).substring(0, 2000)
-                ).replace(/\n/g, "<br />")
-            );
-        }
-        _runHook(onUpdateHook);
+    // update text
+    try {
+        qa.html(html);
+        _initalizeCodeEditor();
+    } catch (err) {
+        qa.html(
+            (
+                `Invalid HTML on card: ${String(err).substring(0, 2000)}\n` +
+                String(err.stack).substring(0, 2000)
+            ).replace(/\n/g, "<br />")
+        );
+    }
+    _runHook(onUpdateHook);
 
-        // render mathjax
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    // render mathjax
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
 
-        // and reveal when processing is done
-        MathJax.Hub.Queue(function () {
-            qa.fadeTo(fadeTime, 1, function () {
-                _runHook(onShownHook);
-                _updatingQA = false;
-            });
+    // and reveal when processing is done
+    MathJax.Hub.Queue(function () {
+        qa.fadeTo(fadeTime, 1, function () {
+            _runHook(onShownHook);
+            _updatingQA = false;
         });
     });
 }
@@ -142,10 +139,13 @@ function _initalizeCodeEditor() {
         return;
     }
     log = document.getElementById("log");
+    const height = '70vh'
     let options = {
         tab: " ".repeat(4), // default is '\t'
         indentOn: /[(\[]$/, // default is /{$/
+        height: height
     };
+    codeans.style.height = height
     codeansJar = CodeJar(codeans, withLineNumbers(highlight), options);
 }
 
@@ -163,6 +163,9 @@ function _switchSkin(name) {
             $toEnable.removeAttr("disabled");
         }
     });
+    setTimeout(function() {
+        codeansJar.highlight()
+    }, 50)
 }
 
 function _showAnswer(a, bodyclass, isCodingQuestion) {
@@ -189,7 +192,7 @@ function _showAnswer(a, bodyclass, isCodingQuestion) {
 }
 
 function _reloadCode(src, lang) {
-    var $codeans = $(codeans);
+    var $codeans = $(codeans).find(">div");
     $codeans.removeClass(function (index, className) {
         return (className.match(/\blanguage-\S+/g) || []).join(" ");
     });

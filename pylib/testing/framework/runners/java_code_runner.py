@@ -1,4 +1,3 @@
-import os
 import subprocess
 from os.path import normpath
 from typing import Dict
@@ -56,7 +55,7 @@ class JavaCodeRunner(CodeRunner):
         out, error = proc.communicate()
         if len(error) != 0:
             error_text = strip_compile_error(error.decode('utf-8'), javasrc.name, solution_offset)
-            logger.log('<span class="error">' + error_text  + '</span>')
+            logger.log('<span class="error">' + error_text + '</span>')
         if len(error) > 0:
             return error
 
