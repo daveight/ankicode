@@ -139,13 +139,10 @@ function _initalizeCodeEditor() {
         return;
     }
     log = document.getElementById("log");
-    const height = '70vh'
     let options = {
         tab: " ".repeat(4), // default is '\t'
         indentOn: /[(\[]$/, // default is /{$/
-        height: height
     };
-    codeans.style.height = height
     codeansJar = CodeJar(codeans, withLineNumbers(highlight), options);
 }
 
@@ -192,11 +189,11 @@ function _showAnswer(a, bodyclass, isCodingQuestion) {
 }
 
 function _reloadCode(src, lang) {
-    var $codeans = $(codeans).find(">div");
-    $codeans.removeClass(function (index, className) {
-        return (className.match(/\blanguage-\S+/g) || []).join(" ");
-    });
-    $codeans.addClass("language-" + lang);
+    $(codeans).find(".editor").each(function() {
+        $(this).removeClass(function (index, className) {
+            return (className.match(/\blanguage-\S+/g) || []).join(" ");
+        }).addClass("language-" + lang);
+    })
     codeansJar.updateCode(src);
 }
 

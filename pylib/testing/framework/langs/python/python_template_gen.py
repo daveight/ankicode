@@ -11,8 +11,10 @@ class PythonTemplateGenerator(SolutionTemplateGenerator):
     SOLUTION_TEMPLATE = '''%(comments)s
 %(classes)s
 def %(func_name)s(%(arg_declarations)s):
-\tpass #Add code here
-'''
+\t#Add code here
+\tpass
+
+ '''
 
     def generate_solution_template(self, ts: TestSuite) -> str:
         """
@@ -20,7 +22,7 @@ def %(func_name)s(%(arg_declarations)s):
         :param ts: input test suite
         :return: python source code with the solution template
         """
-        classes = '\n'.join(type_src for type_src in ts.classes.values()) \
+        classes = '\n'.join(type_src for type_src in ts.classes.values()) + '\n' \
             if len(ts.classes.values()) > 0 else ''
 
         comments = '\n'.join(['# ' + line for line in ts.description.split('\n')])

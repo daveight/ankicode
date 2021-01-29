@@ -38,7 +38,7 @@ class JavaTypeGenerator(SyntaxTreeVisitor):
         """
         if len(node.nodes) != 1:
             raise Exception('List can have only 1 inner-type')
-        return 'List<' + self.render(node.first_child()) + '>'
+        return 'List<' + self.render(node.first_child(), data) + '>'
 
     def visit_map(self, node, data):
         """
@@ -50,7 +50,7 @@ class JavaTypeGenerator(SyntaxTreeVisitor):
         """
         if len(node.nodes) != 2:
             raise Exception('Invalid inner-type of map count, must be 2')
-        return 'Map<' + self.render(node.first_child()) + ', ' + self.render(node.second_child()) + '>'
+        return 'Map<' + self.render(node.first_child(), data) + ', ' + self.render(node.second_child(), data) + '>'
 
     def visit_bool(self, node, data):
         """

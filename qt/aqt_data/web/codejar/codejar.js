@@ -9,8 +9,9 @@ function CodeJar(editor, highlight, opt = {}) {
     let isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 
     const inner = document.createElement("div");
+    inner.classList = editor.classList
     inner.innerHTML = editor.innerHTML
-    inner.style.minHeight = opt.height
+    inner.style.minHeight = window.getComputedStyle(editor).height
     editor.innerHTML = ''
     editor.appendChild(inner)
     editor = inner

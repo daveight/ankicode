@@ -50,7 +50,7 @@ class PythonTypeGenerator(SyntaxTreeVisitor):
         """
         if len(node.nodes) != 2:
             raise Exception('Map inner-types count must be 2')
-        return 'Dict[' + self.render(node.first_child()) + ', ' + self.render(node.second_child()) + ']'
+        return 'Dict[' + self.render(node.first_child(), data) + ', ' + self.render(node.second_child(), data) + ']'
 
     def visit_int(self, node, data):
         """
