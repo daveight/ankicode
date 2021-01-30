@@ -11,7 +11,7 @@ function CodeJar(editor, highlight, opt = {}) {
     const inner = document.createElement("div");
     inner.classList = editor.classList
     inner.innerHTML = editor.innerHTML
-    inner.style.minHeight = window.getComputedStyle(editor).height
+    inner.style.minHeight = opt.height || window.getComputedStyle(editor).height
     editor.innerHTML = ''
     editor.appendChild(inner)
     editor = inner

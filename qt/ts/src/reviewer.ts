@@ -142,6 +142,7 @@ function _initalizeCodeEditor() {
     let options = {
         tab: " ".repeat(4), // default is '\t'
         indentOn: /[(\[]$/, // default is /{$/
+        height: '63vh'
     };
     codeansJar = CodeJar(codeans, withLineNumbers(highlight), options);
 }
