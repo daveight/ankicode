@@ -84,6 +84,22 @@ class JavaTypeGenerator(SyntaxTreeVisitor):
         else:
             raise Exception('not supported parent type for int')
 
+    def visit_long(self, node, data):
+        """
+        provides java mapping for "long" node type, depending on parent type
+        it can be of primitive or reference type
+
+        :param node: syntax tree node
+        :param data: data item associated with the tree node
+        :return: java integer type declaration
+        """
+        if node.parent.is_root() or node.parent.is_array_type() or node.parent.is_user_type:
+            return 'long'
+        elif node.parent.is_container_type():
+            return 'Long'
+        else:
+            raise Exception('not supported parent type for long')
+
     def visit_float(self, node, data):
         """
         provides java mapping for "float" node type, depending on parent type

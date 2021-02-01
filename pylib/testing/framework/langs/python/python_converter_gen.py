@@ -42,6 +42,15 @@ class PythonConverterGenerator(SyntaxTreeVisitor):
         """
         return 'IntegerConverter()'
 
+    def visit_long(self, node: SyntaxTree, data):
+        """
+        Generates IntegerConverter initializer, which converts input data to python int type
+        :param node: target syntax tree node
+        :param data: corresponding data item
+        :return: python IntegerConverter initializer
+        """
+        return 'IntegerConverter()'
+
     def visit_float(self, node: SyntaxTree, data):
         """
         Generates FloatConverter initializer, which converts input data to python float type

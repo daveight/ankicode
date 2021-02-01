@@ -55,6 +55,8 @@ class SyntaxTree:
             return visitor.visit_map(self, data)
         elif self.node_type == 'int':
             return visitor.visit_int(self, data)
+        elif self.node_type == 'long':
+            return visitor.visit_long(self, data)
         elif self.node_type == 'bool':
             return visitor.visit_bool(self, data)
         elif self.node_type == 'float':
@@ -179,6 +181,15 @@ class SyntaxTreeVisitor(ABC):
     def visit_int(self, node: SyntaxTree, data):
         """
         This method is invoked then processing "int" type node
+        :param node: target node
+        :param data: related data item
+        """
+        pass
+
+    @abstractmethod
+    def visit_long(self, node: SyntaxTree, data):
+        """
+        This method is invoked then processing "long" type node
         :param node: target node
         :param data: related data item
         """

@@ -62,6 +62,16 @@ class PythonTypeGenerator(SyntaxTreeVisitor):
         """
         return 'int'
 
+    def visit_long(self, node, data):
+        """
+        provides python mapping for "long" node type
+
+        :param node: syntax tree node
+        :param data: data item associated with the tree node
+        :return: python long type declaration
+        """
+        return 'int'
+
     def visit_bool(self, node, data):
         """
         provides python mapping for "boolean" node type

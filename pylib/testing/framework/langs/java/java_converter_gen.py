@@ -42,6 +42,15 @@ class JavaConverterGenerator(SyntaxTreeVisitor):
         """
         return 'new IntegerConverter()'
 
+    def visit_long(self, node: SyntaxTree, data):
+        """
+        Generates LongConverter initializer, which converts input data to java integer type
+        :param node: target syntax tree node
+        :param data: corresponding data item
+        :return: java LongConverter initializer
+        """
+        return 'new LongConverter()'
+
     def visit_float(self, node: SyntaxTree, data):
         """
         Generates DoubleConverter initializer, which converts input data to java double type
