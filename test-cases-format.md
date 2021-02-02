@@ -1,5 +1,5 @@
 ## Test Cases
-To store test-cases a CSV format is used. First N - 1 columns represent a function's arguments, last column represents a function's return value.
+To store test-cases a CSV format is used. First n - 1 columns represent a function's arguments, last column represents a function's return value.
 
 For example for the following function:
 ```javascript
