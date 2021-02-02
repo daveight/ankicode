@@ -2,8 +2,8 @@
 To store test-cases a CSV format is used. First n - 1 columns represent a function's arguments, last column represents a function's return value.
 
 For example for the following function:
-```javascript
-function sum(int a, int b) {
+```java
+int sum(int a, int b) {
    return a + b;
 }
 ```
