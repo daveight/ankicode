@@ -121,6 +121,17 @@ img {
   .failed {
     color: #e3342f;
   }
+
+  code {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: left;
+    letter-spacing: normal;
+    line-height: 20px;
+    resize: none !important;
+    tab-size: 4;
+  }
 }
 
 .error {

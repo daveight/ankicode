@@ -164,7 +164,7 @@ class Reviewer:
             theme = self.mw.pm.meta['defaultCodeTheme']
         self.web.stdHtml(
             self.revHtml(),
-            css=["font.css", "reviewer.css", "highlight/" + theme + ".css"],
+            css=["markdown.css", "font.css", "reviewer.css", "highlight/" + theme + ".css"],
             inactive_css=["highlight/" + t + ".css" for t in THEMES if t != theme],
             js=[
                 "jquery.js",
@@ -176,6 +176,7 @@ class Reviewer:
                 "jqmeter.js",
                 "codejar/codejar.js",
                 "codejar/linenumbers.js",
+                "markdown-it.js",
                 "reviewer.js",
             ],
             context=self,
@@ -287,7 +288,6 @@ class Reviewer:
             return
         self.mw.col.sched.answerCard(self.card, ease)
         gui_hooks.reviewer_did_answer_card(self, self.card, ease)
-        # here cancel the async
         self._answeredIds.append(self.card.id)
         self.mw.autosave()
         self.nextCard()

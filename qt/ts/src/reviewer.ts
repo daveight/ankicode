@@ -5,6 +5,7 @@ declare var CodeJar: any;
 declare var withLineNumbers: any;
 declare var Prism: any;
 declare var hljs: any;
+declare var markdownit: any;
 declare var console: Console;
 
 var ankiPlatform = "desktop";
@@ -209,26 +210,20 @@ function _showConsoleLog(html) {
 
 function _initializeCodeAnswers() {
     const $qa = $('#qa')
-    const input = $qa.html()
-
-    let html = ''
-    let match
-    const regex = /```(\w+)(<br>|\\n)*([^`]+)```/g;
-    while (match = regex.exec(input)) {
-        const lang = match[1]
-        const src = match[3].replace(/<br>/g, '\n')
-        const height = src.split('\n').length
-        html += `<h4>${lang.replace(lang[0], lang[0].toUpperCase())}</h4><div class="editor language-${lang}" style="height:${height*20}px;">${src}</div><br><br>`
-    }
-    $qa.html(html)
-    $qa.find('.editor').each(function() {
-        let options = {
-            tab: ' '.repeat(4),
-            indentOn: /[(\[]$/,
-        };
-        CodeJar(this, withLineNumbers(highlight), options);
-        $(this).attr('contenteditable', 'false')
+    const md = markdownit({
+        highlight: function (str, lang) {
+            if (lang && hljs.getLanguage(lang)) {
+                try {
+                    return '<pre class="hljs"><code>' +
+                            hljs.highlight(lang, str, true).value +
+                            '</code></pre>';
+                } catch (__) { }
+            }
+            return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+        }
     });
+    let src = _extractSolutionMarkdownSrc($qa);
+    $qa.addClass('markdown-body').html(md.render(src));
     $(window).scrollTop(0);
 }
 
@@ -256,6 +251,22 @@ function _drawMark(mark) {
     } else {
         elem.show();
     }
+}
+
+function _extractSolutionMarkdownSrc($qa) {
+    $qa.find('style').remove();
+    $qa.find('hr#answer').remove();
+    const solution = $qa.html();
+    let text = _htmlDecode(solution);
+    text = text.replace(/`/gi, '\`');
+    return text.replace('[[code:Solution]]', '');
+}
+
+function _htmlDecode(input){
+  const e = document.createElement('textarea');
+  e.innerHTML = input;
+  let result = e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+  return result.replace(/<br>/gi, '\n')
 }
 
 function _typeAnsPress() {
