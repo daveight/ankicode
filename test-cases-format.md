@@ -78,15 +78,16 @@ Example:
 
 Java
 ```java
-public class MainType {
-   public static class SubType {
-      public int a;
-      public String b;
-      public SubType(int a, String b) {
-         this.a = a;
-         this.b = b;
-      }
+public static class SubType {
+   public int a;
+   public String b;
+   public SubType(int a, String b) {
+      this.a = a;
+      this.b = b;
    }
+}
+public class MainType {
+
    public int[] arr;
    public SubType sub;
    public MainType(int[] arr, SubType sub) {
