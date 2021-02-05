@@ -87,7 +87,6 @@ public static class SubType {
    }
 }
 public class MainType {
-
    public int[] arr;
    public SubType sub;
    public MainType(int[] arr, SubType sub) {
