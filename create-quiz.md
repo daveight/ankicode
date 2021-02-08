@@ -2,11 +2,11 @@
 
 1) Select (or create) a target deck
 
-![alt text](images/create-1.png "Create deck" =100x)
+![alt text](images/create-1.png  = 100px "Create deck")
 
 2) Click Add link at the top menu
 
-![alt text](images/create-2.png "Add quiz" =100x)
+![alt text](images/create-2.png  = 100px "Add quiz")
 
 3) Select "Code Quiz" as a card type
 
