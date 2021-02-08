@@ -36,7 +36,7 @@ for line in lines:
                     'args': test_case.args,
                     'duration': duration,
                     'index': i,
-                    'test_case_count': len(lines)}))
+                    'test_case_count': len(lines)}, default=lambda obj: obj.__dict__))
 \ti += 1
 '''
 
