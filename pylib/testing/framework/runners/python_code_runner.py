@@ -36,8 +36,8 @@ class PythonCodeRunner(CodeRunner):
     This class runs source code written in python
     """
     UNIX_RUN_CMD = 'PYTHONPATH={}/libs/python/3.9/lib/python3.9:{}/libs/python/3.9/lib/python3.9/lib-dynload ' \
-                   '{}/libs/python/3.9/bin/python3 {} '
-    WIN_RUN_CMD = 'set PYTHONPATH={}/libs/python && {}/libs/python/Python3.7/python.exe {}'
+                   '{}/libs/python/3.9/bin/python3 -u {} '
+    WIN_RUN_CMD = 'set PYTHONPATH={}/libs/python && {}/libs/python/Python3.7/python.exe -u {}'
 
     def _run(self, src: str, logger: ConsoleLogger, messages: Dict[str, str]):
         """

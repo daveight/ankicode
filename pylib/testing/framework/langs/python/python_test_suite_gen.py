@@ -36,7 +36,7 @@ for line in lines:
                     'args': test_case.args,
                     'duration': duration,
                     'index': i,
-                    'test_case_count': len(lines)}), flush=True)
+                    'test_case_count': len(lines)}))
 \ti += 1
 '''
 
