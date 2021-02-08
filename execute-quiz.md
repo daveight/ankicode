@@ -1,6 +1,6 @@
-### How to execute existing a code quiz
+## Executing a Code Quiz
 
-1) Create or import the quiz.
+1) Create or import a quiz.
 
 2) Open the quiz by clicking on it's title.
 
