@@ -2,8 +2,8 @@
 
 - Click "Import" button at the bottom buttons row.
 
-![alt text](images/import-1.png "Click 'Import'")
+<img src="images/import-1.png" width="100">
 
 - Select a quiz file (.csv, .apkg)
 
-![alt text](images/import-2.png "Select file")
+<img src="images/import-2.png" width="300">
