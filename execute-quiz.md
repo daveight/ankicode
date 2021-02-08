@@ -4,7 +4,7 @@
 
 2) Open the quiz by clicking on it's title.
 
-   <img src="images/run-1.png" width="300">
+   <img src="images/run-1.png" width="600">
    
 3) You can select a programming language using the selectbox `Language` at the top right corner.
 
@@ -16,13 +16,13 @@
 
 5) You can test your solution, using `Run` button.   
    
-   <img src="images/run-6.png" width="300"> 
+   <img src="images/run-6.png" width="600"> 
 
 6) If you want to stop the test - click `Stop` button.
 
 7) Click `Show Answer` to see the correct solution.
 
-   <img src="images/run-5.png" width="300">    
+   <img src="images/run-5.png" width="600">    
 
 8) After revieweing the solution you can click the corresponding button, depending on your results. Anki's integrated memorization algorithm will use it in order to calculate the next time slot to repeat the quiz.
 
