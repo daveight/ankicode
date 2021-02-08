@@ -22,10 +22,7 @@ public class Solution {
 
         tree = SyntaxTree.of(type_expression)
         generator = JavaTestSuiteGenerator()
-        result = generator.generate_testing_src(solution_src, test_suite, tree, dict(
-            passed_msg='''passed''',
-            failed_msg='''failed'''
-        ))
+        result = generator.generate_testing_src(solution_src, test_suite, tree)
 
         self.assertEqual('''
 import static ankitest.Verifier.verify;
@@ -79,12 +76,14 @@ public class Solution {
 			}
 			long end = System.nanoTime();
 			long duration = TimeUnit.MILLISECONDS.convert(end - start, TimeUnit.NANOSECONDS);
-			if (Verifier.verify(result, tc.getExpected())) {
-				System.out.println("passed"); 
-			} else {
-				System.out.println("failed"); 
-				return;
-			}
+			Map<String, Object> map = new HashMap<>();
+			map.put("expected", tc.getExpected());
+			map.put("result", result);
+			map.put("args", tc.getArgs());
+			map.put("duration", duration);
+			map.put("index", index.incrementAndGet());
+			map.put("test_case_count", lines.size());
+			System.out.println(getJson(map));
 		}
 	}
 

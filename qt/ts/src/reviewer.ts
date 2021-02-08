@@ -105,7 +105,15 @@ function _setProgress(raise) {
 }
 
 function _setProgressError() {
-    _displayProgressBar('100', '#e3342f')
+    setTimeout(function() {
+        _displayProgressBar('100', '#e3342f')
+    }, 200)
+}
+
+function _setProgressCancelled() {
+    setTimeout(function() {
+        _displayProgressBar('100', '#fff403')
+    }, 200)
 }
 
 function _displayProgressBar(raise, bgColor) {
@@ -139,7 +147,6 @@ function _initalizeCodeEditor() {
     if (!codeans) {
         return;
     }
-    log = document.getElementById("log");
     let options = {
         tab: " ".repeat(4), // default is '\t'
         indentOn: /[(\[]$/, // default is /{$/
@@ -262,7 +269,7 @@ function _extractSolutionMarkdownSrc($qa) {
     return text.replace('[[code:Solution]]', '');
 }
 
-function _htmlDecode(input){
+function _htmlDecode(input) {
   const e = document.createElement('textarea');
   e.innerHTML = input;
   let result = e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;

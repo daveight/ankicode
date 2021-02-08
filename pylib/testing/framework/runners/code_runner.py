@@ -1,9 +1,13 @@
+import json
 import os
 import sys
 import tempfile
+import numbers
 
 from abc import ABC, abstractmethod
+from json import JSONDecodeError
 from typing import Dict
+from deepdiff import DeepDiff
 
 from testing.framework.runners.console_logger import ConsoleLogger
 from anki.utils import isMac, isWin
@@ -48,13 +52,59 @@ def get_code_offset(src: str, user_src_start_marker: str):
     return len(src[:start_src_index].split('\n'))
 
 
+def are_same_numbers(arg1, arg2):
+    """
+    Checks if both arguments are of numerical type and the delta between them is less than 1e-4
+    :param arg1: first arg
+    :param arg2: second arg
+    :return: True - args both numbers and their values are equal, False - otherwise
+    """
+    if isinstance(arg1, numbers.Number) and isinstance(arg2, numbers.Number):
+        if abs(arg1 - arg2) < 0.0001:
+            return True
+
+
+def compare(obj1, obj2) -> bool:
+    """
+    Performs deep difference between two objects, calculates absolute delta for numerical fields, if the delta is less
+    than 1e-4, then the numbers are considered to be equal
+    :return True - if objects are equal, False otherwise
+    """
+    are_equal = True
+    ddiff = DeepDiff(obj1, obj2, ignore_order=True)
+    if 'values_changed' in ddiff:
+        changed_values = ddiff['values_changed']
+        for key in changed_values:
+            changed_item = changed_values[key]
+            new_val = changed_item['new_value']
+            old_val = changed_item['old_value']
+            if are_same_numbers(new_val, old_val):
+                continue
+            are_equal = False
+            break
+    if 'type_changes' in ddiff:
+        changed_types = ddiff['type_changes']
+        numeric_types = False
+        for key in changed_types:
+            changed_type = changed_types[key]
+            new_val = changed_type['new_value']
+            old_val = changed_type['old_value']
+            if are_same_numbers(new_val, old_val):
+                numeric_types = True
+        if not numeric_types:
+            are_equal = False
+    return are_equal
+
+
 class CodeRunner(ABC):
     """
     Base class for all language specific code runners
     """
 
     def __init__(self):
-        self.pid = None
+        self._pid = None
+        self._failcount = 0
+        self._stopped = False
 
     def run(self, src: str, logger: ConsoleLogger, messages: Dict[str, str]):
         """
@@ -63,11 +113,16 @@ class CodeRunner(ABC):
         :param logger: logger to display messages in the console
         :param messages: map containing predefined messages to be displayed then a test passed or failed
         """
-        if self.pid is not None:
+        self._failcount = 0
+        self._stopped = False
+        if self._pid is not None:
             raise Exception('Another test is already running')
         try:
+            logger.log(messages['start_msg'])
             self._run(src, logger, messages)
         finally:
+            if not self._stopped and self._failcount == 0:
+                logger.log(messages['success_msg'])
             self.stop()
 
     @abstractmethod
@@ -82,14 +137,47 @@ class CodeRunner(ABC):
         """
         pass
 
+    def _set_result(self, result: str, logger: ConsoleLogger, messages: Dict[str, str]):
+        """
+        :param result:
+        :param logger:
+        :param messages:
+        :return:
+        """
+        try:
+            tc = json.loads(result)
+        except JSONDecodeError:
+            logger.log(result)
+            return True
+
+        if compare(tc['expected'], tc['result']):
+            test_passed_msg = messages['passed_msg'] % dict(
+                index=tc['index'],
+                total=tc['test_case_count'],
+                duration=tc['duration'])
+            logger.log(test_passed_msg)
+            return True
+        else:
+            test_failed_msg = messages['failed_msg'] % dict(
+                index=tc['index'],
+                total=tc['test_case_count'],
+                args=tc['args'],
+                expected=tc['expected'],
+                result=tc['result'])
+            logger.log(test_failed_msg)
+            self._failcount += 1
+            self.stop()
+            return False
+
     def stop(self):
         """
         Stops the running process abnormally (if pid exists)
         """
-        if self.pid is not None:
+        self._stopped = True
+        if self._pid is not None:
             try:
-                os.kill(self.pid, 9)
+                os.kill(self._pid, 9)
             except:
                 pass
             finally:
-                self.pid = None
+                self._pid = None

@@ -45,7 +45,7 @@ class JavaCodeRunner(CodeRunner):
         """
         workdir, javasrc = create_src_file(src, self.CLASS_NAME + '.java')
         resource_path = get_resource_path()
-        logger.log('Compiling...')
+        logger.log("<span class='info'>Compiling...</span>")
 
         solution_offset = get_code_offset(src, JAVA_USER_SRC_START_MARKER)
 
@@ -58,8 +58,6 @@ class JavaCodeRunner(CodeRunner):
             logger.log('<span class="error">' + error_text + '</span>')
         if len(error) > 0:
             return error
-
-        logger.log('Running Tests...')
         if isWin:
             cmd = self.WIN_RUN_CMD
         else:
@@ -68,6 +66,7 @@ class JavaCodeRunner(CodeRunner):
         proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.pid = proc.pid
         for line in proc.stdout:
-            logger.log(line.decode("utf-8"))
+            if not self._set_result(line.decode("utf-8"), logger, messages):
+                break
         for error in proc.stderr:
             logger.log('<span class="error">error:</span>' + error.decode("utf-8"))

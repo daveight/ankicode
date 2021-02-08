@@ -1,6 +1,7 @@
 import os
+import sys
 import tempfile
-from typing import Tuple, List
+from typing import Tuple, List, Callable
 
 from anki.cards import Card
 from aqt.utils import run_async
@@ -47,13 +48,14 @@ def get_solution_template(card: Card, lang: str) -> str:
 
 
 @run_async
-def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger):
+def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger, onComplete: Callable):
     """
     Executes tests for a given test suite and user code
     :param card: target card
     :param src: target solution src to be executed
     :param lang: target programming language
     :param logger: console logger
+    :param oncomplete: complete callback
     """
     fn_name, _, rows = parse_anki_card(card)
     factory = get_lang_factory(lang)
@@ -70,20 +72,23 @@ def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger):
         file.close()
 
         test_suite_gen = factory.get_test_suite_generator()
-        test_suite_src = test_suite_gen.generate_testing_src(src, ts, tree, dict(
-            passed_msg='''Test <span class='passed'>PASSED</span> (%(index)s/%(total)s) - %(duration)s ms''',
-            failed_msg='''Test <span class='failed'>FAILED</span> (%(index)s/%(total)s)\\n" +
-                "&nbsp;&nbsp;&nbsp;&nbsp;expected: %(expected)s\\n" +
-                "&nbsp;&nbsp;&nbsp;&nbsp;result: %(result)s<br>'''
-        ))
+        test_suite_src = test_suite_gen.generate_testing_src(src, ts, tree)
 
         logger.setTotalCount(ts.test_case_count)
         factory.get_code_runner().run(test_suite_src, logger, dict(
+            start_msg='''<span class='info'>Running tests...</span>''',
+            passed_msg='''Test <span class='passed'>PASSED</span> (%(index)s/%(total)s) - %(duration)s ms''',
+            failed_msg='''Test <span class='failed'>FAILED</span> (%(index)s/%(total)s)<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;args: %(args)s<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;expected: %(expected)s<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;result: %(result)s<br/>''',
+            success_msg='''<br/><br/>All tests <span class='info'>PASSED</span>.<br/>''',
             compilation_failed='''Compilation Error: <span class='failed'>$error</span>'''))
     except:
-        logger.log("<span class='failed'>Unexpected runtime error</span>")
+        logger.log("<span class='failed'>Unexpected runtime error: " + str(sys.exc_info()[0]) + "</span>")
     finally:
         os.remove(ts.test_cases_file)
+        onComplete()
 
 
 def stop_tests(lang: str):

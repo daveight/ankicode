@@ -436,12 +436,8 @@ class Reviewer:
 
     def _runTests(self, src):
         self.web.eval("_activateStopButton()")
-        self._cleanConsole()
-        run_tests(self.card, src, self._getCurrentLang(), self._logger)
-        self.web.eval("_activateRunButton()")
-
-    def _cleanConsole(self):
-        self.web.eval("_cleanConsoleLog();")
+        self._logger.reset()
+        run_tests(self.card, src, self._getCurrentLang(), self._logger, lambda: self.web.eval("_activateRunButton()"))
 
     def _switchLang(self, lang, src):
         self._codingBuffer[self._getCurrentLang()] = src
@@ -815,13 +811,13 @@ time = %(time)d;
         return [
             [
                 "Java",
-                "j",
+                "",
                 lambda: self.onCodeLangSelected("java"),
                 dict(checked=lang == "java"),
             ],
             [
                 "Python",
-                "p",
+                "",
                 lambda: self.onCodeLangSelected("python"),
                 dict(checked=lang == "python"),
             ],
@@ -1015,8 +1011,7 @@ time = %(time)d;
 
     def stopTests(self):
         lang = self._getCurrentLang()
-        self._logger.log('Stopping...')
         stop_tests(lang)
         self.web.eval("_activateRunButton()")
-        self.web.eval("_initializeProgress()")
-        self._cleanConsole()
+        self.web.eval("_setProgressCancelled()")
+        self._logger.log('<br/><br/><span class="cancel">Execution was interrupted.</span><br/><br/>')

@@ -18,7 +18,10 @@ class PythonTemplateGenTests(unittest.TestCase):
         self.assertEqual('''# calc sum
 
 def sum(a: TypeA):
-    pass #Add code here''', result)
+    #Add code here
+    pass
+
+ ''', result)
 
     def test_sum_template_with_user_type(self):
         test_suite = TestSuite('sum')
@@ -34,5 +37,9 @@ def sum(a: TypeA):
 class TypeA:
     def __init__(self, a):
         self.a = a
+
 def sum(a: TypeA):
-    pass #Add code here''', result)
+    #Add code here
+    pass
+
+ ''', result)
