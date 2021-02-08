@@ -101,11 +101,11 @@ void foo(MainType main) {
 
 Python
 ```python
+class SubType:
+   def __init__(self, a: int, b: str):
+      self.a = a
+      self.b = b
 class MainType:
-   class SubType:
-      def __init__(self, a: int, b: str):
-         self.a = a
-         self.b = b
    def __init__(self, arr: List[int], sub: SubType):
       self.arr = arr
       self.sub = sub
