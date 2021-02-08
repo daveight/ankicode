@@ -2,6 +2,9 @@
 
 1) Create or import a quiz.
 
+- [How to create your own code quiz](create-quiz.md)
+- [How to import existing code quiz](import-quiz.md)
+
 2) Open the quiz by clicking on it's title.
 
    <img src="images/run-1.png" width="600">
