@@ -50,21 +50,31 @@ class ConsoleLogger:
         self._msg = ''
         self._valve = throttle.Valve()
         self._lock = threading.Semaphore()
+        self._active = False
 
-    def reset(self):
+    def activate(self):
         """
-        Resets the console logger
+        Activates console logger
         """
         self._index = 0
         self._progress = 0
         self._msg = ''
         self._web.eval("_cleanConsoleLog();")
+        self._active = True
+
+    def deactivate(self):
+        """
+        Deactivates console logger
+        """
+        self._active = False
 
     def setTotalCount(self, count):
         """
         Updates progress bar with the total count of tests
         :param count: count of tests to be executed
         """
+        if not self._active:
+            raise Exception('logger is deactivated, cant set total count')
         self._index = 0
         self._total = count
         self._web.eval("_initializeProgress();")
@@ -74,6 +84,9 @@ class ConsoleLogger:
         Used to display a message in the UI
         :param msg: target message
         """
+        if not self._active:
+            return
+
         cancelled = "<span class='cancel'>" in msg
         failed = "<span class='failed'>" in msg
         tc = "<span class='passed'>" in msg
@@ -93,6 +106,8 @@ class ConsoleLogger:
                 self._displayLogDebounce()
 
     def _displayLog(self):
+        if not self._active:
+            return
         self._lock.acquire()
         self._web.eval("_setProgress(%s);" % json.dumps(str(self._progress)))
         self._web.eval("_showConsoleLog(%s);" % json.dumps(self._msg))
@@ -104,6 +119,8 @@ class ConsoleLogger:
         self._displayLog()
 
     def _displayLogError(self):
+        if not self._active:
+            return
         self._lock.acquire()
         self._web.eval("_setProgressError();")
         self._web.eval("_showConsoleLog(%s);" % json.dumps(self._msg))

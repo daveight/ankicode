@@ -48,14 +48,14 @@ def get_solution_template(card: Card, lang: str) -> str:
 
 
 @run_async
-def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger, onComplete: Callable):
+def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger, fncomplete: Callable):
     """
     Executes tests for a given test suite and user code
     :param card: target card
     :param src: target solution src to be executed
     :param lang: target programming language
     :param logger: console logger
-    :param oncomplete: complete callback
+    :param fncomplete: complete callback
     """
     fn_name, _, rows = parse_anki_card(card)
     factory = get_lang_factory(lang)
@@ -66,6 +66,7 @@ def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger, onComplete
     ts = TestSuite(fn_name)
     ts.test_cases_file = os.path.join(tempfile.mkdtemp(), 'data.csv')
     ts.test_case_count = len(rows) - 1
+    logger.activate()
     try:
         file = open(ts.test_cases_file, 'w')
         file.write('\n'.join(rows[1:]))
@@ -88,7 +89,7 @@ def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger, onComplete
         logger.log("<span class='failed'>Unexpected runtime error: " + str(sys.exc_info()[0]) + "</span>")
     finally:
         os.remove(ts.test_cases_file)
-        onComplete()
+        fncomplete()
 
 
 def stop_tests(lang: str):
