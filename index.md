@@ -16,7 +16,3 @@ CodeQuiz is a fork of Anki application. Anki allows to create and study flashcar
 - [How to execute a code quiz](execute-quiz.md)
 - [Test cases format](test-cases-format.md)
 
-```
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.```
