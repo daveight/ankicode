@@ -57,7 +57,7 @@ class JavaCodeRunner(CodeRunner):
             error_text = strip_compile_error(error.decode('utf-8'), javasrc.name, solution_offset)
             logger.log('<span class="error">' + error_text + '</span>')
         if len(error) > 0:
-            return error
+            return False
         if isWin:
             cmd = self.WIN_RUN_CMD
         else:
@@ -68,5 +68,8 @@ class JavaCodeRunner(CodeRunner):
         for line in proc.stdout:
             if not self._set_result(line.decode("utf-8"), logger, messages):
                 break
+        success = True
         for error in proc.stderr:
             logger.log('<span class="error">error:</span>' + error.decode("utf-8"))
+            success = False
+        return success

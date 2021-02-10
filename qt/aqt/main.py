@@ -1201,13 +1201,14 @@ title="%s" %s>%s</button>""" % (
     ##########################################################################
 
     def setupAutoUpdate(self) -> None:
-        import aqt.update
-
-        self.autoUpdate = aqt.update.LatestVersionFinder(self)
-        qconnect(self.autoUpdate.newVerAvail, self.newVerAvail)
-        qconnect(self.autoUpdate.newMsg, self.newMsg)
-        qconnect(self.autoUpdate.clockIsOff, self.clockIsOff)
-        self.autoUpdate.start()
+        pass
+        # import aqt.update
+        #
+        # self.autoUpdate = aqt.update.LatestVersionFinder(self)
+        # qconnect(self.autoUpdate.newVerAvail, self.newVerAvail)
+        # qconnect(self.autoUpdate.newMsg, self.newMsg)
+        # qconnect(self.autoUpdate.clockIsOff, self.clockIsOff)
+        # self.autoUpdate.start()
 
     def newVerAvail(self, ver):
         if self.pm.meta.get("suppressUpdate", None) != ver:

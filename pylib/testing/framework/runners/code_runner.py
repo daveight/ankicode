@@ -115,25 +115,26 @@ class CodeRunner(ABC):
         """
         self._failcount = 0
         self._stopped = False
+        result = True
         if self._pid is not None:
             raise Exception('Another test is already running')
         try:
             logger.log(messages['start_msg'])
-            self._run(src, logger, messages)
+            result = self._run(src, logger, messages)
         finally:
-            if not self._stopped and self._failcount == 0:
+            if result and not self._stopped and self._failcount == 0:
                 logger.log(messages['success_msg'])
             self.stop()
 
     @abstractmethod
-    def _run(self, src: str, logger: ConsoleLogger, messages: Dict[str, str]):
+    def _run(self, src: str, logger: ConsoleLogger, messages: Dict[str, str]) -> bool:
         """
         This method is supposed to be overriden in the sub-types, it should contain logic
         of compiling and executing the source code provided
         :param src: input source code to be executed
         :param logger: logger to display messages in the console
         :param messages: map containing predefined messages to be displayed then a test passed or failed
-        :return: void
+        :return: bool - was execution successful or not
         """
         pass
 

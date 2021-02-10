@@ -9,14 +9,16 @@ from testing.framework.langs.python.python_test_suite_gen import PYTHON_USER_SRC
 from anki.utils import isWin
 
 
-def log_runtime_error(stderr: Optional[IO[AnyStr]], solution_offset: int, logger: ConsoleLogger):
+def log_runtime_error(stderr: Optional[IO[AnyStr]], solution_offset: int, logger: ConsoleLogger) -> bool:
     """
     Parses python error log and extracts the error information together with the correct line number
     :param stderr: processes stderror
     :param solution_offset: number of lines preceding solution src
     :param logger: console logger
+    :return bool: has errors or not
     """
     line_number = None
+    has_no_errors = True
 
     for line in stderr:
         line = line.decode('utf-8')
@@ -29,6 +31,9 @@ def log_runtime_error(stderr: Optional[IO[AnyStr]], solution_offset: int, logger
         else:
             line_number = None
         logger.log('<span class="error">Error</span> ' + line)
+        has_no_errors = False
+
+    return has_no_errors
 
 
 class PythonCodeRunner(CodeRunner):
@@ -60,5 +65,5 @@ class PythonCodeRunner(CodeRunner):
                 break
 
         solution_offset = get_code_offset(src, PYTHON_USER_SRC_START_MARKER)
-        log_runtime_error(proc.stderr, solution_offset, logger)
+        return log_runtime_error(proc.stderr, solution_offset, logger)
 
