@@ -18,7 +18,7 @@ def log_runtime_error(stderr: Optional[IO[AnyStr]], solution_offset: int, logger
     :return bool: has errors or not
     """
     line_number = None
-    has_no_errors = True
+    has_error = False
 
     for line in stderr:
         line = line.decode('utf-8')
@@ -30,10 +30,10 @@ def log_runtime_error(stderr: Optional[IO[AnyStr]], solution_offset: int, logger
             continue
         else:
             line_number = None
-        logger.log('<span class="error">Error</span> ' + line)
-        has_no_errors = False
+        logger.log("<span class='failed'>Error</span> " + line)
+        has_error = True
 
-    return has_no_errors
+    return has_error
 
 
 class PythonCodeRunner(CodeRunner):
@@ -59,11 +59,11 @@ class PythonCodeRunner(CodeRunner):
             cmd = self.UNIX_RUN_CMD.format(resource_path, resource_path, resource_path, pythonsrc.name)
         cmd = normpath(cmd)
         proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        self.pid = proc.pid
+        self._pid = proc.pid
         for line in proc.stdout:
             if not self._set_result(line.decode("utf-8"), logger, messages):
-                break
+                return False
 
         solution_offset = get_code_offset(src, PYTHON_USER_SRC_START_MARKER)
-        return log_runtime_error(proc.stderr, solution_offset, logger)
-
+        has_error = log_runtime_error(proc.stderr, solution_offset, logger)
+        return not has_error

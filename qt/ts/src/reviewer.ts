@@ -105,15 +105,11 @@ function _setProgress(raise) {
 }
 
 function _setProgressError() {
-    setTimeout(function() {
-        _displayProgressBar('100', '#e3342f')
-    }, 200)
+    _displayProgressBar('100', '#e3342f')
 }
 
 function _setProgressCancelled() {
-    setTimeout(function() {
-        _displayProgressBar('100', '#fff403')
-    }, 200)
+    _displayProgressBar('100', '#fff403')
 }
 
 function _displayProgressBar(raise, bgColor) {

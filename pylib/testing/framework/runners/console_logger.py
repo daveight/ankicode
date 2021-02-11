@@ -90,11 +90,16 @@ class ConsoleLogger:
         cancelled = "<span class='cancel'>" in msg
         failed = "<span class='failed'>" in msg
         tc = "<span class='passed'>" in msg
+        info = "<span class='info'>" in msg
 
         self._msg += msg + '<br/>'
 
-        if failed or cancelled:
+        if failed:
             self._displayLogError()
+        elif cancelled:
+            self._displayLogCancelled()
+        elif info:
+            self._displayLog()
         else:
             if tc:
                 self._index += 1
@@ -123,6 +128,15 @@ class ConsoleLogger:
             return
         self._lock.acquire()
         self._web.eval("_setProgressError();")
+        self._web.eval("_showConsoleLog(%s);" % json.dumps(self._msg))
+        self._msg = ''
+        self._lock.release()
+
+    def _displayLogCancelled(self):
+        if not self._active:
+            return
+        self._lock.acquire()
+        self._web.eval("_setProgressCancelled();")
         self._web.eval("_showConsoleLog(%s);" % json.dumps(self._msg))
         self._msg = ''
         self._lock.release()

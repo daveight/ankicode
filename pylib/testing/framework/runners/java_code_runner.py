@@ -51,11 +51,11 @@ class JavaCodeRunner(CodeRunner):
 
         cmd = normpath(self.COMPILE_CMD.format(resource_path, javasrc.name, resource_path))
         proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        self.pid = proc.pid
+        self._pid = proc.pid
         out, error = proc.communicate()
         if len(error) != 0:
             error_text = strip_compile_error(error.decode('utf-8'), javasrc.name, solution_offset)
-            logger.log('<span class="error">' + error_text + '</span>')
+            logger.log("<span class='failed'>" + error_text + '</span>')
         if len(error) > 0:
             return False
         if isWin:
@@ -64,12 +64,11 @@ class JavaCodeRunner(CodeRunner):
             cmd = self.UNIX_RUN_CMD
         cmd = normpath(cmd.format(resource_path, workdir.name, resource_path, self.CLASS_NAME))
         proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        self.pid = proc.pid
+        self._pid = proc.pid
         for line in proc.stdout:
             if not self._set_result(line.decode("utf-8"), logger, messages):
-                break
-        success = True
+                return False
         for error in proc.stderr:
-            logger.log('<span class="error">error:</span>' + error.decode("utf-8"))
-            success = False
-        return success
+            logger.log("<span class='failed'>error:</span>" + error.decode("utf-8"))
+            return False
+        return True

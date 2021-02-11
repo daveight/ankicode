@@ -66,7 +66,6 @@ def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger, fncomplete
     ts = TestSuite(fn_name)
     ts.test_cases_file = os.path.join(tempfile.mkdtemp(), 'data.csv')
     ts.test_case_count = len(rows) - 1
-    logger.activate()
     try:
         file = open(ts.test_cases_file, 'w')
         file.write('\n'.join(rows[1:]))
@@ -86,7 +85,7 @@ def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger, fncomplete
             success_msg='''<br/><br/>All tests <span class='info'>PASSED</span>.<br/>''',
             compilation_failed='''Compilation Error: <span class='failed'>$error</span>'''))
     except:
-        logger.log("<span class='failed'>Unexpected runtime error: " + str(sys.exc_info()[0]) + "</span>")
+        logger.log("<span class='failed'>Unexpected runtime error: " + str(sys.exc_info()) + "</span>")
     finally:
         os.remove(ts.test_cases_file)
         fncomplete()

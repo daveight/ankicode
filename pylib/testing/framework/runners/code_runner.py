@@ -93,6 +93,9 @@ def compare(obj1, obj2) -> bool:
                 numeric_types = True
         if not numeric_types:
             are_equal = False
+    for key in ddiff.keys():
+        if not (key in ['values_changed', 'type_changes']):
+            are_equal = False
     return are_equal
 
 
@@ -103,7 +106,6 @@ class CodeRunner(ABC):
 
     def __init__(self):
         self._pid = None
-        self._failcount = 0
         self._stopped = False
 
     def run(self, src: str, logger: ConsoleLogger, messages: Dict[str, str]):
@@ -113,16 +115,19 @@ class CodeRunner(ABC):
         :param logger: logger to display messages in the console
         :param messages: map containing predefined messages to be displayed then a test passed or failed
         """
-        self._failcount = 0
         self._stopped = False
         result = True
+        logger.activate()
         if self._pid is not None:
             raise Exception('Another test is already running')
         try:
             logger.log(messages['start_msg'])
             result = self._run(src, logger, messages)
+        except Exception as e:
+            result = None
+            raise e
         finally:
-            if result and not self._stopped and self._failcount == 0:
+            if result and not self._stopped:
                 logger.log(messages['success_msg'])
             self.stop()
 
@@ -166,7 +171,7 @@ class CodeRunner(ABC):
                 expected=tc['expected'],
                 result=tc['result'])
             logger.log(test_failed_msg)
-            self._failcount += 1
+            logger.deactivate()
             self.stop()
             return False
 

@@ -436,6 +436,7 @@ class Reviewer:
 
     def _runTests(self, src):
         self.web.eval("_activateStopButton()")
+        self._logger.activate()
         run_tests(self.card, src, self._getCurrentLang(), self._logger, lambda: self.web.eval("_activateRunButton()"))
 
     def _switchLang(self, lang, src):
@@ -1012,6 +1013,5 @@ time = %(time)d;
         lang = self._getCurrentLang()
         stop_tests(lang)
         self.web.eval("_activateRunButton()")
-        self.web.eval("_setProgressCancelled()")
-        self._logger.log('<br/><br/><span class="cancel">Execution was interrupted.</span><br/><br/>')
+        self._logger.log("<br/><br/><span class='cancel'>Execution was interrupted.</span><br/><br/>")
         self._logger.deactivate()
