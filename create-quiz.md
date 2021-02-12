@@ -21,8 +21,7 @@
 8) `Solution` field will be displayed after Quiz submission, it contains Markdown-formatted solution description, it can also include code blocks as follows:
    \`\`\` java
    
-   
-      System.out.println("Hello World");
+   System.out.println("Hello World");
    \`\`\`
    
 9) `Test-Cases` tab or semicolon separated values with test-cases. Read more about it's format here:
