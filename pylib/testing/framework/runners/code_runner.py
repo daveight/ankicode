@@ -21,7 +21,7 @@ def create_src_file(src, name):
     :return: Tuple - the file's parent dir and the target file
     """
     workdir = tempfile.TemporaryDirectory()
-    javasrc = open(workdir.name + '/' + name, 'w')
+    javasrc = open(os.path.join(workdir.name, name), 'w')
     javasrc.write(src)
     javasrc.close()
     return workdir, javasrc
