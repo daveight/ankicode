@@ -15,7 +15,8 @@
 5) In the `Title` field specify a short and unique title of the quiz
 
 6) In the `Description` field provide the quizes full description, which can include example test-cases, algorithm performance requirements, etc
-   For example
+   For example:
+   
    ```
       Given an array of integers nums, sort the array in ascending order.
       
@@ -28,9 +29,7 @@
       Output: [-1,0,3,6]      
    ```
 
-7) Specify a name of the target function `Function Name`.
-   For example
-   `arraySort` - so in the solution's template those name will be used.
+7) Specify a name of the target function `Function Name`. It will be used in the solution template.
 
 8) `Solution` field will be displayed after Quiz submission, it contains Markdown-formatted solution description, it can also include code blocks as follows:
    \`\`\` java
