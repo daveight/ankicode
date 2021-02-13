@@ -4,10 +4,12 @@ CodeQuiz is a fork of Anki application. Anki allows to create and study flashcar
 
 
 ### Downloads
-- [CodeQuiz-2.1.35-mac.dmg](https://github.com/daveight/codequiz/releases/download/v0.1/CodeQuiz-2.1.35-mac.dmg)
-- [CodeQuiz-2.1.35-windows.exe](https://github.com/daveight/codequiz/releases/download/v0.1/CodeQuiz-2.1.35-windows.exe)
+- [CodeQuiz-1.0.0-mac.dmg](https://github.com/daveight/codequiz/releases/download/v0.1/CodeQuiz-1.0.0-mac.dmg)
+- [CodeQuiz-1.0.0-win.exe](https://github.com/daveight/codequiz/releases/download/v0.1/CodeQuiz-1.0.0-win.exe)
 
 ### Code Quizes Collection
+
+[CodeQuiz Decks](https://github.com/daveight/codequiz-decks)
 
 ### Tutorials
 
