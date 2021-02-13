@@ -10,7 +10,7 @@
 
 3) Import it
 
-   <img src="images/import-3.png" width="600">
+   <img src="images/import-4.png" width="600">
 
 You can find decks examples in the following repository:
 
