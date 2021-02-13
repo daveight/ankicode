@@ -25,7 +25,6 @@ public class Solution {
         result = generator.generate_testing_src(solution_src, test_suite, tree)
 
         self.assertEqual('''
-import static ankitest.Verifier.verify;
 import static ankitest.Converters.*;
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +36,6 @@ import java.util.*;
 import java.util.stream.*;
 import java.lang.reflect.Method;
 import ankitest.TestCase;
-import ankitest.Verifier;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
