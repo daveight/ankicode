@@ -8,11 +8,13 @@ int sum(int a, int b) {
 }
 ```
 
-These test cases can be built.
+These testing data can be supplied.
+
 | int | int | int |
 | --- | --- | --- |
 | 1   | 2   | 3   |  
 | 2   | 2   | 4   |  
+
 
 ## Test Cases Header
 
