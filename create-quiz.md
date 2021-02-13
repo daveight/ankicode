@@ -1,6 +1,6 @@
 ## How to create a code quiz?
 
-1) Select (or create) a target deck
+1) Select (or create) the target deck
 
    <img src="images/create-1.png" width="300">
 
