@@ -113,12 +113,13 @@ function _setProgressCancelled() {
 }
 
 function _displayProgressBar(raise, bgColor) {
+    const color = $('body').hasClass('nightMode') ? '#444' : '#dadada';
     (<any>$('#progressbar')).jQMeter({
         goal: '100',
         raised: raise,
         height: '5px',
         barColor: bgColor,
-        bgColor:'#dadada',
+        bgColor: color,
         animationSpeed: 0,
         displayTotal: false
     });
@@ -146,7 +147,7 @@ function _initalizeCodeEditor() {
     let options = {
         tab: " ".repeat(4), // default is '\t'
         indentOn: /[(\[]$/, // default is /{$/
-        height: '63vh'
+        height: '66vh'
     };
     codeansJar = CodeJar(codeans, withLineNumbers(highlight), options);
 }

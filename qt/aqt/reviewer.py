@@ -410,13 +410,15 @@ class Reviewer:
 
         return re.sub(
             self.codeAnsPat,
-            """<br>
-            <div id="test-pannel">
-                <div class="inner">
-                    <button id="start-testing" class="run" onclick="pycmd('run')">Run <div class="icon"></div></button>
-                    <button id="stop-testing" class="stop disabled" onclick="pycmd('stop')" disabled="disabled">Stop <div class="icon"></div></button>
-                    <button onclick="pycmd('selectlang');">%(selLanguageLabel)s %(downArrow)s</button>
-                    <button onclick="pycmd('selecttheme');">%(selSkinLabel)s %(downArrow)s</button>
+            """
+            <div id="editor-pannel">
+                <div id="editor-controls">
+                    <div class="inner">
+                        <button id="start-testing" class="run" onclick="pycmd('run')">Run <div class="icon"></div></button>
+                        <button id="stop-testing" class="stop disabled" onclick="pycmd('stop')" disabled="disabled">Stop <div class="icon"></div></button>
+                        <button onclick="pycmd('selectlang');">%(selLanguageLabel)s %(downArrow)s</button>
+                        <button onclick="pycmd('selecttheme');">%(selSkinLabel)s %(downArrow)s</button>
+                    </div>
                 </div>
                 <div id="codeans" class="editor language-%(language)s" data-gramm="false">%(template)s</div>
                 <div id="log" class="editor hljs"></div>
@@ -436,7 +438,6 @@ class Reviewer:
 
     def _runTests(self, src):
         self.web.eval("_activateStopButton()")
-        self._logger.activate()
         run_tests(self.card, src, self._getCurrentLang(), self._logger, lambda: self.web.eval("_activateRunButton()"))
 
     def _switchLang(self, lang, src):
@@ -821,6 +822,18 @@ time = %(time)d;
                 lambda: self.onCodeLangSelected("python"),
                 dict(checked=lang == "python"),
             ],
+            [
+                "C++",
+                "",
+                lambda: self.onCodeLangSelected("cpp"),
+                dict(checked=lang == "cpp"),
+            ],
+            [
+                "JavaScript",
+                "",
+                lambda: self.onCodeLangSelected("js"),
+                dict(checked=lang == "js"),
+            ],
         ]
 
     def _getCurrentLang(self):
@@ -1013,5 +1026,3 @@ time = %(time)d;
         lang = self._getCurrentLang()
         stop_tests(lang)
         self.web.eval("_activateRunButton()")
-        self._logger.log("<br/><br/><span class='cancel'>Execution was interrupted.</span><br/><br/>")
-        self._logger.deactivate()

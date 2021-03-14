@@ -5,8 +5,8 @@ from typing import Tuple, List, Callable
 
 from anki.cards import Card
 from aqt.utils import run_async
-from testing.framework.dto.test_suite import TestSuite
 from testing.framework.langs.lang_factory import get_lang_factory
+from testing.framework.langs.refac.types import TestSuite
 from testing.framework.runners.console_logger import ConsoleLogger
 from testing.framework.syntax.syntax_tree import SyntaxTree
 from testing.framework.syntax.utils import strip_html_tags, get_arg_declarations, get_class_declarations
@@ -40,11 +40,10 @@ def get_solution_template(card: Card, lang: str) -> str:
         raise Exception('Unknown language ' + lang)
 
     tree = SyntaxTree.of(rows[0].split(';'))
-    ts = TestSuite(fn_name)
+    ts = TestSuite()
+    ts.fn_name = fn_name
     ts.description = description
-    ts.classes = get_class_declarations(tree, factory.get_class_generator())
-    ts.test_args, ts.result_type = get_arg_declarations(tree, factory.get_type_generator())
-    return factory.get_template_generator().generate_solution_template(ts)
+    return factory.get_template_generator().get_template(tree, ts)
 
 
 @run_async
@@ -57,35 +56,31 @@ def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger, fncomplete
     :param logger: console logger
     :param fncomplete: complete callback
     """
-    fn_name, _, rows = parse_anki_card(card)
+    fn_name, description, rows = parse_anki_card(card)
     factory = get_lang_factory(lang)
     if factory is None:
         raise Exception('Unknown language ' + lang)
 
     tree = SyntaxTree.of(rows[0].split(';'))
-    ts = TestSuite(fn_name)
+    ts = TestSuite()
+    ts.fn_name = fn_name
+    ts.description = description
     ts.test_cases_file = os.path.join(tempfile.mkdtemp(), 'data.csv')
-    ts.test_case_count = len(rows) - 1
+
+    logger.clear()
+
     try:
         file = open(ts.test_cases_file, 'w')
         file.write('\n'.join(rows[1:]))
         file.close()
 
         test_suite_gen = factory.get_test_suite_generator()
-        test_suite_src = test_suite_gen.generate_testing_src(src, ts, tree)
+        test_suite_src = test_suite_gen.generate_test_suite_src(ts, tree, src)
 
-        logger.setTotalCount(ts.test_case_count)
-        factory.get_code_runner().run(test_suite_src, logger, dict(
-            start_msg='''<span class='info'>Running tests...</span>''',
-            passed_msg='''Test <span class='passed'>PASSED</span> (%(index)s/%(total)s) - %(duration)s ms''',
-            failed_msg='''Test <span class='failed'>FAILED</span> (%(index)s/%(total)s)<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;args: %(args)s<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;expected: %(expected)s<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;result: %(result)s<br/>''',
-            success_msg='''<br/><br/>All tests <span class='info'>PASSED</span>.<br/>''',
-            compilation_failed='''Compilation Error: <span class='failed'>$error</span>'''))
+        # logger.set_test_count(len(rows) - 1)
+        factory.get_test_runner().run(test_suite_src, len(rows) - 1, logger)
     except:
-        logger.log("<span class='failed'>Unexpected runtime error: " + str(sys.exc_info()) + "</span>")
+        logger.error("Unexpected runtime error: " + str(sys.exc_info()))
     finally:
         os.remove(ts.test_cases_file)
         fncomplete()
@@ -97,4 +92,4 @@ def stop_tests(lang: str):
     :param lang: target programming language
     """
     factory = get_lang_factory(lang)
-    factory.get_code_runner().stop()
+    factory.get_test_runner().kill()

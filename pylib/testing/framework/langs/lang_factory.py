@@ -1,19 +1,20 @@
 from abc import ABC
 
-from testing.framework.generators.template_gen import SolutionTemplateGenerator
-from testing.framework.generators.test_suite_gen import TestSuiteGenerator
-from testing.framework.langs.java.java_class_gen import JavaClassGenerator
-from testing.framework.langs.java.java_template_gen import JavaTemplateGenerator
-from testing.framework.langs.java.java_test_suite_gen import JavaTestSuiteGenerator
-from testing.framework.langs.java.java_type_gen import JavaTypeGenerator
-from testing.framework.langs.python.python_class_gen import PythonClassGenerator
-from testing.framework.langs.python.python_template_gen import PythonTemplateGenerator
-from testing.framework.langs.python.python_test_suite_gen import PythonTestSuiteGenerator
-from testing.framework.langs.python.python_type_gen import PythonTypeGenerator
-from testing.framework.runners.code_runner import CodeRunner
-from testing.framework.runners.java_code_runner import JavaCodeRunner
-from testing.framework.runners.python_code_runner import PythonCodeRunner
-from testing.framework.syntax.syntax_tree import SyntaxTreeVisitor
+from testing.framework.langs.refac.cpp.cpp_template_gen import CppTemplateGenerator
+from testing.framework.langs.refac.cpp.cpp_test_runner import CppTestRunner
+from testing.framework.langs.refac.cpp.cpp_test_suite_gen import CppTestSuiteGenerator
+from testing.framework.langs.refac.java.java_template_gen import JavaTemplateGenerator
+from testing.framework.langs.refac.java.java_test_runner import JavaTestRunner
+from testing.framework.langs.refac.java.java_test_suite_gen import JavaTestSuiteGenerator
+from testing.framework.langs.refac.js.js_template_gen import JsTemplateGenerator
+from testing.framework.langs.refac.js.js_test_runner import JsTestRunner
+from testing.framework.langs.refac.js.js_test_suite_gen import JsTestSuiteGenerator
+from testing.framework.langs.refac.python.python_template_gen import PythonTemplateGenerator
+from testing.framework.langs.refac.python.python_test_runner import PythonTestRunner
+from testing.framework.langs.refac.python.python_test_suite_gen import PythonTestSuiteGenerator
+from testing.framework.langs.refac.template_gen import TemplateGenerator
+from testing.framework.langs.refac.test_runner import TestRunner
+from testing.framework.langs.refac.test_suite_gen import TestSuiteGenerator
 
 
 class AbstractLangFactory(ABC):
@@ -21,30 +22,16 @@ class AbstractLangFactory(ABC):
     Abstract Factory for code-generators
     """
 
-    def __init__(self, template_gen, type_gen, test_suite_gen, class_gen, code_runner):
+    def __init__(self, template_gen, test_suite_gen, code_runner):
         self.template_gen = template_gen
-        self.type_gen = type_gen
         self.test_suite_gen = test_suite_gen
-        self.class_gen = class_gen
         self.code_runner = code_runner
 
-    def get_template_generator(self) -> SolutionTemplateGenerator:
+    def get_template_generator(self) -> TemplateGenerator:
         """
         :return: Returns language specific solution template code generator
         """
         return self.template_gen
-
-    def get_type_generator(self) -> SyntaxTreeVisitor:
-        """
-        :return: Returns language specific argument types code generator
-        """
-        return self.type_gen
-
-    def get_class_generator(self) -> SyntaxTreeVisitor:
-        """
-        :return: Returns language specific class code generator
-        """
-        return self.class_gen
 
     def get_test_suite_generator(self) -> TestSuiteGenerator:
         """
@@ -52,7 +39,7 @@ class AbstractLangFactory(ABC):
         """
         return self.test_suite_gen
 
-    def get_code_runner(self) -> CodeRunner:
+    def get_test_runner(self) -> TestRunner:
         """
         :return: Returns language specific code runner
         """
@@ -66,10 +53,8 @@ class JavaLangFactory(AbstractLangFactory):
 
     def __init__(self):
         super().__init__(JavaTemplateGenerator(),
-                         JavaTypeGenerator(),
                          JavaTestSuiteGenerator(),
-                         JavaClassGenerator(),
-                         JavaCodeRunner())
+                         JavaTestRunner())
 
 
 class PythonLangFactory(AbstractLangFactory):
@@ -79,10 +64,30 @@ class PythonLangFactory(AbstractLangFactory):
 
     def __init__(self):
         super().__init__(PythonTemplateGenerator(),
-                         PythonTypeGenerator(),
                          PythonTestSuiteGenerator(),
-                         PythonClassGenerator(),
-                         PythonCodeRunner())
+                         PythonTestRunner())
+
+
+class CppLangFactory(AbstractLangFactory):
+    """
+    C++ Code-Generators Factory
+    """
+
+    def __init__(self):
+        super().__init__(CppTemplateGenerator(),
+                         CppTestSuiteGenerator(),
+                         CppTestRunner())
+
+
+class JsLangFactory(AbstractLangFactory):
+    """
+    JS Code-Generators Factory
+    """
+
+    def __init__(self):
+        super().__init__(JsTemplateGenerator(),
+                         JsTestSuiteGenerator(),
+                         JsTestRunner())
 
 
 def get_lang_factory(lang: str) -> AbstractLangFactory:
@@ -96,9 +101,15 @@ def get_lang_factory(lang: str) -> AbstractLangFactory:
         return java_lang_factory
     elif lang == 'python':
         return python_lang_factory
+    elif lang == 'cpp':
+        return cpp_lang_factory
+    elif lang == 'js':
+        return js_lang_factory
     else:
         raise Exception('language is not supported ' + lang)
 
 
 java_lang_factory = JavaLangFactory()
 python_lang_factory = PythonLangFactory()
+cpp_lang_factory = CppLangFactory()
+js_lang_factory = JsLangFactory()
