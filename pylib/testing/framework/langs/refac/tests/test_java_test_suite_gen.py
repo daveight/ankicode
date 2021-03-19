@@ -3,7 +3,7 @@ import unittest
 from testing.framework.langs.refac.java.java_test_suite_gen import JavaTestSuiteGenerator
 from testing.framework.langs.refac.java.java_type_mapper import JavaTypeMapper
 from testing.framework.langs.refac.tests.test_utils import GeneratorTestCase
-from testing.framework.langs.refac.types import TestSuite
+from testing.framework.langs.refac.types import TestSuite, ConverterFn
 from testing.framework.syntax.syntax_tree import SyntaxTree
 
 
@@ -11,11 +11,12 @@ class JavaTestSuiteGeneratorTests(GeneratorTestCase):
 
     def setUp(self) -> None:
         self.generator = JavaTestSuiteGenerator()
+        ConverterFn.reset_counter()
 
     def test_solution_generation_simple_int(self):
         tc = TestSuite()
         tc.fn_name = 'sum'
-        tc.test_file_path = 'test.txt'
+        tc.test_cases_file = 'test.txt'
         tree = SyntaxTree.of(['int[a]', 'int[b]', 'int'])
 
         solution_src = '''
@@ -35,11 +36,10 @@ class JavaTestSuiteGeneratorTests(GeneratorTestCase):
             import java.util.*;
             import java.util.stream.*;
             import java.lang.reflect.Method;
-            import ankitest.TestCase;
             import com.fasterxml.jackson.annotation.JsonAutoDetect;
             import com.fasterxml.jackson.annotation.PropertyAccessor;
             import com.fasterxml.jackson.databind.ObjectMapper;
-            import java.util.concurrent.atomic.AtomicInteger;
+            import com.fasterxml.jackson.databind.JsonNode;
  
             //begin_user_src
             public class Solution {
@@ -48,47 +48,70 @@ class JavaTestSuiteGeneratorTests(GeneratorTestCase):
                 }
             }
  
-            public class Runner {
+            class Runner {
                 private static final ObjectMapper mapper; 
                 static {
                     mapper = new ObjectMapper();
                     mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
                 }
+ 
+                static int converter1(JsonNode value) {
+                    return value.asInt();
+                }
+
+                static int converter2(JsonNode value) {
+                    return value.asInt();
+                }
+
+                static int converter3(JsonNode value) {
+                    return value.asInt();
+                }
+
+                static int converter4(JsonNode value) {
+                    return value;
+                }
+
+                static int converter5(JsonNode value) {
+                    return value;
+                }
+
+                static int converter6(JsonNode value) {
+                    return value;
+                }
 
                 public static void main(String[] args) throws Exception {
-                    AtomicInteger index = new AtomicInteger(0);
                     Solution solution = new Solution();
                     Method method = Stream.of(Solution.class.getDeclaredMethods())
-                        .filter(m -> !m.isSynthetic() && m.getName().equals("%(function_name)s"))
+                        .filter(m -> !m.isSynthetic() && m.getName().equals("sum"))
                         .findFirst()
-                        .orElseThrow(() -> new IllegalStateException("Cannot find method %(function_name)s"));
+                        .orElseThrow(() -> new IllegalStateException("Cannot find method sum"));
                     method.setAccessible(true);
  
-                    List<String> lines = Files.lines(Path.of("%(file_path)s")).collect(Collectors.toList());
+                    List<String> lines = Files.lines(Path.of("test.txt")).collect(Collectors.toList());
                     for (String line : lines) {
                         String[] cols = line.split(";");
-                        Object[] args = new Object[cols.length];
-                        for (String col : cols) {
-                            int i = 0;
-                            JsonNode node = mapper.readTree(col);
-
+                        JsonNode[] rows = new JsonNode[cols.length];
+                        for (int i = 0; i < cols.length; i++) {
+                            rows[i] = mapper.readTree(cols[i]);
                         }
                         long start = System.nanoTime();
-                        Object result = null;
-                        try {
-                            result = method.invoke(solution, args);
-                        } catch(Exception exc) {
-                            throw new RuntimeException(exc);
-                        }
+                        int result = solution.sum(converter1(rows[0]), converter2(rows[1]));
                         long end = System.nanoTime();
                         long duration = TimeUnit.MILLISECONDS.convert(end - start, TimeUnit.NANOSECONDS);
                         Map<String, Object> map = new HashMap<>();
-                        map.put("expected", tc.getExpected());
-                        map.put("result", result);
-                        map.put("args", tc.getArgs());
+                        map.put("expected", converter3(rows[rows.length-1]));
+                        map.put("result", converter6(result));
+                        map.put("args", Arrays.asList(converter1(rows[0]), converter2(rows[1])));
                         map.put("duration", duration);
-                        map.put("index", index.incrementAndGet());
                         System.out.println(getJson(map));
+                        System.out.flush();
+                    }
+                }
+                static String getJson(Object obj) {
+                    try {
+                        return mapper.writeValueAsString(obj);
+                    } catch(Exception exc) {
+                        throw new RuntimeException(exc);
                     }
                 }
             }

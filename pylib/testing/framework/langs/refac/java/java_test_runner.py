@@ -1,6 +1,5 @@
 from testing.framework.langs.refac.test_runner import TestRunner
 from testing.framework.langs.refac.types import SrcFile
-from typing import Tuple, List
 
 class JavaTestRunner(TestRunner):
     LIBS = [

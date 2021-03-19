@@ -25,7 +25,7 @@ class CppTemplateGeneratorTests(unittest.TestCase):
                 int sum(int a, int b) {
                     //Add code here
                 }
-            }''').lstrip(), self.generator.get_template(tree, ts))
+            };''').lstrip(), self.generator.get_template(tree, ts))
 
     def test_solution_with_custom_types_generation(self):
         ts = TestSuite()
@@ -50,4 +50,4 @@ class CppTemplateGeneratorTests(unittest.TestCase):
                 int sum(TypeA a, TypeB b) {
                     //Add code here
                 }
-            }''').lstrip(), self.generator.get_template(tree, ts))
+            };''').lstrip(), self.generator.get_template(tree, ts))

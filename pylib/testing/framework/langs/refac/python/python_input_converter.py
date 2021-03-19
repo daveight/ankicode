@@ -14,7 +14,22 @@ class PythonInputConverter(TypeConverter):
         return ConverterFn(node.name, src, '', 'List[' + child.ret_type + ']')
 
     def visit_map(self, node: SyntaxTree, context):
-        raise Exception('todo')
+        converters = [self.render(child, context) for child in node.nodes]
+        ret_type = render_template('Dict[{{key_type}}, {{value_type}}]',
+                                   key_type=converters[0].ret_type,
+                                   value_type=converters[1].ret_type)
+        src = render_template('''
+            \tresult = {}
+            \titerator = iter(value)
+            \twhile True:
+            \t\ttry:
+            \t\t\tk = {{converters[0].fn_name}}(next(iterator))
+            \t\t\tv = {{converters[1].fn_name}}(next(iterator))
+            \t\t\tresult[k] = v
+            \t\texcept StopIteration:
+            \t\t\tbreak
+            \treturn result''', converters=converters, type_name=node.node_type, ret_type=ret_type)
+        return ConverterFn(node.name, src, 'List', ret_type)
 
     def visit_int(self, node: SyntaxTree, context):
         return ConverterFn(node.name, '\treturn int(value)', '', 'int')
@@ -34,6 +49,6 @@ class PythonInputConverter(TypeConverter):
     def visit_obj(self, node: SyntaxTree, context):
         converters = [self.render(child, context) for child in node.nodes]
         src = render_template(
-            '\t{{t}}({%for c in cs%}{{c.fn_name}}(value[{{loop.index0}}]){%if not loop.last%},{%endif%}{%endfor %})',
+            '\treturn {{t}}({%for c in cs%}{{c.fn_name}}(value[{{loop.index0}}]){%if not loop.last%},{%endif%}{%endfor %})',
             cs=converters, t=node.node_type)
         return ConverterFn(node.name, src, 'List', node.node_type)

@@ -3,6 +3,7 @@ from testing.framework.langs.refac.string_utils import render_template
 from testing.framework.langs.refac.template_gen import TemplateGenerator
 from testing.framework.langs.refac.types import TestSuite
 from testing.framework.syntax.syntax_tree import SyntaxTree
+from testing.framework.syntax.utils import to_camel_case
 
 
 class JavaTemplateGenerator(TemplateGenerator):
@@ -21,5 +22,5 @@ class JavaTemplateGenerator(TemplateGenerator):
             \t\t//Add code here
             \t}
             }
-            ''', t=args[-1].type, p=args[:-1], f=ts.fn_name, type_defs=type_defs.values(),
+            ''', t=args[-1].type, p=args[:-1], f=to_camel_case(ts.fn_name), type_defs=type_defs.values(),
                  description=ts.description, retab=True)

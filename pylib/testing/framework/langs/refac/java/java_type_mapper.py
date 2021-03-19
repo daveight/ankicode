@@ -11,7 +11,7 @@ class JavaTypeMapper(TypeMapper):
         return 'List<' + self.render(node.first_child(), context) + '>'
 
     def visit_map(self, node: SyntaxTree, context):
-        return 'Map<' + self.render(node.first_child(), context) + ',' + self.render(node.second_child(), context) + '>'
+        return 'Map<' + self.render(node.first_child(), context) + ', ' + self.render(node.second_child(), context) + '>'
 
     def visit_int(self, node: SyntaxTree, context):
         if node.parent.is_root() or node.parent.is_array_type() or node.parent.user_type:

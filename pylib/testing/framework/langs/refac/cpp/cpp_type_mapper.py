@@ -21,7 +21,8 @@ class CppTypeMapper(TypeMapper):
         return 'vector<' + self.render(node.first_child(), context) + '>'
 
     def visit_map(self, node: SyntaxTree, context):
-        raise Exception('not implemented')
+        converters = [self.render(child, context) for child in node.nodes]
+        return 'map<' + converters[0] + ', ' + converters[1] + '>',
 
     def visit_int(self, node: SyntaxTree, context):
         return 'int'

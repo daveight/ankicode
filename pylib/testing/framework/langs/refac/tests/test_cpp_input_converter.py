@@ -64,3 +64,34 @@ class CppInputConverterTests(unittest.TestCase):
             return obj;
         ''', 'jute::jValue', 'Edge'), converters[3])
 
+
+    def test_map(self):
+        tree = SyntaxTree.of(['map(string, object(list(int)[a],int[b])<Edge>)[a]'])
+        arg_converters, converters = self.converter.get_converters(tree)
+        self.assertEqual(1, len(arg_converters))
+        self.assertEqual(6, len(converters))
+        self.assertEqual(ConverterFn('', '''return value.as_string();''', 'jute::jValue', 'string'), converters[0])
+        self.assertEqual(ConverterFn('', '''return value.as_int();''', 'jute::jValue', 'int'), converters[1])
+        self.assertEqual(ConverterFn('a', '''
+            vector<int> result;
+            for (int i = 0; i < value.size(); i++) {
+              int obj = converter2(value[i]);
+              result.push_back(obj);
+            }
+            return result;'''.lstrip(), 'jute::jValue', 'vector<int>'), converters[2])
+        self.assertEqual(ConverterFn('b', '''return value.as_int();''', 'jute::jValue', 'int'), converters[3])
+        self.assertEqual(ConverterFn('', '''
+            Edge obj;
+            obj.a = converter3(value[0]);
+            obj.b = converter4(value[1]);
+            return obj;
+        ''', 'jute::jValue', 'Edge'), converters[4])
+        self.assertEqual(ConverterFn('a', '''
+            map<string, Edge> result;
+            for (int i = 0; i < value.size(); i+=2) {
+                string k = converter1(value[i]);
+                Edge v = converter5(value[i + 1]);
+                result.insert(k, v);
+            }
+            return result;
+        ''', 'jute::jValue', 'map<string, Edge>'), converters[5])

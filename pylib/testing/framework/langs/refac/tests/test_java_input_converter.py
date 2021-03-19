@@ -65,3 +65,32 @@ class JavaInputConverterTests(unittest.TestCase):
             return result;
         ''', 'JsonNode', 'Edge'), converters[3])
 
+    def test_map(self):
+        tree = SyntaxTree.of(['map(string, object(list(int)[a],int[b])<Edge>)[a]'])
+        arg_converters, converters = self.converter.get_converters(tree)
+        self.assertEqual(1, len(arg_converters))
+        self.assertEqual(6, len(converters))
+        self.assertEqual(ConverterFn('', '''return value.asText();''', 'JsonNode', 'String'), converters[0])
+        self.assertEqual(ConverterFn('', '''return value.asInt();''', 'JsonNode', 'Integer'), converters[1])
+        self.assertEqual(ConverterFn('a', '''
+            List<Integer> result = new ArrayList<>();
+            for (JsonNode node : value) {
+                result.add(converter2(node));
+            }
+            return result;'''.lstrip(), 'JsonNode', 'List<Integer>'), converters[2])
+        self.assertEqual(ConverterFn('b', '''return value.asInt();''', 'JsonNode', 'int'), converters[3])
+        self.assertEqual(ConverterFn('', '''
+            Edge result = new Edge();
+            result.a = converter3(val.get(0));
+            result.b = converter4(val.get(1));
+            return result;
+        ''', 'JsonNode', 'Edge'), converters[4])
+        self.assertEqual(ConverterFn('a', '''
+            Map<String, Edge> result = new HashMap<>();
+            Iterator<JsonNode> iterator = value.iterator();
+            while (iterator.hasNext()) {
+                String prop = iterator.next().asText();
+                Edge val = converter5(iterator.next());
+                result.put(prop, val);
+            }
+            return result;''', 'JsonNode', 'Map<String, Edge>'), converters[5])

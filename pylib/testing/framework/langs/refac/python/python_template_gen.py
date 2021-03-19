@@ -3,6 +3,7 @@ from testing.framework.langs.refac.string_utils import render_template
 from testing.framework.langs.refac.template_gen import TemplateGenerator
 from testing.framework.langs.refac.types import TestSuite
 from testing.framework.syntax.syntax_tree import SyntaxTree
+from testing.framework.syntax.utils import to_snake_case
 
 
 class PythonTemplateGenerator(TemplateGenerator):
@@ -17,5 +18,5 @@ class PythonTemplateGenerator(TemplateGenerator):
             def {{fn}}({% for a in l %}{{a.name}}: {{a.type}}{% if not loop.last %}, {% endif %}{% endfor %})->{{t}}:
             \t#Add code here
             \tpass
-            ''', t=args[-1].type, l=args[:-1], fn=ts.fn_name, type_defs=type_defs.values(),
+            ''', t=args[-1].type, l=args[:-1], fn=to_snake_case(ts.fn_name), type_defs=type_defs.values(),
                  description=ts.description, retab=True)

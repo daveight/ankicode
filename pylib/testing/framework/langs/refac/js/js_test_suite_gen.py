@@ -1,4 +1,5 @@
 from testing.framework.langs.refac.js.js_input_converter import JsInputConverter
+from testing.framework.langs.refac.js.js_output_converter import JsOutputConverter
 from testing.framework.langs.refac.string_utils import render_template
 from testing.framework.langs.refac.test_suite_gen import TestSuiteGenerator
 from testing.framework.langs.refac.types import TestSuite
@@ -6,7 +7,7 @@ from testing.framework.langs.refac.types import TestSuite
 
 class JsTestSuiteGenerator(TestSuiteGenerator):
     def __init__(self):
-        super().__init__({'input': JsInputConverter()})
+        super().__init__({'input': JsInputConverter(), 'output': JsOutputConverter()})
 
     def _get_imports(self):
         return ''
@@ -23,7 +24,6 @@ class JsTestSuiteGenerator(TestSuiteGenerator):
             }
             {% endfor %}
             {{solution_src}}
-            let i = 0;
             rl.on('line', function(line) {
             \tconst start = new Date().getTime();
             \tconst cols = line.split(';').map(it => JSON.parse(it))
@@ -35,10 +35,9 @@ class JsTestSuiteGenerator(TestSuiteGenerator):
             \tconst end = new Date().getTime();
             \tconsole.log(JSON.stringify({
             \t\t'expected': cols[cols.length - 1],
-            \t\t'result': result,
+            \t\t'result': {{converters.output_result.fn_name}}(result),
             \t\t'args': args,
-            \t\t'duration': (start-end),
+            \t\t'duration': (start-end)
             \t}));
-            \ti += 1
             });
             ''', ts=ts, converters=converters, solution_src=solution_src)

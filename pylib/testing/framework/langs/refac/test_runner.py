@@ -119,7 +119,7 @@ class TestRunner:
                 if len(stderr) > 0:
                     self.process_error(stderr.decode('utf-8'), src_file, logger)
                     return
-            logger.info('Running tests...')
+            logger.info('Running tests...<br/>')
             cmd = self.get_run_cmd(src_file, resource_path, False)
             proc = self.exec_cmd(cmd)
             if not self.read_test_results(proc.stdout, test_logger):
@@ -132,7 +132,7 @@ class TestRunner:
             if len(stderr) > 0:
                 self.process_error(stderr.decode('utf-8'), src_file, logger)
                 return
-            logger.log('<br/>All tests PASSED')
+            logger.log('<br/>All tests <span class="passed">PASSED</span><br/><br/>')
         except TestStopped:
             pass
         finally:

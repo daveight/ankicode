@@ -29,19 +29,30 @@ class CppInputConverter(TypeConverter):
         return ConverterFn(node.name, src, 'jute::jValue', 'vector<' + inner_converter.ret_type + '>')
 
     def visit_map(self, node: SyntaxTree, context):
-        raise Exception('Not implemented')
+        converters = [self.render(child, context) for child in node.nodes]
+        ret_type = render_template('map<{{converters[0].ret_type}}, {{converters[1].ret_type}}>', converters=converters)
+        src = render_template('''
+            \t{{ret_type}} result;
+            \tfor (int i = 0; i < value.size(); i+=2) {
+            \t\t{{converters[0].ret_type}} k = {{converters[0].fn_name}}(value[i]);
+            \t\t{{converters[1].ret_type}} v = {{converters[1].fn_name}}(value[i + 1]);
+            \t\tresult.insert(k, v);
+            \t}
+            \treturn result;
+        ''', converters=converters, ret_type=ret_type)
+        return ConverterFn(node.name, src, 'jute::jValue', ret_type)
 
     def visit_int(self, node: SyntaxTree, context):
         return ConverterFn(node.name, 'return value.as_int();', 'jute::jValue', 'int')
 
     def visit_long(self, node: SyntaxTree, context):
-        return ConverterFn(node.name, 'return value.as_long();', 'jute:jValue', 'long int')
+        return ConverterFn(node.name, 'return value.as_long();', 'jute::jValue', 'long int')
 
     def visit_float(self, node: SyntaxTree, context):
-        return ConverterFn(node.name, 'return value.as_double();', 'jute:jValue', 'double')
+        return ConverterFn(node.name, 'return value.as_double();', 'jute::jValue', 'double')
 
     def visit_string(self, node: SyntaxTree, context):
-        return ConverterFn(node.name, 'return value.as_double();', 'jute:jValue', 'string')
+        return ConverterFn(node.name, 'return value.as_string();', 'jute::jValue', 'string')
 
     def visit_bool(self, node: SyntaxTree, context):
-        return ConverterFn(node.name, 'return value.as_bool();', 'jute:jValue', 'bool')
+        return ConverterFn(node.name, 'return value.as_bool();', 'jute::jValue', 'bool')

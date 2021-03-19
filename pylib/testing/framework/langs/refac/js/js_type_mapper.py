@@ -17,7 +17,7 @@ class JsTypeMapper(TypeMapper):
         return self.render(node.first_child(), context) + '[]'
 
     def visit_map(self, node: SyntaxTree, context):
-        return 'Object.<' + self.render(node.nodes[0], context) + ', ' + self.render(node.nodes[1], context) + '>'
+        return 'Map.<' + self.render(node.nodes[0], context) + ', ' + self.render(node.nodes[1], context) + '>'
 
     def visit_string(self, node: SyntaxTree, context):
         return 'string'

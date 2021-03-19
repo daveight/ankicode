@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from typing import Dict, List
 
+from testing.framework.langs.refac.string_utils import render_template
 from testing.framework.langs.refac.type_converter import TypeConverter
 from testing.framework.langs.refac.types import TestSuite, ConverterFn
 from testing.framework.syntax.syntax_tree import SyntaxTree
@@ -51,5 +52,5 @@ class TestSuiteGenerator:
 
     def generate_test_suite_src(self, tc: TestSuite, tree: SyntaxTree, solution_src: str):
         solution_src = self._line_comment_char + START_USER_SRC_MARKER + '\n' + solution_src
-        return self._get_imports() + '\n' + \
+        return render_template(self._get_imports(), retab=True) + '\n' + \
                self._get_testing_src(tc, TestSuiteConverters(self._converters, tree), solution_src)

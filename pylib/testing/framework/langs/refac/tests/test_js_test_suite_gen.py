@@ -17,7 +17,7 @@ class JsTestSuiteGeneratorTests(GeneratorTestCase):
     def test_solution_generation_simple_int(self):
         tc = TestSuite()
         tc.fn_name = 'sum'
-        tc.test_file_path = 'test.txt'
+        tc.test_cases_file = 'test.txt'
         tree = SyntaxTree.of(['int[a]', 'int[b]', 'int'])
 
         solution_src = '''
@@ -31,39 +31,48 @@ class JsTestSuiteGeneratorTests(GeneratorTestCase):
             const fileStream = fs.createReadStream('test.txt');
             const rl = readline.createInterface({input: fileStream, crlfDelay: Infinity});
 
-            function converter1(val) {
-                return val
+            function converter1(value) {
+                return value
             }
 
-            function converter2(val) {
-                return val
+            function converter2(value) {
+                return value
             }
 
-            function converter3(val) {
-                return val
+            function converter3(value) {
+                return value
             }
 
+            function converter4(value) {
+                return value
+            }
+
+            function converter5(value) {
+                return value
+            }
+ 
+            function converter6(value) {
+                return value
+            }
+ 
             //begin_user_src
             function solution(a, b) {
                 return a + b;
             }
-            let i = 0;
             rl.on('line', function(line) {
                 const start = new Date().getTime();
-                const cols = row.split(';').map(it => JSON.parse(it))
+                const cols = line.split(';').map(it => JSON.parse(it))
                 
                 const args = []
-                args.push(converter1(cols[1]);
-                args.push(converter2(cols[2]);
-                args.push(converter3(cols[3]);
+                args.push(converter1(cols[0]));
+                args.push(converter2(cols[1]));
 
                 const result = sum(...args);
                 const end = new Date().getTime();
                 console.log(JSON.stringify({
-                    'expected': tc.expected,
-                    'args': tc.args,
-                    'duration': (start-end),
-                    'index': i
+                    'expected': cols[cols.length - 1],
+                    'result': converter6(result),
+                    'args': args,
+                    'duration': (start-end)
                 }));
-                i += 1
             });''', testing_src)

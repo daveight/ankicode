@@ -53,12 +53,12 @@ class CppOutputConverterTests(unittest.TestCase):
         ''', 'int', 'jute::jValue'), converters[1])
         self.assertEqual(ConverterFn('a', '''
             jute::jValue result;
-            result.set_type(jute::JOBJECT);
+            result.set_type(jute::JARRAY);
             jute::jValue prop;
-            prop = converter1(value[0]);
-            result.add_property("a", prop);
-            prop = converter2(value[1]);
-            result.add_property("b", prop);
+            prop = converter1(value.a);
+            result.add_element(prop);
+            prop = converter2(value.b);
+            result.add_element(prop);
             return result;
         ''', 'Edge', 'jute::jValue'), converters[2])
 
@@ -86,11 +86,11 @@ class CppOutputConverterTests(unittest.TestCase):
             return result;'''.lstrip(), 'int', 'jute::jValue'), converters[2])
         self.assertEqual(ConverterFn('a', '''
             jute::jValue result; 
-            result.set_type(jute::JOBJECT);
+            result.set_type(jute::JARRAY);
             jute::jValue prop;
-            prop = converter2(value[0]);
-            result.add_property("a", prop);
-            prop = converter3(value[1]);
-            result.add_property("b", prop);
+            prop = converter2(value.a);
+            result.add_element(prop);
+            prop = converter3(value.b);
+            result.add_element(prop);
             return result;'''.lstrip(), 'Edge', 'jute::jValue'), converters[3])
 

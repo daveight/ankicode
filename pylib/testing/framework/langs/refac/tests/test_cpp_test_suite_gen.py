@@ -1,6 +1,6 @@
 from testing.framework.langs.refac.cpp.cpp_test_suite_gen import CppTestSuiteGenerator
 from testing.framework.langs.refac.tests.test_utils import GeneratorTestCase
-from testing.framework.langs.refac.types import TestSuite
+from testing.framework.langs.refac.types import TestSuite, ConverterFn
 from testing.framework.syntax.syntax_tree import SyntaxTree
 
 
@@ -8,11 +8,12 @@ class CppTestSuiteGeneratorTests(GeneratorTestCase):
 
     def setUp(self) -> None:
         self.generator = CppTestSuiteGenerator()
+        ConverterFn.reset_counter()
 
     def test_solution_generation_simple_int(self):
         tc = TestSuite()
         tc.fn_name = 'sum'
-        tc.test_file_path = 'test.txt'
+        tc.test_cases_file = 'test.txt'
         tree = SyntaxTree.of(['int[a]', 'int[b]', 'int'])
 
         solution_src = '''
@@ -25,9 +26,9 @@ class CppTestSuiteGeneratorTests(GeneratorTestCase):
             #include <array>
             #include "lib/jute.h"
             #include "lib/parser.h"
-            #include "lib/converter.h"
             #include <functional>
             #include <stdexcept>
+            using namespace std;
 
             //begin_user_src
             int solution(int a, int b) {
@@ -50,16 +51,29 @@ class CppTestSuiteGeneratorTests(GeneratorTestCase):
                 result.set_string(std::to_string(value));
                 return result;
             }
+            
+            jute::jValue converter5(int value) {
+                jute::jValue result;
+                result.set_type(jute::JNUMBER);
+                result.set_string(std::to_string(value));
+                return result;
+            }
+
+            jute::jValue converter6(int value) {
+                jute::jValue result;
+                result.set_type(jute::JNUMBER);
+                result.set_string(std::to_string(value));
+                return result;
+            }
 
             int main() {
                 ifstream in("test.txt"); 
-                int index = 1;
                 Solution solution;
                 for (auto& row: CSVRange(in)) {
                     auto started = std::chrono::high_resolution_clock::now();
                     int result = solution.sum(converter1(row[0]), converter2(row[1]));
                     auto done = std::chrono::high_resolution_clock::now();
-                    jute::jValue json_result = converter4(result);
+                    jute::jValue json_result = converter6(result);
                     jute::jValue response;
                     response.set_type(jute::JOBJECT);
                     response.add_property("expected", row[2]);
@@ -69,16 +83,11 @@ class CppTestSuiteGeneratorTests(GeneratorTestCase):
                     json_args.add_element(row[0]);
                     json_args.add_element(row[1]);
                     response.add_property("args", json_args);
-                    jute::jValue counter;
-                    counter.set_type(jute::JNUMBER);
-                    counter.set_string(std::to_string(index));
-                    response.add_property("index", counter);
                     jute::jValue duration;
                     duration.set_type(jute::JNUMBER);
                     duration.set_string(std::to_string(
                         std::chrono::duration_cast<std::chrono::milliseconds>(done-started).count()));
                     response.add_property("duration", duration);
-                    index++;
                     std::cout << response.to_string() << endl;
                 }
                 return 0;

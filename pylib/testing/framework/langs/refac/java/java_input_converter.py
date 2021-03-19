@@ -33,7 +33,18 @@ class JavaInputConverter(TypeConverter):
         return ConverterFn(node.name, src, 'JsonNode', 'List<' + child.ret_type + '>')
 
     def visit_map(self, node: SyntaxTree, context):
-        pass
+        converters = [self.render(child, context) for child in node.nodes]
+        ret_type = render_template('Map<{{converters[0].ret_type}}, {{converters[1].ret_type}}>', converters=converters)
+        src = render_template('''
+            \t{{ret_type}} result = new HashMap<>();
+            \tIterator<JsonNode> iterator = value.iterator();
+            \twhile (iterator.hasNext()) {
+            \t\tString prop = iterator.next().asText();
+            \t\t{{converters[1].ret_type}} val = {{converters[1].fn_name}}(iterator.next());
+            \t\tresult.put(prop, val);
+            \t}
+            \treturn result;''', converters=converters, type_name=node.node_type, ret_type=ret_type)
+        return ConverterFn(node.name, src, 'JsonNode', ret_type)
 
     def visit_int(self, node: SyntaxTree, context):
         return ConverterFn(node.name, 'return value.asInt();', 'JsonNode',

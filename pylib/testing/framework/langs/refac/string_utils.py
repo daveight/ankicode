@@ -4,8 +4,10 @@ from jinja2.nativetypes import NativeEnvironment
 env = NativeEnvironment()
 IDENT_TAB_SIZE = 4
 
-def render_template(template: str, retab: bool = False, **kwargs):
+def render_template(template: str = '', retab: bool = False, **kwargs):
     global env
+    if template == '':
+        return template
     t = env.from_string(template)
     s = t.render(kwargs)
     s = re.sub(r'^\n+', '', s)

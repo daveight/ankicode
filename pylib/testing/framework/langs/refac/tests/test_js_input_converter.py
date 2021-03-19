@@ -15,26 +15,26 @@ class JsInputConverterTests(unittest.TestCase):
         tree = SyntaxTree.of(['array(array(int))[a]'])
         _, converters = self.converter.get_converters(tree)
         self.assertEqual(3, len(converters))
-        self.assertEqual(ConverterFn('', '''return val''', ''), converters[0])
+        self.assertEqual(ConverterFn('', '''return value''', ''), converters[0])
         self.assertEqual(ConverterFn('', '''
             var res = []
-            for (var i = 0; i < val.length; i++) { res.push(converter1(val[i])) }
+            for (var i = 0; i < value.length; i++) { res.push(converter1(value[i])) }
             return res'''.lstrip(), ''), converters[1])
         self.assertEqual(ConverterFn('a', '''
             var res = []
-            for (var i = 0; i < val.length; i++) { res.push(converter2(val[i])) }
+            for (var i = 0; i < value.length; i++) { res.push(converter2(value[i])) }
             return res'''.lstrip(), ''), converters[2])
 
     def test_object_conversion(self):
         tree = SyntaxTree.of(['object(int[a],int[b])<Edge>[a]'])
         _, converters = self.converter.get_converters(tree)
         self.assertEqual(3, len(converters))
-        self.assertEqual(ConverterFn('a', '''return val''', ''), converters[0])
-        self.assertEqual(ConverterFn('b', '''return val''', ''), converters[1])
+        self.assertEqual(ConverterFn('a', '''return value''', ''), converters[0])
+        self.assertEqual(ConverterFn('b', '''return value''', ''), converters[1])
         self.assertEqual(ConverterFn('a', '''
             var res = {}
-            res['a'] = converter1(val[1])
-            res['b'] = converter2(val[2])
+            res['a'] = converter1(value[1])
+            res['b'] = converter2(value[2])
             return res
         ''', ''), converters[2])
 
@@ -43,15 +43,15 @@ class JsInputConverterTests(unittest.TestCase):
         arg_converters, converters = self.converter.get_converters(tree)
         self.assertEqual(1, len(arg_converters))
         self.assertEqual(4, len(converters))
-        self.assertEqual(ConverterFn('', '''return val''', ''), converters[0])
+        self.assertEqual(ConverterFn('', '''return value''', ''), converters[0])
         self.assertEqual(ConverterFn('a', '''
             var res = []
-            for (var i = 0; i < val.length; i++) { res.push(converter1(val[i])) }
+            for (var i = 0; i < value.length; i++) { res.push(converter1(value[i])) }
             return res'''.lstrip(), ''), converters[1])
-        self.assertEqual(ConverterFn('b', '''return val''', ''), converters[2])
+        self.assertEqual(ConverterFn('b', '''return value''', ''), converters[2])
         self.assertEqual(ConverterFn('a', '''
             var res = {}
-            res['a'] = converter2(val[1])
-            res['b'] = converter3(val[2])
+            res['a'] = converter2(value[1])
+            res['b'] = converter3(value[2])
             return res
         ''', ''), converters[3])

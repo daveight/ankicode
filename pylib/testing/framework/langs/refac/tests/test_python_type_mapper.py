@@ -58,3 +58,14 @@ class PythonTypeMappingsGeneratorTests(unittest.TestCase):
         self.assertEqual(1, len(args))
         self.assertEqual('List[List[int]]', args[0].type)
 
+    def test_map(self):
+        tree = SyntaxTree.of(['map(string, list(object(int[a],int[b])<Edge>))[a]'])
+        args, type_defs = self.type_mapper.get_args(tree)
+        self.assertEqual(1, len(args))
+        self.assertEqual('Dict[str, List[Edge]]', args[0].type)
+        self.assertEqual('a', args[0].name)
+        self.assertEqual(1, len(type_defs.keys()))
+        self.assertEqual(textwrap.dedent('''
+            class Edge:\n\tdef __init__(self, a: int, b: int):\n\t\tself.a = a\n\t\tself.b = b
+        ''').strip(), type_defs['Edge'].strip())
+

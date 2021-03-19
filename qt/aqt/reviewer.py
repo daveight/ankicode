@@ -448,6 +448,7 @@ class Reviewer:
         else:
             src = get_solution_template(self.card, lang)
         self.web.eval("_reloadCode(%s, %s);" % (json.dumps(src), json.dumps(lang)))
+        self._logger.clear()
 
     def typeAnsQuestionFilter(self, buf: str) -> str:
         self.typeCorrect = None

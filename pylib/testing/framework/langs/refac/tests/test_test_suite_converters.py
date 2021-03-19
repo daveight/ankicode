@@ -15,4 +15,4 @@ class TestSuiteConvertersTests(unittest.TestCase):
         tree = SyntaxTree.of(['array(array(int))[a]'])
         converters = TestSuiteConverters({'input': JavaInputConverter(), 'output': JavaInputConverter()}, tree)
         self.assertEqual(6, len(converters))
-        self.assertEqual(['converter3'], converters.input)
+        self.assertEqual('converter3', converters.input_result.fn_name)

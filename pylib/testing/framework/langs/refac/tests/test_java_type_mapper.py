@@ -46,3 +46,12 @@ class JavaTypeMapperTests(unittest.TestCase):
         self.assertEqual(1, len(type_defs.keys()))
         self.assertEqual('''\tpublic static class Edge {\n\t\tint a;\n\t\tint b;\n\t}\n''', type_defs['Edge'])
 
+    def test_map(self):
+        tree = SyntaxTree.of(['map(string, list(object(int[a],int[b])<Edge>))[a]'])
+        args, type_defs = self.type_mapper.get_args(tree)
+        self.assertEqual(1, len(args))
+        self.assertEqual('Map<String, List<Edge>>', args[0].type)
+        self.assertEqual('a', args[0].name)
+        self.assertEqual(1, len(type_defs.keys()))
+        self.assertEqual('''\tpublic static class Edge {\n\t\tint a;\n\t\tint b;\n\t}\n''', type_defs['Edge'])
+

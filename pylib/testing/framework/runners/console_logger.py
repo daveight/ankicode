@@ -101,10 +101,10 @@ class ConsoleLogger:
         return TestLogger(self, self.web, tests_count)
 
     def info(self, msg: str):
-        self.log(f'<span class="info">{msg}</span><br/>')
+        self.log(f'{msg}<br/>')
 
     def error(self, msg: str):
-        self.log(f'<span class="error">{msg}</span>')
+        self.log(f'<span class="failed">{msg}</span><br/>')
         self.web.eval("_setProgressError();")
 
     def log(self, msg: str):

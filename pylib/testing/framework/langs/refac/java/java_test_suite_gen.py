@@ -1,12 +1,14 @@
 from testing.framework.langs.refac.java.java_input_converter import JavaInputConverter
+from testing.framework.langs.refac.java.java_output_converter import JavaOutputConverter
 from testing.framework.langs.refac.string_utils import render_template
 from testing.framework.langs.refac.test_suite_gen import TestSuiteGenerator, TestSuiteConverters
 from testing.framework.langs.refac.types import TestSuite
+from testing.framework.syntax.utils import to_camel_case
 
 
 class JavaTestSuiteGenerator(TestSuiteGenerator):
     def __init__(self):
-        super().__init__({'input': JavaInputConverter()})
+        super().__init__({'input': JavaInputConverter(), 'output': JavaOutputConverter()})
 
     def _get_imports(self):
         return '''
@@ -24,7 +26,7 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
             import com.fasterxml.jackson.databind.ObjectMapper;
             import com.fasterxml.jackson.databind.JsonNode;'''
 
-    def _get_testing_src(self, tc: TestSuite, converters: TestSuiteConverters, solution_src: str):
+    def _get_testing_src(self, ts: TestSuite, converters: TestSuiteConverters, solution_src: str):
         return render_template('''
             {{solution_src}}
             class Runner {
@@ -41,11 +43,11 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
                 \tpublic static void main(String[] args) throws Exception {
                 \t\tSolution solution = new Solution();
                 \t\tMethod method = Stream.of(Solution.class.getDeclaredMethods())
-                \t\t\t.filter(m -> !m.isSynthetic() && m.getName().equals("{{tc.fn_name}}"))
+                \t\t\t.filter(m -> !m.isSynthetic() && m.getName().equals("{{fn_name}}"))
                 \t\t\t.findFirst()
-                \t\t\t.orElseThrow(() -> new IllegalStateException("Cannot find method {{tc.fn_name}}"));
+                \t\t\t.orElseThrow(() -> new IllegalStateException("Cannot find method {{fn_name}}"));
                 \t\tmethod.setAccessible(true);
-                \t\tList<String> lines = Files.lines(Path.of("{{tc.test_cases_file}}")).collect(Collectors.toList());
+                \t\tList<String> lines = Files.lines(Path.of("{{ts.test_cases_file}}")).collect(Collectors.toList());
                 \t\tfor (String line : lines) {
                 \t\t\tString[] cols = line.split(";");
                 \t\t\tJsonNode[] rows = new JsonNode[cols.length];
@@ -53,7 +55,7 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
                 \t\t\t\trows[i] = mapper.readTree(cols[i]);
                 \t\t\t}
                 \t\t\tlong start = System.nanoTime();
-                \t\t\t\t{{converters.input_result.ret_type}} result = solution.{{tc.fn_name}}(
+                \t\t\t\t{{converters.input_result.ret_type}} result = solution.{{fn_name}}(
                 {% for converter in converters.input_args %}
                     \t\t\t\t{{converter.fn_name}}(rows[{{loop.index0}}]){% if not loop.last %}, {% endif %}
                 {% endfor %});
@@ -61,7 +63,7 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
                 \t\t\tlong duration = TimeUnit.MILLISECONDS.convert(end - start, TimeUnit.NANOSECONDS);
                 \t\t\tMap<String, Object> map = new HashMap<>();
                 \t\t\tmap.put("expected", {{converters.input_result.fn_name}}(rows[rows.length-1]));
-                \t\t\tmap.put("result", result);
+                \t\t\tmap.put("result", {{converters.output_result.fn_name}}(result));
                 \t\t\tmap.put("args", Arrays.asList(
                 {% for converter in converters.input_args %}
                     \t\t\t\t{{converter.fn_name}}(rows[{{loop.index0}}]){% if not loop.last %}, {% endif %}
@@ -78,4 +80,4 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
             \t\t\tthrow new RuntimeException(exc);
             \t\t}
             \t}
-        }''', tc=tc, solution_src=solution_src, converters=converters)
+        }''', ts=ts, fn_name=to_camel_case(ts.fn_name), solution_src=solution_src, converters=converters)
