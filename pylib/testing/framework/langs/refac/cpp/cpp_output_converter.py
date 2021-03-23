@@ -29,24 +29,24 @@ class CppOutputConverter(TypeConverter):
             \tjute::jValue result; 
             \tresult.set_type(jute::JARRAY);
             \tfor (int i = 0; i < value.size(); i++) {
-            \t\tresult.add_element({{converter.name}}(value[i]));
+            \t\tresult.add_element({{converter.fn_name}}(value[i]));
             \t}
             \treturn result;''', converter=converter)
         return ConverterFn(node.name, src, 'vector<' + converter.arg_type + '>', 'jute::jValue')
 
     def visit_map(self, node: SyntaxTree, context):
         converters = [self.render(child, context) for child in node.nodes]
-        ret_type = render_template('map<{{converters[0].ret_type}}, {{converters[1].ret_type}}>', converters=converters)
+        arg_type = 'map<' + converters[0].arg_type + ', ' + converters[1].arg_type + '>'
         src = render_template('''
             \tjute::jValue result;
             \tresult.set_type(jute::JARRAY);
             \tjute::jValue prop;
             \tfor (auto const& x :value) {
             \t\tresult.add_element({{converters[0].fn_name}}(x.first));
-            \t\tresult.add_element({{converters[0].fn_name}}(x.second));
+            \t\tresult.add_element({{converters[1].fn_name}}(x.second));
             \t}
-            ''', converters=converters)
-        return ConverterFn(node.name, src, 'jute::jValue', ret_type)
+            \treturn result;''', converters=converters)
+        return ConverterFn(node.name, src, arg_type, 'jute::jValue')
 
     def visit_int(self, node: SyntaxTree, context):
         return ConverterFn(node.name, '''

@@ -11,19 +11,19 @@ class JsInputConverter(TypeConverter):
     def visit_list(self, node: SyntaxTree, context):
         child = self.render(node.first_child(), context)
         return ConverterFn(node.name, render_template('''
-            \tvar res = []
-            \tfor (var i = 0; i < value.length; i++) { res.push({{fn}}(value[i])) }
+            \tvar result = []
+            \tfor (var i = 0; i < value.length; i++) { result.push({{fn}}(value[i])) }
             \treturn res
             ''', fn=child.fn_name), '')
 
     def visit_map(self, node: SyntaxTree, context):
         converters = [self.render(child, context) for child in node.nodes]
         return ConverterFn(node.name, render_template('''
-            \tvar result = new Map();
-            \tfor (int i = 0; i < value.length; i += 2) {
-            \t\tresult.set({{converters[0].fn_name}}(value[i]), {{converters[1].fn_name}}(value[i+1));
+            \tvar result = new Map()
+            \tfor (var i = 0; i < value.length; i += 2) {
+            \t\tresult.set({{converters[0].fn_name}}(value[i]), {{converters[1].fn_name}}(value[i+1]))
             \t}
-            \treturn result;
+            \treturn result
         ''', converters=converters), '')
 
     def visit_primitive(self, node: SyntaxTree):
@@ -47,10 +47,10 @@ class JsInputConverter(TypeConverter):
     def visit_obj(self, node: SyntaxTree, context):
         converters = [self.render(n, context) for n in node.nodes]
         return ConverterFn(node.name, render_template('''
-            \tvar res = {}
+            \tvar result = {}
             {% for converter in converters %}
-            \tres['{{converter.prop_name}}'] = {{converter.fn_name}}(value[{{loop.index}}])
+            \tresult['{{converter.prop_name}}'] = {{converter.fn_name}}(value[{{loop.index0}}])
             {% endfor %}
-            \treturn res
+            \treturn result
             ''', converters=converters), '')
 

@@ -51,7 +51,7 @@ class JavaTypeMapper(TypeMapper):
     def visit_obj(self, node: SyntaxTree, context):
         args, _ = self.get_args(node, context)
         context[node.node_type] = render_template('''
-            \tpublic static class {{type_name}} {
-                {%for a in args %}\t\t{{a.type}} {{a.name}};\n{% endfor %}\t}
+            class {{type_name}} {
+                {%for a in args %}\t{{a.type}} {{a.name}};\n{% endfor %}}
             ''', args=args, type_name=node.node_type)
         return node.node_type

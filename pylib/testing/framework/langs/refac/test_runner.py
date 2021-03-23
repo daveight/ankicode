@@ -4,6 +4,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import re
 from abc import abstractmethod
 from json import JSONDecodeError
 
@@ -116,8 +117,7 @@ class TestRunner:
             if cmd is not None:
                 logger.info('Compiling...')
                 stdout, stderr = self.exec_cmd(cmd).communicate()
-                if len(stderr) > 0:
-                    self.process_error(stderr.decode('utf-8'), src_file, logger)
+                if self.check_for_errors(stderr, src_file, logger):
                     return
             logger.info('Running tests...<br/>')
             cmd = self.get_run_cmd(src_file, resource_path, False)
@@ -129,10 +129,9 @@ class TestRunner:
             if self.stopped:
                 test_logger.cancel()
                 return
-            if len(stderr) > 0:
-                self.process_error(stderr.decode('utf-8'), src_file, logger)
+            if self.check_for_errors(stderr, src_file, logger):
                 return
-            logger.log('<br/>All tests <span class="passed">PASSED</span><br/><br/>')
+            test_logger.log('<br/>All tests <span class="passed">PASSED</span><br/><br/>')
         except TestStopped:
             pass
         finally:
@@ -157,16 +156,20 @@ class TestRunner:
         pass
 
     @abstractmethod
-    def strip_error_message(self, error: str, file_name: str, code_offset: int) -> str:
+    def get_error_message(self, error: str, file_name: str, code_offset: int) -> str:
         pass
 
-    def process_error(self, error: str, src_file: SrcFile, logger: ConsoleLogger) -> bool:
+    def check_for_errors(self, stderr, src_file: SrcFile, logger: ConsoleLogger) -> bool:
+        error = stderr.decode('utf-8')
+        if not error:
+            return False
         offset = get_code_offset(src_file.text, START_USER_SRC_MARKER)
-        stripped_error = self.strip_error_message(error, src_file.file.name, offset)
-        if stripped_error == '':
-            stripped_error = error
-        stripped_error = stripped_error.replace('\n', '<br>')
-        logger.error(stripped_error)
+        error_msg = self.get_error_message(error, src_file.file.name, offset)
+        if error_msg:
+            error_msg = re.sub('\n+', '<br>', error_msg)
+            logger.error(error_msg)
+            return True
+        return False
 
     def read_test_results(self, output, test_logger: TestLogger) -> bool:
         """
@@ -177,6 +180,8 @@ class TestRunner:
         :return:
         """
         for i, line in enumerate(output, start=1):
+            if self.stopped:
+                return True
             try:
                 dec_line = line.decode('utf-8')
             except AttributeError:

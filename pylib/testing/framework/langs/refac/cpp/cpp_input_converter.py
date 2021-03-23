@@ -36,7 +36,7 @@ class CppInputConverter(TypeConverter):
             \tfor (int i = 0; i < value.size(); i+=2) {
             \t\t{{converters[0].ret_type}} k = {{converters[0].fn_name}}(value[i]);
             \t\t{{converters[1].ret_type}} v = {{converters[1].fn_name}}(value[i + 1]);
-            \t\tresult.insert(k, v);
+            \t\tresult[k] = v;
             \t}
             \treturn result;
         ''', converters=converters, ret_type=ret_type)

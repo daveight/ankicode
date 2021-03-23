@@ -9,7 +9,7 @@ class CppTypeMapper(TypeMapper):
         props, _ = self.get_args(node, context)
         typedef = render_template(''' 
             struct {{type_name}} {
-                {% for prop in props %}\t{{prop.type}} {{prop.name}};\n{% endfor %}}
+                {% for prop in props %}\t{{prop.type}} {{prop.name}};\n{% endfor %}};
             ''', type_name=type_name, props=props)
         context[type_name] = typedef
         return type_name
@@ -22,7 +22,7 @@ class CppTypeMapper(TypeMapper):
 
     def visit_map(self, node: SyntaxTree, context):
         converters = [self.render(child, context) for child in node.nodes]
-        return 'map<' + converters[0] + ', ' + converters[1] + '>',
+        return 'map<' + converters[0] + ', ' + converters[1] + '>'
 
     def visit_int(self, node: SyntaxTree, context):
         return 'int'

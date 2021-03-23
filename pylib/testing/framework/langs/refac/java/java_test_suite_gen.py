@@ -35,9 +35,9 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
                     \t\tmapper = new ObjectMapper();
                     \t\tmapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
                 \t}
-                {% for converter in converters %}
-                    \tstatic {{converter.ret_type}} {{converter.fn_name}}(JsonNode {{converter.arg_name}}) {
-                        \t\t{{converter.src}}
+                {% for c in converters %}
+                    \tstatic {{c.ret_type}} {{c.fn_name}}({{c.arg_type}} {{c.arg_name}}) {
+                        \t\t{{c.src}}
                     \t}
                 {% endfor %}
                 \tpublic static void main(String[] args) throws Exception {
@@ -62,7 +62,7 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
                 \t\t\tlong end = System.nanoTime();
                 \t\t\tlong duration = TimeUnit.MILLISECONDS.convert(end - start, TimeUnit.NANOSECONDS);
                 \t\t\tMap<String, Object> map = new HashMap<>();
-                \t\t\tmap.put("expected", {{converters.input_result.fn_name}}(rows[rows.length-1]));
+                \t\t\tmap.put("expected", rows[rows.length-1]);
                 \t\t\tmap.put("result", {{converters.output_result.fn_name}}(result));
                 \t\t\tmap.put("args", Arrays.asList(
                 {% for converter in converters.input_args %}

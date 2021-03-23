@@ -13,8 +13,7 @@ class CppTemplateGenerator(TemplateGenerator):
         args, type_defs = self.type_mapper.get_args(tree)
         return render_template('''
             /**
-            {% for line in description.split('\n') %}* {{line}} {% endfor %}
-            */
+            {% for line in description.split('\n') %}* {{line}}\n{% endfor %}*/
             {% for type_def in type_defs %}{{ type_def }}{% endfor %}
             class Solution {
             public:

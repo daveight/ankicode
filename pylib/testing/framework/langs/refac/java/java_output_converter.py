@@ -16,13 +16,14 @@ class JavaOutputConverter(TypeConverter):
     def visit_map(self, node: SyntaxTree, context):
         converters = [self.render(child, context) for child in node.nodes]
         src = render_template('''
-            \tList result = new ArrayList();
+            \tList<Object> result = new ArrayList<>();
             \tfor (Map.Entry<{{converters[0].arg_type}}, {{converters[1].arg_type}}> entry : value.entrySet()) {
-            \t\tresult.add({{converters[0].fn_name}}(entry.getKey());
-            \t\tresult.add({{converters[1].fn_name}}(entry.getValue());
+            \t\tresult.add({{converters[0].fn_name}}(entry.getKey()));
+            \t\tresult.add({{converters[1].fn_name}}(entry.getValue()));
             \t}
             return result;''', converters=converters)
-        return ConverterFn(node.name, src, 'Map', 'List')
+        arg_type = 'Map<' + converters[0].arg_type + ', ' + converters[1].arg_type + '>'
+        return ConverterFn(node.name, src, arg_type, 'List')
 
     def visit_int(self, node: SyntaxTree, context):
         t = 'int' if is_primitive_type(node) else 'Integer'
@@ -46,7 +47,7 @@ class JavaOutputConverter(TypeConverter):
     def visit_obj(self, node: SyntaxTree, context):
         converters = [self.render(child, context) for child in node.nodes]
         src = render_template('''
-            \tList result = new ArrayList();
+            \tList<Object> result = new ArrayList<>();
             {% for converter in converters %}
                 \tresult.add({{converter.fn_name}}(value.{{converter.prop_name}}));
             {% endfor %}

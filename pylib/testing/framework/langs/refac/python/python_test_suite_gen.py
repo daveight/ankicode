@@ -15,7 +15,7 @@ class PythonTestSuiteGenerator(TestSuiteGenerator):
         return '''
             import datetime
             import json
-            from typing import List'''
+            from typing import *'''
 
     def _get_testing_src(self, ts: TestSuite, converters: TestSuiteConverters, solution_src: str):
         return solution_src + render_template('''

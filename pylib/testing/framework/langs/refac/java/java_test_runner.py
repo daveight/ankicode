@@ -20,12 +20,20 @@ class JavaTestRunner(TestRunner):
         class_paths = (';' if is_win else ':').join([f'{resource_path}{path}' for path in self.LIBS])
         return f'{resource_path}/libs/jdk/bin/javac -cp {class_paths} {src_file.file.name}'
 
-    def strip_error_message(self, error: str, file_name: str, offset: int) -> str:
+    def get_error_message(self, error: str, file_name: str, offset: int) -> str:
         text = ''
         for error_line in error.split('\n'):
+            if error_line.strip() == '':
+                continue
             lines = error_line.split(file_name)
-            for line in lines[1:]:
-                splitted = line.split(':')
-                line_number = int(splitted[1]) - offset
-                text += str(line_number) + ':' + ''.join(splitted[2:])
+            if lines[0].startswith('Note:'):
+                continue
+            if file_name in error_line:
+                for line in lines[1:]:
+                    splitted = line.split(':')
+                    line_number = int(splitted[1]) - offset
+                    text += str(line_number) + ':' + ''.join(splitted[2:])
+                text += '\n'
+            else:
+                text += error_line + '\n'
         return text

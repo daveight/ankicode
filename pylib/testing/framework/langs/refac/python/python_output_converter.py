@@ -10,7 +10,7 @@ class PythonOutputConverter(TypeConverter):
 
     def visit_list(self, node: SyntaxTree, context):
         child = self.render(node.first_child(), context)
-        return ConverterFn(node.name, 'return value', 'List[' + child.ret_type + ']', 'List[' + child.ret_type + ']')
+        return ConverterFn(node.name, '\treturn value', 'List[' + child.ret_type + ']', 'List[' + child.ret_type + ']')
 
     def visit_map(self, node: SyntaxTree, context):
         converters = [self.render(child, context) for child in node.nodes]

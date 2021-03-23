@@ -79,9 +79,18 @@ class TextImporter(NoteImporter):
         def sub(s):
             return re.sub(r"^\#.*$", "__comment", s)
 
-        self.data = [
-            sub(x) + "\n" for x in self.data.split("\n") if sub(x) != "__comment"
-        ]
+        code_block = False
+        data = []
+        for x in self.data.split('\n'):
+            if re.match('^```\w+$', x):
+                code_block = True
+            elif re.match('^```$', x):
+                code_block = False
+            if not code_block:
+                x = sub(x)
+            if x != '__comment':
+                data.append(x + '\n')
+        self.data = data
         if self.data:
             if self.data[0].startswith("tags:"):
                 tags = str(self.data[0][5:]).strip()

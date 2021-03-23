@@ -14,10 +14,9 @@ class JavaTemplateGenerator(TemplateGenerator):
         args, type_defs = self.type_mapper.get_args(tree)
         return render_template('''
             /**
-            {% for line in description.split('\n') %}* {{line}} {% endfor %}
-            */
-            public class Solution {
+            {% for line in description.split('\n') %}* {{line}}\n{% endfor %}*/
             {% if type_defs|length > 0%}{% for type_def in type_defs %}{{ type_def }}\n{% endfor %}{%endif%}\
+            public class Solution {
             \tpublic {{t}} {{f}}({% for a in p %}{{a.type}} {{a.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
             \t\t//Add code here
             \t}

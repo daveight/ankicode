@@ -21,7 +21,6 @@ def debounce(delay):
         adapted decorator
         :param f: input function
         """
-
         def wrapped(*args, **kwargs):
             """
             wrapped function, sets timer execution for the original function,
@@ -38,47 +37,52 @@ def debounce(delay):
 
     return decorate
 
-
 class TestLogger:
     def __init__(self, console, web, tests_count: int):
         self.console = console
         self.web = web
-        self.progress = 0
-        self.tests_count = tests_count
         self.message_buf = []
         self.valve = throttle.Valve()
         self.active = True
+        self.tests_count = tests_count
         self.index = 0
+        self.progress = 0
 
     def passed(self, index: int, duration_ms: int):
         self.progress = int(float(index / self.tests_count) * 100)
-        self.web.eval("_setProgress(%s);" % json.dumps(str(self.progress)))
         self.log(f'Test <span class="passed">PASSED</span> ({index}/{self.tests_count}) - {duration_ms} ms<br/>')
 
     def fail(self, index: int, args, expected, result):
-        self.web.eval("_setProgressError()")
+        self.progress = -1
         self.log(f'''Test <span class='failed'>FAILED</span> ({index}/{self.tests_count})<br/>
             &nbsp;&nbsp;&nbsp;&nbsp;args: {args}<br/>
             &nbsp;&nbsp;&nbsp;&nbsp;expected: {expected}<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;result: {result}<br/>''', flush_force=True)
+            &nbsp;&nbsp;&nbsp;&nbsp;result: {result}<br/>''', flush=True)
 
     def cancel(self):
-        self.web.eval("_setProgressCancelled();")
-        self.console.log(f'<span class="cancel">Tests execution was interrupted.</span><br/>')
+        self.active = False
         self.message_buf.clear()
+        self.console.log(f'<br/><span class="cancel">Tests execution was interrupted...</span><br/><br/>')
+        self.web.eval('_setProgressCancelled()')
 
-    def log(self, msg: str, flush_force: bool = False):
+    def log(self, msg: str, flush: bool = False):
         self.index += 1
         self.message_buf.append(msg)
         allow = self.valve.check(INVOCATION_DELAY_SEC, INVOCATION_LIMIT, self.index)
-        if flush_force or allow:
+        if flush or allow:
             self.flush_buffer()
         else:
             self.log_debounce()
 
     def flush_buffer(self):
+        if not self.active:
+            return
         self.console.log(''.join(self.message_buf))
         self.message_buf.clear()
+        if self.progress >= 0:
+            self.web.eval('_setProgress(%s)' % json.dumps(str(self.progress)))
+        else:
+            self.web.eval('_setProgressError()')
 
     @debounce(DEBOUNCE_DELAY_SEC)
     def log_debounce(self):
@@ -105,11 +109,11 @@ class ConsoleLogger:
 
     def error(self, msg: str):
         self.log(f'<span class="failed">{msg}</span><br/>')
-        self.web.eval("_setProgressError();")
+        self.web.eval('_setProgressError()')
 
     def log(self, msg: str):
-        self.web.eval("_showConsoleLog(%s);" % json.dumps(msg))
+        self.web.eval('_showConsoleLog(%s)' % json.dumps(msg))
 
     def clear(self):
-        self.web.eval("_cleanConsoleLog();")
-        self.web.eval("_initializeProgress();")
+        self.web.eval('_cleanConsoleLog()')
+        self.web.eval('_initializeProgress()')

@@ -88,6 +88,7 @@ class Reviewer:
 
     def cleanup(self) -> None:
         gui_hooks.reviewer_will_end()
+        stop_tests()
 
     # Fetching a card
     ##########################################################################
@@ -438,7 +439,8 @@ class Reviewer:
 
     def _runTests(self, src):
         self.web.eval("_activateStopButton()")
-        run_tests(self.card, src, self._getCurrentLang(), self._logger, lambda: self.web.eval("_activateRunButton()"))
+        self._runner = run_tests(self.card,src, self._getCurrentLang(), self._logger,
+                                 lambda: self.web.eval("_activateRunButton()"))
 
     def _switchLang(self, lang, src):
         self._codingBuffer[self._getCurrentLang()] = src
@@ -1024,6 +1026,5 @@ time = %(time)d;
         av_player.play_file(self._recordedAudio)
 
     def stopTests(self):
-        lang = self._getCurrentLang()
-        stop_tests(lang)
+        stop_tests()
         self.web.eval("_activateRunButton()")

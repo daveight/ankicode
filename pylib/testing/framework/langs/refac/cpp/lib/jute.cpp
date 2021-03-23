@@ -114,6 +114,13 @@ double jValue::as_double() {
     ss >> k;
     return k;
 }
+long int jValue::as_long() {
+    stringstream ss;
+    ss << svalue;
+    long int k;
+    ss >> k;
+    return k;
+}
 bool jValue::as_bool() {
     if (svalue == "true") return true;
     return false;

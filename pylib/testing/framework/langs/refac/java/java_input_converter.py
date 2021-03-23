@@ -69,6 +69,6 @@ class JavaInputConverter(TypeConverter):
         converters = [self.render(child, context) for child in node.nodes]
         src = render_template('''
             {{type_name}} result = new {{type_name}}();
-            {% for c in converters %}result.{{c.prop_name}} = {{c.fn_name}}(val.get({{loop.index0}}));\n{% endfor %}
+            {% for c in converters %}result.{{c.prop_name}} = {{c.fn_name}}(value.get({{loop.index0}}));\n{% endfor %}
             return result;''', converters=converters, type_name=node.node_type)
         return ConverterFn(node.name, src, 'JsonNode', node.node_type)

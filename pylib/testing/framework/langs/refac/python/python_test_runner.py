@@ -1,10 +1,7 @@
 import re
 from typing import List
-
 from testing.framework.langs.refac.test_runner import TestRunner
 from testing.framework.langs.refac.types import SrcFile
-# from typing import Tuple, List
-
 
 class PythonTestRunner(TestRunner):
     def get_run_cmd(self, src_file: SrcFile, resource_path: str, is_win: bool) -> str:
