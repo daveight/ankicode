@@ -13,7 +13,7 @@ import unicodedata as ucd
 from typing import List, Optional, Tuple
 
 from testing.framework.anki_testing_api import get_solution_template, run_tests, stop_tests
-from testing.framework.runners.console_logger import ConsoleLogger
+from testing.framework.console_logger import ConsoleLogger
 
 from anki import hooks
 from anki.cards import Card

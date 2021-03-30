@@ -269,7 +269,7 @@ class SyntaxTreeVisitor(ABC):
         :param node: target node
         :param data: related data item
         """
-        return None
+        return ''
 
     def render(self, tree: SyntaxTree, context):
         """
