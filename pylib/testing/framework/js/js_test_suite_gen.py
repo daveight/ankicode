@@ -16,7 +16,7 @@ class JsTestSuiteGenerator(TestSuiteGenerator):
     """
 
     def __init__(self):
-        super().__init__({'input': JsInputConverter(), 'output': JsOutputConverter()})
+        super().__init__(input_converter=JsInputConverter(), output_converter=JsOutputConverter())
 
     def get_imports(self):
         """
@@ -39,7 +39,7 @@ class JsTestSuiteGenerator(TestSuiteGenerator):
               input: process.stdin,
               output: process.stdout
             });
-            {% for converter in converters %}
+            {% for converter in converters.all %}
             function {{converter.fn_name}}({{converter.arg_name}}) {
             {{converter.src}}
             }
@@ -49,13 +49,13 @@ class JsTestSuiteGenerator(TestSuiteGenerator):
             \tconst start = new Date().getTime();
             \tconst cols = JSON.parse(line)
             \tconst args = []
-            {% for converter in converters.input_args %}
+            {% for converter in converters.args %}
             \targs.push({{converter.fn_name}}(cols[{{loop.index0}}]));
             {% endfor %}
             \tconst result = {{ts.fn_name}}(...args);
             \tconst end = new Date().getTime();
             \tconsole.log(JSON.stringify({
-            \t\t'result': {{converters.output_result.fn_name}}(result),
+            \t\t'result': {{converters.output.fn_name}}(result),
             \t\t'duration': (start-end)
             \t}));
             });

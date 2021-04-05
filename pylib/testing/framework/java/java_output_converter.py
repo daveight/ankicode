@@ -122,7 +122,7 @@ class JavaOutputConverter(TypeConverter):
         :param context: generation context
         :return: dummy converter fn
         """
-        t = 'bool' if is_primitive_type(node) else 'Boolean'
+        t = 'boolean' if is_primitive_type(node) else 'Boolean'
         return ConverterFn(node.name, 'return value;', t, t)
 
     def visit_obj(self, node: SyntaxTree, context):

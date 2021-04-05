@@ -271,7 +271,7 @@ vector<parser::token> parser::tokenize(string source) {
     return tokens;
 }
 
-
+//TODO: fix the performance - remove recursion
 jValue parser::json_parse(vector<token> v, int i, int& r) {
     jValue current;
     if (v[i].type == CROUSH_OPEN) {

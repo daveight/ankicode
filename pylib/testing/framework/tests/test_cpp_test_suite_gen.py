@@ -24,7 +24,7 @@ class CppTestSuiteGeneratorTests(GeneratorTestCase):
         self.assertEqualsIgnoreWhiteSpaces('''
             #include <vector>
             #include <array>
-            #include "lib/jute.h"
+            #include "cpp_lib/jute.h"
             #include <functional>
             #include <stdexcept>
             #include<string>

@@ -1,9 +1,14 @@
+# Copyright: Daveight and contributors
+# License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
+"""
+Facade API to the Testing framework which is accessed from ANKI
+"""
+
 import sys
 from typing import Tuple, List, Callable, Optional
-
 from anki.cards import Card
 from aqt.utils import run_async
-from testing.framework.lang_factory import get_lang_factory
+from testing.framework.lang_factory import get_lang_factory, AbstractLangFactory
 from testing.framework.test_runner import TestRunner
 from testing.framework.types import TestSuite
 from testing.framework.console_logger import ConsoleLogger
@@ -26,12 +31,12 @@ def parse_anki_card(card: Card) -> Tuple[str, str, List[str]]:
     return fn_name, description, rows
 
 
-def get_solution_template(card: Card, lang: str) -> str:
+def build_test_context(card: Card, lang: str) -> Tuple[SyntaxTree, TestSuite, AbstractLangFactory, List[str]]:
     """
-    Generates test solution template for the given Card and language
+    Builds testing context
     :param card: target card
-    :param lang: target programming language
-    :return: solution template src
+    :param lang: target language
+    :return: tuple of syntax tree, test suite, language factory and list of rows
     """
     fn_name, description, rows = parse_anki_card(card)
     factory = get_lang_factory(lang)
@@ -42,6 +47,17 @@ def get_solution_template(card: Card, lang: str) -> str:
     ts = TestSuite()
     ts.fn_name = fn_name
     ts.description = description
+    return tree, ts, factory, rows
+
+
+def get_solution_template(card: Card, lang: str) -> str:
+    """
+    Generates test solution template for the given Card and language
+    :param card: target card
+    :param lang: target programming language
+    :return: solution template src
+    """
+    tree, ts, factory, _ = build_test_context(card, lang)
     return factory.get_template_generator().get_template(tree, ts)
 
 
@@ -62,17 +78,8 @@ def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger, fncomplete
     if runner is not None:
         raise Exception('Cannot run tests, while another execution is active')
 
-    fn_name, description, rows = parse_anki_card(card)
-    factory = get_lang_factory(lang)
-    if factory is None:
-        raise Exception('Unknown language ' + lang)
-
-    tree = SyntaxTree.of(rows[0].split(';'))
-    ts = TestSuite()
-    ts.fn_name = fn_name
-    ts.description = description
-
     logger.clear()
+    tree, ts, factory, rows = build_test_context(card, lang)
 
     try:
         test_suite_gen = factory.get_test_suite_generator()
@@ -94,5 +101,5 @@ def stop_tests():
     if runner is not None:
         try:
             runner.kill()
-        except Exception:
+        except:
             pass

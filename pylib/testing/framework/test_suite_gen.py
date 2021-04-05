@@ -22,39 +22,18 @@ class TestSuiteConverters:
     - 'input' converters converts json input data to a solution function's arguments
     - 'output' converters converts a solution function's result back to json
 
-    Converters are passed as a dictionary to this class, together with syntax tree
+    Converters are passed to this class, together with syntax tree
     This class allows to reference argument and result converters separately, using their
     type name "input", "output" and suffixes "args" and "result"
-    Allows to iterate every converter function per converter type and suffix
     """
 
-    def __init__(self, converters: Dict[str, TypeConverter], tree: SyntaxTree):
-        self._converters = {}
-        self._registry = []
-        for key in converters:
-            converter = converters[key]
-            result, _ = converter.get_converters(tree, self._registry)
-            self._converters[key + '_args'] = result[:-1]
-            self._converters[key + '_result'] = result[-1]
-
-    def __iter__(self):
-        self._iterator = iter(self._registry)
-        return self
-
-    def __next__(self):
-        return next(self._iterator)
-
-    def __len__(self):
-        return len(self._registry)
-
-    def __getattribute__(self, item):
-        try:
-            return object.__getattribute__(self, item)
-        except AttributeError as e:
-            self.e = e
-            if item not in self._converters:
-                raise AttributeError(e)
-            return self._converters[item]
+    def __init__(self, input_converter: TypeConverter, output_converter: TypeConverter, tree: SyntaxTree):
+        self.all = []
+        converters, _ = input_converter.get_converters(tree, self.all)
+        self.args = converters[:-1]
+        self.result = converters[-1]
+        converters, _ = output_converter.get_converters(tree, self.all)
+        self.output = converters[-1]
 
 
 class TestSuiteGenerator(ABC):
@@ -62,9 +41,10 @@ class TestSuiteGenerator(ABC):
     Base class for generating a test suite for a specific language and a test
     """
 
-    def __init__(self, converters: Dict[str, TypeConverter] = None, line_comment_char: str = '//'):
+    def __init__(self, input_converter: TypeConverter, output_converter: TypeConverter, line_comment_char: str = '//'):
         self._line_comment_char = line_comment_char
-        self._converters = converters
+        self._input_converter = input_converter
+        self._output_converter = output_converter
 
     @abstractmethod
     def get_imports(self) -> str:
@@ -104,5 +84,6 @@ class TestSuiteGenerator(ABC):
         :return: a full test suite source code, ready to execute
         """
         solution_src = self._line_comment_char + START_USER_SRC_MARKER + '\n' + solution_src
-        testing_src = self.get_testing_src(ts, TestSuiteConverters(self._converters, tree), solution_src)
+        test_suite_converters = TestSuiteConverters(self._input_converter, self._output_converter, tree)
+        testing_src = self.get_testing_src(ts, test_suite_converters, solution_src)
         return textwrap.dedent(self.get_imports()) + '\n' + testing_src

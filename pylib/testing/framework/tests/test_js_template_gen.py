@@ -17,7 +17,7 @@ class JsTemplateGeneratorTests(unittest.TestCase):
         tree = SyntaxTree.of(['int[a]', 'int[b]', 'int'])
         self.assertEqual(textwrap.dedent('''
             /**
-            * calculate sum of 2 numbers 
+            * calculate sum of 2 numbers
             */
 
             /**
@@ -38,7 +38,7 @@ class JsTemplateGeneratorTests(unittest.TestCase):
         tree = SyntaxTree.of(['object(int[val])<TypeA>[a]', 'object(int[val])<TypeB>[b]', 'int'])
         self.assertEqual(textwrap.dedent('''
             /**
-            * calculate sum of 2 objects 
+            * calculate sum of 2 objects
             */
 
             /**

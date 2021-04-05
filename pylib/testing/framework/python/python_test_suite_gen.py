@@ -18,8 +18,9 @@ class PythonTestSuiteGenerator(TestSuiteGenerator):
     """
 
     def __init__(self):
-        super().__init__(line_comment_char='#', converters={'input': PythonInputConverter(),
-                                                            'output': PythonOutputConverter()})
+        super().__init__(line_comment_char='#',
+                         input_converter=PythonInputConverter(),
+                         output_converter=PythonOutputConverter())
 
     def get_imports(self) -> str:
         """
@@ -39,7 +40,7 @@ class PythonTestSuiteGenerator(TestSuiteGenerator):
         :return: source code for a test suite
         """
         return solution_src + render_template('''
-            {% for converter in converters %}
+            {% for converter in converters.all %}
             def {{converter.fn_name}}({{converter.arg_name}}) -> {{converter.ret_type}}:
             {{converter.src}}
             {% endfor %}
@@ -47,7 +48,7 @@ class PythonTestSuiteGenerator(TestSuiteGenerator):
             \tline = input()
             \tvalues = json.loads(line)
             \targs = []
-            {% for c in converters.input_args %}
+            {% for c in converters.args %}
             \targs.append({{c.fn_name}}(values[{{loop.index0}}]))
             {% endfor %}
             \tstart = datetime.datetime.now()
@@ -56,6 +57,6 @@ class PythonTestSuiteGenerator(TestSuiteGenerator):
             \ttime_diff = (end - start)
             \tduration = (time_diff.days * 86400000) + (time_diff.seconds * 1000) + (time_diff.microseconds / 1000)
             \tprint(json.dumps({
-            \t\t'result': {{converters.output_result.fn_name}}(result),
+            \t\t'result': {{converters.output.fn_name}}(result),
             \t\t'duration': duration }, default=lambda obj: obj.__dict__))
             ''', ts=ts, solution_src=solution_src, converters=converters, fn_name=to_snake_case(ts.fn_name), retab=True)

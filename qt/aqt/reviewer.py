@@ -265,7 +265,7 @@ class Reviewer:
         a = self._mungeQA(a)
         a = gui_hooks.card_will_show(a, c, "reviewAnswer")
         # render and update bottom
-        self.web.eval("_showAnswer(%s, '', %s);" % (json.dumps(a), json.dumps(self._isCodeQuestion).lower()))
+        self.web.eval("_showAnswer(%s, '', %s);" %(json.dumps(a), json.dumps(self._isCodeQuestion).lower()))
         self._showEaseButtons()
         # user hook
         gui_hooks.reviewer_did_show_answer(c)

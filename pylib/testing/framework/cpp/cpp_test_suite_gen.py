@@ -17,7 +17,7 @@ class CppTestSuiteGenerator(TestSuiteGenerator):
     """
 
     def __init__(self):
-        super().__init__({'input': CppInputConverter(), 'output': CppOutputConverter()})
+        super().__init__(input_converter=CppInputConverter(), output_converter=CppOutputConverter())
 
     def get_imports(self):
         """
@@ -26,7 +26,7 @@ class CppTestSuiteGenerator(TestSuiteGenerator):
         return '''
             \t#include <vector>
             \t#include <array>
-            \t#include "lib/jute.h"
+            \t#include "cpp_lib/jute.h"
             \t#include <functional>
             \t#include <stdexcept>
             \t#include <string>
@@ -42,7 +42,7 @@ class CppTestSuiteGenerator(TestSuiteGenerator):
         """
         return render_template('''
             {{src}}
-            {% for c in converters %}
+            {% for c in converters.all %}
                 {{c.ret_type}} {{c.fn_name}}({{c.arg_type}} {{c.arg_name}}) {
                     {{c.src}}
                 }
@@ -54,12 +54,12 @@ class CppTestSuiteGenerator(TestSuiteGenerator):
             \t\tstd::getline(std::cin, buf);
             \t\tjute::jValue row = jute::parser::parse(buf);
             \t\tauto started = std::chrono::high_resolution_clock::now();
-            \t\t{{converters.input_result.ret_type}} result = solution.{{ts.fn_name}}(
-                {% for converter in converters.input_args %}
+            \t\t{{converters.result.ret_type}} result = solution.{{ts.fn_name}}(
+                {% for converter in converters.args %}
                     \t\t{{converter.fn_name}}(row[{{loop.index0}}]){% if not loop.last %}, {% endif %}
                 {% endfor %});
             \t\tauto done = std::chrono::high_resolution_clock::now();
-            \t\tjute::jValue json_result = {{converters.output_result.fn_name}}(result);
+            \t\tjute::jValue json_result = {{converters.output.fn_name}}(result);
             \t\tjute::jValue response;
             \t\tresponse.set_type(jute::JOBJECT);
             \t\tresponse.add_property("result", json_result);

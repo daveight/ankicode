@@ -40,10 +40,9 @@ class CppTestRunner(TestRunner):
         :param is_win: True - if windows, False - if Unix/MacOS
         :return: shell command to compile a source file
         """
-        curr_path = os.path.dirname(os.path.abspath(__file__))
-        libs_path = f'{curr_path}/lib'
-        return f'export CPATH={resource_path}/libs/clang/headers:{curr_path} &&' + \
-               f'{resource_path}/libs/clang/bin/clang++ -std=c++14 -pedantic ' + \
+        libs_path = f'{resource_path}/cpp_lib'
+        return f'export CPATH={resource_path}/libs/clang/headers:{resource_path} &&' + \
+               f'{resource_path}/libs/clang/bin/clang++ -Werror=return-type -std=c++14 -pedantic ' + \
                f'{libs_path}/*.cpp {src_file.file.name} -o {src_file.file.name}.run'
 
     def get_error_message(self, error: str, file_name: str, code_offset: int) -> str:

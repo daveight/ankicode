@@ -1,9 +1,9 @@
 import textwrap
 import unittest
 
-
 from testing.framework.python.python_type_mapper import PythonTypeMapper
 from testing.framework.syntax.syntax_tree import SyntaxTree
+
 
 class PythonTypeMappingsGeneratorTests(unittest.TestCase):
 
@@ -68,4 +68,3 @@ class PythonTypeMappingsGeneratorTests(unittest.TestCase):
         self.assertEqual(textwrap.dedent('''
             class Edge:\n\tdef __init__(self, a: int, b: int):\n\t\tself.a = a\n\t\tself.b = b
         ''').strip(), type_defs['Edge'].strip())
-

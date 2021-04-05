@@ -34,7 +34,7 @@ class JsTestRunner(TestRunner):
         :param is_win: True - if windows, False if Unix/MacOS
         :return: shell command to execute a source file
         """
-        return f'{resource_path}/libs/node/bin/node {src_file.file.name}'
+        return f'cd {resource_path}/libs/node && {resource_path}/libs/node/bin/node {src_file.file.name}'
 
     def get_error_message(self, error: str, file_name: str, code_offset: int) -> str:
         """

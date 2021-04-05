@@ -87,11 +87,19 @@ def get_code_offset(src: str, user_src_start_marker: str) -> int:
 
 
 class StringBuffer:
+    """
+    Used to store an output of a process. Splits output by lines, allows to iterate them.
+    """
+
     def __init__(self):
         self.lines = []
         self.buffer = ''
 
     def append(self, b: bytes):
+        """
+        Appends a byte buffer to the internal string buffer
+        :param b: byte buffer
+        """
         text = self.buffer + b.decode('utf-8')
         self.buffer = ''
         lines = text.split('\n')
@@ -115,6 +123,16 @@ class StringBuffer:
 
     def __str__(self):
         return '\n'.join(self.lines)
+
+
+def read_pipe(pipe_r, buffer: StringBuffer):
+    """
+    Reads a pipe's output into a StringBuffer
+    :param pipe_r: input pipe
+    :param buffer: target buffer
+    """
+    while len(select.select([pipe_r], [], [], 0)[0]) == 1:
+        buffer.append(os.read(pipe_r, 1024))
 
 
 class TestRunner(ABC):
@@ -173,14 +191,15 @@ class TestRunner(ABC):
                     splt = re.split('(?<!\\\\);', tc)
                     expected_val = json.loads(splt[-1])
                     args = '[' + ','.join(splt[:-1]) + ']'
-                    proc.stdin.write(args + '\n')
+
+                    proc.stdin.write(args + '\r\n')
                     proc.stdin.flush()
                     tst_resp: Optional[TestResponse] = None
                     while tst_resp is None and not self.stopped:
-                        self.read_pipe(pipe_stderr_r, error_buf)
+                        read_pipe(pipe_stderr_r, error_buf)
                         if self.check_for_errors(str(error_buf), src_file, logger):
                             return
-                        self.read_pipe(pipe_stdout_r, stdout_buf)
+                        read_pipe(pipe_stdout_r, stdout_buf)
                         if len(stdout_buf) > 0:
                             for line in stdout_buf:
                                 try:
@@ -201,7 +220,7 @@ class TestRunner(ABC):
                         test_logger.fail(idx, args, expected_val, tst_resp.result)
                         return
             except BrokenPipeError:
-                self.read_pipe(pipe_stderr_r, error_buf)
+                read_pipe(pipe_stderr_r, error_buf)
                 self.check_for_errors(str(error_buf), src_file, logger)
             if self.stopped:
                 test_logger.cancel()
@@ -209,15 +228,6 @@ class TestRunner(ABC):
                 test_logger.log('<br/>All tests <span class="passed">PASSED</span><br/><br/>')
         finally:
             self.kill()
-
-    def read_pipe(self, pipe_r, buffer: StringBuffer):
-        """
-
-        :param pipe_r:
-        :param buffer:
-        """
-        while len(select.select([pipe_r], [], [], 0)[0]) == 1:
-            buffer.append(os.read(pipe_r, 1024))
 
     @abstractmethod
     def get_src_file_name(self) -> str:
@@ -305,7 +315,5 @@ class TestRunner(ABC):
             try:
                 self.stopped = True
                 os.kill(self.pid, 9)
-            except:
-                pass
             finally:
                 self.pid = None

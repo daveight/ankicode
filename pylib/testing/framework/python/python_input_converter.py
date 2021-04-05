@@ -86,7 +86,7 @@ class PythonInputConverter(TypeConverter):
         :param context: generation context
         :return: converter fn
         """
-        self.visit_int(node, context)
+        return self.visit_int(node, context)
 
     def visit_float(self, node: SyntaxTree, context):
         """

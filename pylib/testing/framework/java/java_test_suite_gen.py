@@ -18,7 +18,7 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
     """
 
     def __init__(self):
-        super().__init__({'input': JavaInputConverter(), 'output': JavaOutputConverter()})
+        super().__init__(input_converter=JavaInputConverter(), output_converter=JavaOutputConverter())
 
     def get_imports(self):
         """
@@ -55,7 +55,7 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
                     \t\tmapper = new ObjectMapper();
                     \t\tmapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
                 \t}
-                {% for c in converters %}
+                {% for c in converters.all %}
                     \tstatic {{c.ret_type}} {{c.fn_name}}({{c.arg_type}} {{c.arg_name}}) {
                         \t\t{{c.src}}
                     \t}
@@ -72,14 +72,14 @@ class JavaTestSuiteGenerator(TestSuiteGenerator):
                 \t\t\tString line = scanner.nextLine();
                 \t\t\tJsonNode rows = mapper.readTree(line);
                 \t\t\tlong start = System.nanoTime();
-                \t\t\t\t{{converters.input_result.ret_type}} result = solution.{{fn_name}}(
-                {% for converter in converters.input_args %}
+                \t\t\t\t{{converters.result.ret_type}} result = solution.{{fn_name}}(
+                {% for converter in converters.args %}
                     \t\t\t\t{{converter.fn_name}}(rows.get({{loop.index0}})){% if not loop.last %}, {% endif %}
                 {% endfor %});
                 \t\t\tlong end = System.nanoTime();
                 \t\t\tlong duration = TimeUnit.MILLISECONDS.convert(end - start, TimeUnit.NANOSECONDS);
                 \t\t\tMap<String, Object> map = new HashMap<>();
-                \t\t\tmap.put("result", {{converters.output_result.fn_name}}(result));
+                \t\t\tmap.put("result", {{converters.output.fn_name}}(result));
                 \t\t\tmap.put("duration", duration);
                 \t\t\tSystem.out.println(getJson(map));
                 \t\t\tSystem.out.flush();

@@ -1,7 +1,5 @@
-import textwrap
 import unittest
 
-from testing.framework.java.java_input_converter import JavaInputConverter
 from testing.framework.java.java_output_converter import JavaOutputConverter
 from testing.framework.types import ConverterFn
 from testing.framework.syntax.syntax_tree import SyntaxTree

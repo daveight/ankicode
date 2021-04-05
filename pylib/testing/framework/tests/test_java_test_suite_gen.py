@@ -1,7 +1,4 @@
-import unittest
-
 from testing.framework.java.java_test_suite_gen import JavaTestSuiteGenerator
-from testing.framework.java.java_type_mapper import JavaTypeMapper
 from testing.framework.tests.test_utils import GeneratorTestCase
 from testing.framework.types import TestSuite, ConverterFn
 from testing.framework.syntax.syntax_tree import SyntaxTree

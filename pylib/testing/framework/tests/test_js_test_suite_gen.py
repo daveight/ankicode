@@ -1,8 +1,4 @@
-import textwrap
-import unittest
-
 from testing.framework.js.js_test_suite_gen import JsTestSuiteGenerator
-from testing.framework.js.js_type_mapper import JsTypeMapper
 from testing.framework.tests.test_utils import GeneratorTestCase
 from testing.framework.types import TestSuite, ConverterFn
 from testing.framework.syntax.syntax_tree import SyntaxTree

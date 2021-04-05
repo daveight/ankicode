@@ -1,28 +1,55 @@
+# Copyright: Daveight and contributors
+# License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
+"""
+Syntax Tree API
+"""
+
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import List
 
 from typing_extensions import Type
 
+
 def validate_list(node: SyntaxTree):
+    """
+    Validates a node with List type
+    :param node: target node
+    :raises Exception if size of inner nodes is not 1 (list can have exactly only 1 inner type)
+    """
     if len(node.nodes) != 1:
         raise Exception('Array/List can have only 1 inner-type')
 
+
 def validate_map(node: SyntaxTree):
+    """
+    Validates a node with Map type
+    :param node: target node
+    :raises Exception if size of inner nodes is not 2 (maps can have exactly only 2 inner type: key and value)
+    """
     if len(node.nodes) != 2:
         raise Exception('Map must have 2 inner-types: key and value')
 
+
 def validate_primitive(node: SyntaxTree):
+    """
+    Validates a node with non-container type (int, long, string, float, boolean)
+    :param node: target node
+    :raises Exception if size of inner nodes is not empty
+    """
     if len(node.nodes) > 0:
         raise Exception('Primitive type cannot have inner-types')
 
+
 def is_primitive_type(node: SyntaxTree):
     return node.parent.is_root() or node.parent.is_array_type() or node.parent.user_type
+
 
 class SyntaxTree:
     """
     Tree structure to store parsed typing expression for a particular test suite
     """
+
     def __init__(self, parent: SyntaxTree = None, node_type: str = None, user_type: bool = False):
         self.parent = parent
         self.node_type = node_type.strip() if node_type is not None else 'root'

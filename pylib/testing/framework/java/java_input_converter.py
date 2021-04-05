@@ -134,8 +134,8 @@ class JavaInputConverter(TypeConverter):
         :param context: generation context
         :return: converter fn
         """
-        return ConverterFn(node.name, 'return value.asBool();', 'JsonNode',
-                           'bool' if is_primitive_type(node) else 'Boolean')
+        return ConverterFn(node.name, 'return value.asBoolean();', 'JsonNode',
+                           'boolean' if is_primitive_type(node) else 'Boolean')
 
     def visit_obj(self, node: SyntaxTree, context):
         """
