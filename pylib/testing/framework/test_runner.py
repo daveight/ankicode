@@ -47,14 +47,14 @@ def get_resource_path():
     Returns the Resource's base path, depending on the current OS
     :return: the path of the Resources folder in the system
     """
-    result = '/opt/dev/dave8/anki/testing'
+    # result = '/opt/dev/dave8/anki/testing'
     # result = 'C:\\Users\\zaksh\\anki_builds\\anki\\testing'
-    # if isWin:
-    #     result = sys._MEIPASS
-    # elif isMac:
-    #     result = os.environ['RESOURCEPATH']
-    # else:
-    #     raise Exception('not supported OS')
+    if isWin:
+        result = sys._MEIPASS
+    elif isMac:
+        result = os.environ['RESOURCEPATH']
+    else:
+        raise Exception('not supported OS')
     return '"' + result + '"'
 
 
