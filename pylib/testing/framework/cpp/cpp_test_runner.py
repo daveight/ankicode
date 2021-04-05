@@ -40,6 +40,8 @@ class CppTestRunner(TestRunner):
         :param is_win: True - if windows, False - if Unix/MacOS
         :return: shell command to compile a source file
         """
+
+        #C:\Users\zaksh\Downloads\MinGW - master\MinGW - master\MinGW\bin > "g++.exe" C:\Users\zaksh\Desktop\hello.cpp - static - liconv - o C:\Users\zaksh\Desktop\hello.exe
         libs_path = f'{resource_path}/cpp_lib'
         return f'export CPATH={resource_path}/libs/clang/headers:{resource_path} &&' + \
                f'{resource_path}/libs/clang/bin/clang++ -Werror=return-type -std=c++14 -pedantic ' + \

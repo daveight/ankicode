@@ -15,11 +15,10 @@ import re
 from abc import abstractmethod, ABC
 from json import JSONDecodeError
 from os.path import normpath
-from threading import Thread
 from typing import List, Optional
-from queue import Queue
 
 from deepdiff import DeepDiff
+from testing.framework.io_utils import non_blocking_readlines
 
 from testing.framework.test_suite_gen import START_USER_SRC_MARKER
 from testing.framework.types import SrcFile, TestResponse
@@ -27,7 +26,6 @@ from testing.framework.console_logger import ConsoleLogger, TestLogger
 
 isMac = sys.platform.startswith("darwin")
 isWin = sys.platform.startswith("win32")
-isLin = not isMac and not isWin
 
 
 def create_src_file(src: str, name: str) -> SrcFile:
@@ -50,6 +48,7 @@ def get_resource_path():
     :return: the path of the Resources folder in the system
     """
     result = '/opt/dev/dave8/anki/testing'
+    # result = 'C:\\Users\\zaksh\\anki_builds\\anki\\testing'
     # if isWin:
     #     result = sys._MEIPASS
     # elif isMac:
@@ -102,10 +101,10 @@ class TestRunner(ABC):
         self.stopped = False
 
     def enqueue_output(self, out, queue):
-        for line in iter(out.readline, b''):
+        for line in iter(non_blocking_readlines(out)):
             if self.stopped:
                 break
-            queue.put(line)
+            queue.put(line.decode('utf-8'))
         print('closing!')
         out.close()
 
@@ -126,6 +125,7 @@ class TestRunner(ABC):
 
         compile_cmd = self.get_compile_cmd(src_file, resource_path, False)
         if compile_cmd is not None:
+            compile_cmd = normpath(compile_cmd)
             logger.info('Compiling...')
             proc = subprocess.Popen(compile_cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE, text=True)
@@ -136,46 +136,35 @@ class TestRunner(ABC):
                 return
 
         logger.info('Running tests...<br/>')
-        run_cmd = self.get_run_cmd(src_file, resource_path, False)
+        run_cmd = self.get_run_cmd(src_file, resource_path, isWin)
         run_cmd = normpath(run_cmd)
-
-        ON_POSIX = 'posix' in sys.builtin_module_names
 
         try:
             proc = subprocess.Popen(run_cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                    stderr=subprocess.PIPE, text=True, bufsize=1, close_fds=ON_POSIX)
-            stdout_q = Queue()
-            stdout_t = Thread(target=self.enqueue_output, args=(proc.stdout, stdout_q))
-            stdout_t.daemon = True
-            stdout_t.start()
-
-            stderr_q = Queue()
-            stderr_t = Thread(target=self.enqueue_output, args=(proc.stderr, stderr_q))
-            stderr_t.daemon = True
-            stderr_t.start()
-
+                                    stderr=subprocess.PIPE, text=True)
             self.pid = proc.pid
 
             for idx, tc in enumerate(test_cases[1:], start=1):
-                if proc.poll() is not None:
-                    break
                 splt = re.split('(?<!\\\\);', tc)
                 expected_val = json.loads(splt[-1])
                 args = '[' + ','.join(splt[:-1]) + ']'
 
-                proc.stdin.write(args + '\r\n')
+                proc.stdin.write(args + '\n')
                 proc.stdin.flush()
                 tst_resp: Optional[TestResponse] = None
                 error = ''
                 while tst_resp is None and not self.stopped:
-                    while not stderr_q.empty():
-                        error += stderr_q.get_nowait()
+                    for line in non_blocking_readlines(proc.stderr):
+                        if not line:
+                            break
+                        error += line.decode('utf-8')
                     if error and self.check_for_errors(error, src_file, logger):
                         return
-                    if stdout_q.empty():
-                        continue
-                    line = stdout_q.get_nowait()
-                    if len(line) > 0:
+                    for line in non_blocking_readlines(proc.stdout):
+                        if self.stopped:
+                            test_logger.cancel()
+                        if not line:
+                            continue
                         try:
                             tst_resp = json.loads(line, object_hook=lambda d: TestResponse(**d))
                         except JSONDecodeError:
@@ -197,6 +186,9 @@ class TestRunner(ABC):
                 test_logger.cancel()
             else:
                 test_logger.log('<br/>All tests <span class="passed">PASSED</span><br/><br/>')
+        except BrokenPipeError:
+            if self.stopped:
+                test_logger.cancel()
         finally:
             self.kill()
 
