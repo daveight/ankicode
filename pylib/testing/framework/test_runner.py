@@ -7,14 +7,17 @@ Test Runner API
 import json
 import numbers
 import os
-import select
+import signal
 import subprocess
 import sys
 import tempfile
 import re
 from abc import abstractmethod, ABC
 from json import JSONDecodeError
+from os.path import normpath
+from threading import Thread
 from typing import List, Optional
+from queue import Queue
 
 from deepdiff import DeepDiff
 
@@ -86,55 +89,6 @@ def get_code_offset(src: str, user_src_start_marker: str) -> int:
     return len(src[:start_src_index].split('\n'))
 
 
-class StringBuffer:
-    """
-    Used to store an output of a process. Splits output by lines, allows to iterate them.
-    """
-
-    def __init__(self):
-        self.lines = []
-        self.buffer = ''
-
-    def append(self, b: bytes):
-        """
-        Appends a byte buffer to the internal string buffer
-        :param b: byte buffer
-        """
-        text = self.buffer + b.decode('utf-8')
-        self.buffer = ''
-        lines = text.split('\n')
-        for i, line in enumerate(lines):
-            if i < len(lines) - 1:
-                self.lines.append(line)
-            else:
-                self.buffer = line
-
-    def __iter__(self):
-        self.iterator = iter(self.lines)
-        return self
-
-    def __next__(self):
-        result = next(self.iterator)
-        self.lines.remove(result)
-        return result
-
-    def __len__(self):
-        return len(self.lines)
-
-    def __str__(self):
-        return '\n'.join(self.lines)
-
-
-def read_pipe(pipe_r, buffer: StringBuffer):
-    """
-    Reads a pipe's output into a StringBuffer
-    :param pipe_r: input pipe
-    :param buffer: target buffer
-    """
-    while len(select.select([pipe_r], [], [], 0)[0]) == 1:
-        buffer.append(os.read(pipe_r, 1024))
-
-
 class TestRunner(ABC):
     """
     Base class for language specific test suite runners:
@@ -146,6 +100,14 @@ class TestRunner(ABC):
     def __init__(self):
         self.pid = None
         self.stopped = False
+
+    def enqueue_output(self, out, queue):
+        for line in iter(out.readline, b''):
+            if self.stopped:
+                break
+            queue.put(line)
+        print('closing!')
+        out.close()
 
     def run(self, src_code: str, test_cases: List[str], logger: ConsoleLogger):
         """
@@ -175,53 +137,62 @@ class TestRunner(ABC):
 
         logger.info('Running tests...<br/>')
         run_cmd = self.get_run_cmd(src_file, resource_path, False)
-        (pipe_stdout_r, pipe_stdout_w) = os.pipe()
-        (pipe_stderr_r, pipe_stderr_w) = os.pipe()
+        run_cmd = normpath(run_cmd)
+
+        ON_POSIX = 'posix' in sys.builtin_module_names
 
         try:
-            proc = subprocess.Popen(run_cmd, shell=True, stdin=subprocess.PIPE, stdout=pipe_stdout_w,
-                                    stderr=pipe_stderr_w, text=True)
-            self.pid = proc.pid
-            stdout_buf = StringBuffer()
-            error_buf = StringBuffer()
-            try:
-                for idx, tc in enumerate(test_cases[1:], start=1):
-                    if proc.poll() is not None:
-                        break
-                    splt = re.split('(?<!\\\\);', tc)
-                    expected_val = json.loads(splt[-1])
-                    args = '[' + ','.join(splt[:-1]) + ']'
+            proc = subprocess.Popen(run_cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE, text=True, bufsize=1, close_fds=ON_POSIX)
+            stdout_q = Queue()
+            stdout_t = Thread(target=self.enqueue_output, args=(proc.stdout, stdout_q))
+            stdout_t.daemon = True
+            stdout_t.start()
 
-                    proc.stdin.write(args + '\r\n')
-                    proc.stdin.flush()
-                    tst_resp: Optional[TestResponse] = None
-                    while tst_resp is None and not self.stopped:
-                        read_pipe(pipe_stderr_r, error_buf)
-                        if self.check_for_errors(str(error_buf), src_file, logger):
-                            return
-                        read_pipe(pipe_stdout_r, stdout_buf)
-                        if len(stdout_buf) > 0:
-                            for line in stdout_buf:
-                                try:
-                                    tst_resp = json.loads(line, object_hook=lambda d: TestResponse(**d))
-                                except JSONDecodeError:
-                                    pass
-                                if not tst_resp or (tst_resp.result is None and tst_resp.duration is None):
-                                    logger.info(line)
-                                else:
-                                    break
-                    if self.stopped:
-                        test_logger.cancel()
+            stderr_q = Queue()
+            stderr_t = Thread(target=self.enqueue_output, args=(proc.stderr, stderr_q))
+            stderr_t.daemon = True
+            stderr_t.start()
+
+            self.pid = proc.pid
+
+            for idx, tc in enumerate(test_cases[1:], start=1):
+                if proc.poll() is not None:
+                    break
+                splt = re.split('(?<!\\\\);', tc)
+                expected_val = json.loads(splt[-1])
+                args = '[' + ','.join(splt[:-1]) + ']'
+
+                proc.stdin.write(args + '\r\n')
+                proc.stdin.flush()
+                tst_resp: Optional[TestResponse] = None
+                error = ''
+                while tst_resp is None and not self.stopped:
+                    while not stderr_q.empty():
+                        error += stderr_q.get_nowait()
+                    if error and self.check_for_errors(error, src_file, logger):
                         return
-                    assert tst_resp is not None
-                    if compare(tst_resp.result, expected_val):
-                        test_logger.passed(idx, tst_resp.duration)
-                    else:
-                        test_logger.fail(idx, args, expected_val, tst_resp.result)
-                        return
-            except BrokenPipeError:
-                read_pipe(pipe_stderr_r, error_buf)
-                self.check_for_errors(str(error_buf), src_file, logger)
+                    if stdout_q.empty():
+                        continue
+                    line = stdout_q.get_nowait()
+                    if len(line) > 0:
+                        try:
+                            tst_resp = json.loads(line, object_hook=lambda d: TestResponse(**d))
+                        except JSONDecodeError:
+                            pass
+                        if not tst_resp or (tst_resp.result is None and tst_resp.duration is None):
+                            logger.info(line)
+                        else:
+                            break
+                if self.stopped:
+                    test_logger.cancel()
+                    return
+                assert tst_resp is not None
+                if compare(tst_resp.result, expected_val):
+                    test_logger.passed(idx, tst_resp.duration)
+                else:
+                    test_logger.fail(idx, args, expected_val, tst_resp.result)
+                    return
             if self.stopped:
                 test_logger.cancel()
             else:
@@ -314,6 +285,8 @@ class TestRunner(ABC):
         if self.pid is not None:
             try:
                 self.stopped = True
-                os.kill(self.pid, 9)
+                os.kill(self.pid, signal.SIGKILL)
+            except:
+                pass
             finally:
                 self.pid = None

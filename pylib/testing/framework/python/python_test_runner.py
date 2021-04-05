@@ -29,7 +29,7 @@ class PythonTestRunner(TestRunner):
         else:
             cmd = f'PYTHONPATH={resource_path}/libs/python/3.9/lib/python3.9:{resource_path}' + \
                   '/libs/python/3.9/lib/python3.9/lib-dynload ' + \
-                  f'{resource_path}/libs/python/3.9/bin/python3 -u {src_file.file.name}',
+                  f'{resource_path}/libs/python/3.9/bin/python3 -u {src_file.file.name}'
         return cmd
 
     def get_compile_cmd(self, src_file: SrcFile, resource_path: str, is_win: bool) -> str:
