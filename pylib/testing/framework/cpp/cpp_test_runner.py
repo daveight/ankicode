@@ -7,6 +7,7 @@ C++ Test Runner API Implementation
 import os
 from testing.framework.test_runner import TestRunner
 from testing.framework.types import SrcFile
+from os.path import normpath
 
 
 class CppTestRunner(TestRunner):
@@ -41,11 +42,15 @@ class CppTestRunner(TestRunner):
         :return: shell command to compile a source file
         """
 
-        #C:\Users\zaksh\Downloads\MinGW - master\MinGW - master\MinGW\bin > "g++.exe" C:\Users\zaksh\Desktop\hello.cpp - static - liconv - o C:\Users\zaksh\Desktop\hello.exe
         libs_path = f'{resource_path}/cpp_lib'
-        return f'export CPATH={resource_path}/libs/clang/headers:{resource_path} &&' + \
-               f'{resource_path}/libs/clang/bin/clang++ -Werror=return-type -std=c++14 -pedantic ' + \
-               f'{libs_path}/*.cpp {src_file.file.name} -o {src_file.file.name}.run'
+        if is_win:
+            os.chdir(normpath(f'{resource_path}/libs/cpp/bin'))
+            return f'{resource_path}/libs/cpp/bin/g++.exe {libs_path}/cpp_lib/*.cpp {src_file.file.name} ' + \
+                   f'-I {libs_path} -liconv -static -std=c++11 -o {src_file.file.name}.run'
+        else:
+            return f'export CPATH={resource_path}/libs/clang/headers:{resource_path} &&' + \
+                   f'{resource_path}/libs/clang/bin/clang++ -Werror=return-type -std=c++14 -pedantic ' + \
+                   f'{libs_path}/*.cpp {src_file.file.name} -o {src_file.file.name}.run'
 
     def get_error_message(self, error: str, file_name: str, code_offset: int) -> str:
         """

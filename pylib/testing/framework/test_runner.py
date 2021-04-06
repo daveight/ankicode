@@ -5,13 +5,12 @@ Test Runner API
 """
 
 import json
-import numbers
 import os
-import signal
 import subprocess
 import sys
 import tempfile
 import re
+import psutil
 from abc import abstractmethod, ABC
 from json import JSONDecodeError
 from os.path import normpath
@@ -22,7 +21,7 @@ from testing.framework.io_utils import non_blocking_readlines
 
 from testing.framework.test_suite_gen import START_USER_SRC_MARKER
 from testing.framework.types import SrcFile, TestResponse
-from testing.framework.console_logger import ConsoleLogger, TestLogger
+from testing.framework.console_logger import ConsoleLogger
 
 isMac = sys.platform.startswith("darwin")
 isWin = sys.platform.startswith("win32")
@@ -47,7 +46,7 @@ def get_resource_path():
     Returns the Resource's base path, depending on the current OS
     :return: the path of the Resources folder in the system
     """
-    # result = '/opt/dev/dave8/anki/testing'
+    #result = '/opt/dev/dave8/anki/testing'
     # result = 'C:\\Users\\zaksh\\anki_builds\\anki\\testing'
     if isWin:
         result = sys._MEIPASS
@@ -55,19 +54,7 @@ def get_resource_path():
         result = os.environ['RESOURCEPATH']
     else:
         raise Exception('not supported OS')
-    return '"' + result + '"'
-
-
-def are_same_numbers(arg1, arg2):
-    """
-    Checks if both arguments are of numerical type and the delta between them is less than 1e-4
-    :param arg1: first arg
-    :param arg2: second arg
-    :return: True - args both numbers and their values are equal, False - otherwise
-    """
-    if isinstance(arg1, numbers.Number) and isinstance(arg2, numbers.Number):
-        if abs(arg1 - arg2) < 0.0001:
-            return True
+    return result
 
 
 def compare(obj1, obj2) -> bool:
@@ -100,14 +87,6 @@ class TestRunner(ABC):
         self.pid = None
         self.stopped = False
 
-    def enqueue_output(self, out, queue):
-        for line in iter(non_blocking_readlines(out)):
-            if self.stopped:
-                break
-            queue.put(line.decode('utf-8'))
-        print('closing!')
-        out.close()
-
     def run(self, src_code: str, test_cases: List[str], logger: ConsoleLogger):
         """
         Submits a source code for execution
@@ -123,10 +102,10 @@ class TestRunner(ABC):
         test_logger = logger.get_testing_logger(len(test_cases) - 1)
         self.stopped = False
 
-        compile_cmd = self.get_compile_cmd(src_file, resource_path, False)
-        if compile_cmd is not None:
-            compile_cmd = normpath(compile_cmd)
+        compile_cmd = self.get_compile_cmd(src_file, resource_path, isWin)
+        if compile_cmd:
             logger.info('Compiling...')
+            compile_cmd = normpath(compile_cmd)
             proc = subprocess.Popen(compile_cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE, text=True)
             self.pid = proc.pid
@@ -170,7 +149,7 @@ class TestRunner(ABC):
                         except JSONDecodeError:
                             pass
                         if not tst_resp or (tst_resp.result is None and tst_resp.duration is None):
-                            logger.info(line)
+                            logger.info(line.decode('utf-8'))
                         else:
                             break
                 if self.stopped:
@@ -248,37 +227,19 @@ class TestRunner(ABC):
             return True
         return False
 
-    def read_test_results(self, output, test_logger: TestLogger) -> bool:
-        """
-        Reads stdout, every line is decoded to json and compared with the expected result
-        if results not match, test is execution is stopped
-        :param output: test stdout
-        :param test_logger: console logger
-        :return: True all test cases passed successfully, False otherwise
-        """
-        for i, line in enumerate(output, start=1):
-            if self.stopped:
-                return True
-            try:
-                tc = json.loads(line)
-            except JSONDecodeError:
-                return False
-            if compare(tc['expected'], tc['result']):
-                test_logger.passed(i, tc['duration'])
-            else:
-                test_logger.fail(i, tc['args'], tc['expected'], tc['result'])
-                return False
-        return True
-
     def kill(self):
         """
         Stop currently executing processes
         """
         if self.pid is not None:
             try:
-                self.stopped = True
-                os.kill(self.pid, signal.SIGKILL)
+                parent = psutil.Process(self.pid)
+                children = parent.children(recursive=True)
+                for child in children:
+                    child.kill()
+                psutil.wait_procs(children, timeout=5)
             except:
                 pass
             finally:
+                self.stopped = True
                 self.pid = None

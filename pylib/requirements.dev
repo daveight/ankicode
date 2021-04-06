@@ -9,3 +9,4 @@ stringcase==1.2.0
 throttle
 deepdiff
 Jinja2
+psutil
