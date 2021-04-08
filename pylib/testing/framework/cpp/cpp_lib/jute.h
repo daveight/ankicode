@@ -50,7 +50,7 @@ namespace jute {
         static int skip_whitespaces(const std::string& source, int i);
 
         static std::vector<token> tokenize(std::string source);
-        static jValue json_parse(std::vector<token> v, int i, int& r);
+        static jValue json_parse(const std::vector<token>& v, int i, int& r);
     public:
         static jValue parse(const std::string& str);
         static jValue parse_file(const std::string& str);

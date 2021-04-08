@@ -271,8 +271,7 @@ vector<parser::token> parser::tokenize(string source) {
     return tokens;
 }
 
-//TODO: fix the performance - remove recursion
-jValue parser::json_parse(vector<token> v, int i, int& r) {
+jValue parser::json_parse(const vector<token>& v, int i, int& r) {
     jValue current;
     if (v[i].type == CROUSH_OPEN) {
         current.set_type(JOBJECT);
@@ -331,7 +330,8 @@ jValue parser::json_parse(vector<token> v, int i, int& r) {
 
 jValue parser::parse(const string& str) {
     int k;
-    return json_parse(tokenize(str), 0, k);
+    const std::vector<token>& v = tokenize(str);
+    return json_parse(v, 0, k);
 }
 
 jValue parser::parse_file(const string& filename) {
