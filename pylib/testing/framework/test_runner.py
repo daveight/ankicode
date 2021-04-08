@@ -54,7 +54,7 @@ def get_resource_path():
         result = os.environ['RESOURCEPATH']
     else:
         raise Exception('not supported OS')
-    return result
+    return '"' + result + '"'
 
 
 def compare(obj1, obj2) -> bool:
