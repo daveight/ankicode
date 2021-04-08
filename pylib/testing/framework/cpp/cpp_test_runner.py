@@ -4,10 +4,8 @@
 C++ Test Runner API Implementation
 """
 
-import os
 from testing.framework.test_runner import TestRunner
 from testing.framework.types import SrcFile
-from os.path import normpath
 
 
 class CppTestRunner(TestRunner):
@@ -41,12 +39,10 @@ class CppTestRunner(TestRunner):
         :param is_win: True - if windows, False - if Unix/MacOS
         :return: shell command to compile a source file
         """
-
         libs_path = f'{resource_path}/cpp_lib'
         if is_win:
-            os.chdir(normpath(f'{resource_path}/libs/cpp/bin'))
-            return f'{resource_path}/libs/cpp/bin/g++.exe {libs_path}/cpp_lib/*.cpp {src_file.file.name} ' + \
-                   f'-I {libs_path} -liconv -static -std=c++11 -o {src_file.file.name}.run'
+            return f'{resource_path}/libs/cpp/bin/g++.exe {libs_path}/*.cpp {src_file.file.name} ' + \
+                   f'-I {resource_path} -liconv -static -std=c++11 -o {src_file.file.name}.run'
         else:
             return f'export CPATH={resource_path}/libs/clang/headers:{resource_path} &&' + \
                    f'{resource_path}/libs/clang/bin/clang++ -Werror=return-type -std=c++14 -pedantic ' + \
@@ -71,8 +67,14 @@ class CppTestRunner(TestRunner):
                 lines = error_line.split(file_name)
                 for line in lines[1:]:
                     splitted = line.split(':')
-                    line_number = int(splitted[1]) - code_offset
-                    text += str(line_number) + ':' + ''.join(splitted[2:])
+                    try:
+                        line_number = int(splitted[1]) - code_offset
+                    except:
+                        line_number = None
+                    if line_number:
+                        text += str(line_number) + ':'
+                    idx = 2 if line_number is not None else 0
+                    text += ' '.join(splitted[idx:]) + '\n'
             elif not is_warn:
                 text += error_line + '\n'
         return text

@@ -11,6 +11,7 @@ import sys
 import tempfile
 import re
 import psutil
+import time
 from abc import abstractmethod, ABC
 from json import JSONDecodeError
 from os.path import normpath
@@ -46,8 +47,7 @@ def get_resource_path():
     Returns the Resource's base path, depending on the current OS
     :return: the path of the Resources folder in the system
     """
-    #result = '/opt/dev/dave8/anki/testing'
-    # result = 'C:\\Users\\zaksh\\anki_builds\\anki\\testing'
+    # result = '/opt/dev/dave8/anki/testing'
     if isWin:
         result = sys._MEIPASS
     elif isMac:
@@ -102,26 +102,27 @@ class TestRunner(ABC):
         test_logger = logger.get_testing_logger(len(test_cases) - 1)
         self.stopped = False
 
-        compile_cmd = self.get_compile_cmd(src_file, resource_path, isWin)
-        if compile_cmd:
-            logger.info('Compiling...')
-            compile_cmd = normpath(compile_cmd)
-            proc = subprocess.Popen(compile_cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                    stderr=subprocess.PIPE, text=True)
-            self.pid = proc.pid
-            stdout, stderr = proc.communicate()
-            if self.check_for_errors(stderr, src_file, logger):
-                self.kill()
-                return
-
-        logger.info('Running tests...<br/>')
-        run_cmd = self.get_run_cmd(src_file, resource_path, isWin)
-        run_cmd = normpath(run_cmd)
-
         try:
+            compile_cmd = self.get_compile_cmd(src_file, resource_path, isWin)
+            if compile_cmd:
+                logger.info('Compiling...')
+                compile_cmd = normpath(compile_cmd)
+                proc = subprocess.Popen(compile_cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE, text=True)
+                self.pid = proc.pid
+                stdout, stderr = proc.communicate()
+                if self.check_for_errors(stderr, src_file, logger):
+                    return
+
+            logger.info('Running tests...<br/>')
+            run_cmd = self.get_run_cmd(src_file, resource_path, isWin)
+            run_cmd = normpath(run_cmd)
+
             proc = subprocess.Popen(run_cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE, text=True)
             self.pid = proc.pid
+            line_iterator = non_blocking_readlines(proc.stdout)
+            error_iterator = non_blocking_readlines(proc.stderr)
 
             for idx, tc in enumerate(test_cases[1:], start=1):
                 splt = re.split('(?<!\\\\);', tc)
@@ -133,17 +134,20 @@ class TestRunner(ABC):
                 tst_resp: Optional[TestResponse] = None
                 error = ''
                 while tst_resp is None and not self.stopped:
-                    for line in non_blocking_readlines(proc.stderr):
+                    for line in error_iterator:
                         if not line:
                             break
+                        time.sleep(0.2)  # wait till all output will be collected
                         error += line.decode('utf-8')
                     if error and self.check_for_errors(error, src_file, logger):
                         return
-                    for line in non_blocking_readlines(proc.stdout):
+                    error = ''
+                    for line in line_iterator:
                         if self.stopped:
                             test_logger.cancel()
+                            return
                         if not line:
-                            continue
+                            break
                         try:
                             tst_resp = json.loads(line, object_hook=lambda d: TestResponse(**d))
                         except JSONDecodeError:
@@ -238,6 +242,7 @@ class TestRunner(ABC):
                 for child in children:
                     child.kill()
                 psutil.wait_procs(children, timeout=5)
+                parent.kill()
             except:
                 pass
             finally:
