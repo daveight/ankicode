@@ -3,7 +3,7 @@
 """
 Java Test Runner API Implementation
 """
-
+from testing.framework.string_utils import get_line_number_prefix
 from testing.framework.test_runner import TestRunner
 from testing.framework.types import SrcFile
 
@@ -68,8 +68,8 @@ class JavaTestRunner(TestRunner):
             if file_name in error_line:
                 for line in lines[1:]:
                     splitted = line.split(':')
-                    line_number = int(splitted[1]) - code_offset
-                    text += str(line_number) + ':' + ''.join(splitted[2:])
+                    line_prefix = get_line_number_prefix(splitted[1], code_offset)
+                    text += (line_prefix + ' ' if line_prefix else '') + ''.join(splitted[2:])
                 text += '\n'
             else:
                 text += error_line + '\n'

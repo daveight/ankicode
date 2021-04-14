@@ -69,3 +69,22 @@ def to_camel_case(name: str) -> str:
     """
     result = ''.join([x[0].upper() + x[1:] for x in name.split('_')])
     return result[0].lower() + result[1:]
+
+
+def get_line_number_prefix(line_number: str, line_number_offset: int):
+    """
+    Parses line_number to int, subtracts offset from it
+    :param line_number: target line number
+    :param line_number_offset: code offset
+    :return: line number prefix or empty string if line number is outside of user scope or empty
+    """
+    try:
+        n = int(line_number)
+    except ValueError:
+        return ''
+
+    n -= line_number_offset
+    if n <= 0:
+        return ''
+
+    return f'{n}:'

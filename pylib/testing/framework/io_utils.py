@@ -1,4 +1,5 @@
-# pipe_non_blocking.py (module)
+# Copyright: Daveight and contributors
+# License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 """
 Example use:
     p = subprocess.Popen(
@@ -18,8 +19,7 @@ Example use:
 __all__ = (
     "pipe_non_blocking_set",
     "pipe_non_blocking_is_error_blocking",
-    "PortableBlockingIOError",
-)
+    "PortableBlockingIOError")
 
 import os
 import sys
@@ -105,7 +105,7 @@ else:
 
 def non_blocking_readlines(f, chunk=1024):
     """
-    Taken from: https://stackoverflow.com/questions/375427/a-non-blocking-read-on-a-subprocess-pipe-in-python
+    Thanks to https://stackoverflow.com/questions/375427/a-non-blocking-read-on-a-subprocess-pipe-in-python
     Iterate over lines, yielding b'' when nothings left
     or when new data is not yet available.
 

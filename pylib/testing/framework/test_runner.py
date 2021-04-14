@@ -12,17 +12,18 @@ import tempfile
 import re
 import psutil
 import time
+
+from deepdiff import DeepDiff
 from abc import abstractmethod, ABC
 from json import JSONDecodeError
 from os.path import normpath
 from typing import List, Optional
 
-from deepdiff import DeepDiff
 from testing.framework.io_utils import non_blocking_readlines
-
 from testing.framework.test_suite_gen import START_USER_SRC_MARKER
 from testing.framework.types import SrcFile, TestResponse
 from testing.framework.console_logger import ConsoleLogger
+import pathlib
 
 isMac = sys.platform.startswith("darwin")
 isWin = sys.platform.startswith("win32")
@@ -47,13 +48,12 @@ def get_resource_path():
     Returns the Resource's base path, depending on the current OS
     :return: the path of the Resources folder in the system
     """
-    # result = '/opt/dev/dave8/anki/testing'
-    if isWin:
-        result = sys._MEIPASS
-    elif isMac:
-        result = os.environ['RESOURCEPATH']
+    if isMac and 'RESOURCEPATH' in os.environ:
+        return os.environ['RESOURCEPATH']
+    elif isWin and getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        return sys._MEIPASS
     else:
-        raise Exception('not supported OS')
+        result = os.path.join(pathlib.Path(__file__).parents[3], 'testing')
     return '"' + result + '"'
 
 
@@ -237,6 +237,7 @@ class TestRunner(ABC):
         """
         if self.pid is not None:
             try:
+                self.stopped = True
                 parent = psutil.Process(self.pid)
                 children = parent.children(recursive=True)
                 for child in children:
@@ -246,5 +247,4 @@ class TestRunner(ABC):
             except:
                 pass
             finally:
-                self.stopped = True
                 self.pid = None

@@ -28,6 +28,7 @@ class CppTestSuiteGeneratorTests(GeneratorTestCase):
             #include <functional>
             #include <stdexcept>
             #include<string>
+            #include<chrono>
             using namespace std;
 
             //begin_user_src

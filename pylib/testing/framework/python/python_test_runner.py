@@ -5,6 +5,8 @@ Python Test Runner API Implementation
 """
 
 import re
+
+from testing.framework.string_utils import get_line_number_prefix
 from testing.framework.test_runner import TestRunner
 from testing.framework.types import SrcFile
 
@@ -25,11 +27,11 @@ class PythonTestRunner(TestRunner):
         """
         if is_win:
             cmd = f'set PYTHONPATH={resource_path}/libs/python && ' + \
-                  f'{resource_path}/libs/python/Python3.7/python.exe -u {src_file.file.name}'
+                  f'{resource_path}/libs/python/python.exe -u {src_file.file.name}'
         else:
-            cmd = f'PYTHONPATH={resource_path}/libs/python/3.9/lib/python3.9:{resource_path}' + \
-                  '/libs/python/3.9/lib/python3.9/lib-dynload ' + \
-                  f'{resource_path}/libs/python/3.9/bin/python3 -u {src_file.file.name}'
+            cmd = f'PYTHONPATH={resource_path}/libs/python/lib/python3:{resource_path}' + \
+                  '/libs/python/lib/python3/lib-dynload ' + \
+                  f'{resource_path}/libs/python/bin/python3 -u {src_file.file.name}'
         return cmd
 
     def get_compile_cmd(self, src_file: SrcFile, resource_path: str, is_win: bool) -> str:
@@ -46,17 +48,16 @@ class PythonTestRunner(TestRunner):
         :param code_offset: user solution code offset
         :return: error message
         """
-        line_number = None
+        line_number_prefix = ''
         text = ''
         for line in error.split('\n'):
-            if line_number is not None:
-                line = str(line_number) + ': ' + line
+            if line_number_prefix:
+                line = line_number_prefix + ' ' + line
+                line_number_prefix = ''
             result = re.search(r'line (\d+)', line)
             if result is not None:
-                line_number = int(result[1]) - code_offset
+                line_number_prefix = get_line_number_prefix(result[1], code_offset)
                 continue
-            else:
-                line_number = None
             text += line + '\n'
         return text
 

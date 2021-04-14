@@ -24,8 +24,7 @@ def parse_anki_card(card: Card) -> Tuple[str, str, List[str]]:
     """
     note = card.note()
     model = card.model()['flds']
-    # todo: come up with better solution than indexes
-    description = strip_html_tags(note[model[1]['name']])
+    description = strip_html_tags(note[model[1]['name']])  # todo: come up with better solution than indexes
     fn_name = note[model[2]['name']]
     rows = strip_html_tags(note[model[4]['name']]).split('\n')
     return fn_name, description, rows
@@ -99,7 +98,4 @@ def stop_tests():
     """
     global runner
     if runner is not None:
-        try:
-            runner.kill()
-        except:
-            pass
+        runner.kill()
