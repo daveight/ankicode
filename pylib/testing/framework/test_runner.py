@@ -49,9 +49,9 @@ def get_resource_path():
     :return: the path of the Resources folder in the system
     """
     if isMac and 'RESOURCEPATH' in os.environ:
-        return os.environ['RESOURCEPATH']
+        result = os.environ['RESOURCEPATH']
     elif isWin and getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-        return sys._MEIPASS
+        result = sys._MEIPASS
     else:
         result = os.path.join(pathlib.Path(__file__).parents[3], 'testing')
     return '"' + result + '"'
