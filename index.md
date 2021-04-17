@@ -1,8 +1,11 @@
 ## About
 
-CodeQuiz allows to memorize algorithms. CodeQuiz extends [Anki](https://apps.ankiweb.net/) app, adding a possibility to practice in solving of programming challenges right in the desktop app.
+CodeQuiz provdes the fastest way to learn algorithms.
+The app uses spaced repetition of flashcards to increase the rate of learning.
 
-<img src="images/code-quiz-ide.png" width="300">
+<img src="images/code-quiz-ide.png" width="300"/>
+
+CodeQuiz is a fork of [Anki](https://apps.ankiweb.net/) app.
 
 ### Supported Languages
 
