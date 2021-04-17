@@ -14,6 +14,12 @@ CodeQuiz is a fork of [Anki](https://apps.ankiweb.net/) app.
 - JavaScript
 - Python
 
+### Tutorials
+
+- [Getting Started](getting-started.md)
+- [Creating a CodeQuiz deck](create-quiz.md)
+- [Test Cases format](test-cases-format.md)
+
 ### Algorithm Decks:
 
 - [Sorting Algorithms](http://google.com)
@@ -21,9 +27,7 @@ CodeQuiz is a fork of [Anki](https://apps.ankiweb.net/) app.
 - [Google Interview Questions](http://google.com)
 - [Facebook Interview Questions](http://google.com)
 
+### Downloads
 
-### Tutorials
 
-- [Getting Started](getting-started.md)
-- [How to create a coding quiz](create-quiz.md)
-- [Test cases format](test-cases-format.md)
+
