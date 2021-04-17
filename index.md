@@ -3,7 +3,7 @@
 CodeQuiz provdes the fastest way to learn algorithms.
 The app uses spaced repetition of flashcards to increase the rate of learning.
 
-<img src="images/code-quiz-ide.png" width="300"/>
+<img src="images/code-quiz-ide.png" width="800"/>
 
 CodeQuiz is a fork of [Anki](https://apps.ankiweb.net/) app.
 
