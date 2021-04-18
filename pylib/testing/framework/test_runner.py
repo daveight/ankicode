@@ -21,7 +21,7 @@ from typing import List, Optional
 
 from testing.framework.io_utils import non_blocking_readlines
 from testing.framework.test_suite_gen import START_USER_SRC_MARKER
-from testing.framework.types import SrcFile, TestResponse
+from testing.framework.types import SrcFile, TestResponse, TestSuiteExecOpts
 from testing.framework.console_logger import ConsoleLogger
 import pathlib
 
@@ -57,12 +57,12 @@ def get_resource_path():
     return '"' + result + '"'
 
 
-def compare(obj1, obj2) -> bool:
+def compare(obj1, obj2, ignore_order=True) -> bool:
     """
     Performs deep difference between two objects
     :return True - if objects are equal, False otherwise
     """
-    return DeepDiff(obj1, obj2, ignore_order=True, significant_digits=4) == {}
+    return DeepDiff(obj1, obj2, ignore_order=ignore_order, significant_digits=4) == {}
 
 
 def get_code_offset(src: str, user_src_start_marker: str) -> int:
@@ -87,11 +87,12 @@ class TestRunner(ABC):
         self.pid = None
         self.stopped = False
 
-    def run(self, src_code: str, test_cases: List[str], logger: ConsoleLogger):
+    def run(self, src_code: str, test_cases: List[str], opts: TestSuiteExecOpts, logger: ConsoleLogger):
         """
         Submits a source code for execution
         :param src_code: source code to run
         :param test_cases: text rows containing a testing data
+        :param opts: options which control tests execution
         :param logger: console logger
         """
         if self.pid is not None:
@@ -160,7 +161,7 @@ class TestRunner(ABC):
                     test_logger.cancel()
                     return
                 assert tst_resp is not None
-                if compare(tst_resp.result, expected_val):
+                if compare(tst_resp.result, expected_val, opts.ignore_order):
                     test_logger.passed(idx, tst_resp.duration)
                 else:
                     test_logger.fail(idx, args, expected_val, tst_resp.result)

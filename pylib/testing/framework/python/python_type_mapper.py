@@ -105,9 +105,10 @@ class PythonTypeMapper(TypeMapper):
         :return: python object-type declaration
         """
         args, _ = self.get_args(node, context)
-        context[node.node_type] = render_template('''
-            class {{type_name}}:
-                \tdef __init__(self, {%for p in l%}{{p.name}}: {{p.type}} {%if not loop.last%},{%endif%} {%endfor%}):
-                {%for p in l %}\t\tself.{{p.name}} = {{p.name}}\n{% endfor %}
-        ''', l=args, type_name=node.node_type)
+        if node.node_type not in context:
+            context[node.node_type] = render_template('''
+                class {{type_name}}:
+                    \tdef __init__(self, {%for p in l%}{{p.name}}: {{p.type}} {%if not loop.last%},{%endif%} {%endfor%}):
+                    {%for p in l %}\t\tself.{{p.name}} = {{p.name}}\n{% endfor %}
+            ''', l=args, type_name=node.node_type)
         return node.node_type

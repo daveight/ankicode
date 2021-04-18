@@ -33,7 +33,7 @@ class JavaInputConverter(TypeConverter):
         else:
             ret_type += '[value.size()]'
         src = render_template('''
-            \t{{child.ret_type}} result[] = {{ret_type}};
+            \t{{child.ret_type}} result[] = new {{ret_type}};
             \tint i = 0;
             \tfor (JsonNode node : value) {
             \t\tresult[i++] = {{child.fn_name}}(node);

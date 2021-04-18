@@ -71,6 +71,26 @@ class ConverterFn:
         cls.converter_counter = 0
 
 
+class TestSuiteExecOpts:
+    """
+    Defines additional options which must be applied during tests execution
+        - ignore_order - if order of results must be ignored ([1,2,3] and [2,3,1] will be equal if ignore_order
+                         is set to True)
+        TODO: add execution time constraints
+    """
+
+    def __init__(self, opts: str):
+        self.ignore_order = True
+
+        if opts:
+            opts_dict = {}
+            for item in opts.split(','):
+                kv = item.split('=')
+                opts_dict[kv[0].strip()] = kv[1].strip()
+            if 'ignore_order' in opts_dict:
+                self.ignore_order = opts_dict['ignore_order'] == 'True'
+
+
 class TestSuite:
     """
     Test Suite is related a Quiz Card, it contains the following information:
@@ -93,6 +113,10 @@ class SrcFile:
 
 
 class TestResponse:
+    """
+    Defines format of test response
+    """
+
     def __init__(self, result: Any, duration: int):
         self.result = result
         self.duration = duration

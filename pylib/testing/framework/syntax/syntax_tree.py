@@ -57,13 +57,14 @@ class SyntaxTree:
         self.nodes = []
         self.user_type = user_type
 
-    def add_child(self, node_type):
+    def add_child(self, node_type, user_type: bool = False):
         """
         Adds a child node to a particular node
         :param node_type: input node's type name
+        :param user_type: if a node's type is a custom user type (class, struct)
         :return: child node created
         """
-        node = SyntaxTree(self, node_type)
+        node = SyntaxTree(self, node_type, user_type)
         self.nodes.append(node)
         return node
 
@@ -95,7 +96,7 @@ class SyntaxTree:
         """
         Invokes the correct visitor's method depending on the node's type
         :param visitor: target visitor
-        :param data: data associated with the node
+        :param context: data associated with the node
         :return: result of visitor's invocation
         """
         if self.node_type == 'array':
@@ -161,6 +162,7 @@ class SyntaxTree:
         :return: resultant syntax tree instance
         """
         root = SyntaxTree()
+        user_types = []
         for expr in expression_list:
             node = root
             buf = ''
@@ -171,8 +173,10 @@ class SyntaxTree:
                 if buf == '':
                     if c in ',)':
                         node = node.parent
-                elif c in '([<':
+                elif c in '(<':
                     node = node.add_child(buf)
+                elif c == '[':
+                    node = node.add_child(buf, buf in user_types)
                 elif c in ',)':
                     node.add_child(buf)
                 elif c == ']':
@@ -180,6 +184,7 @@ class SyntaxTree:
                 elif c == '>':
                     node.node_type = buf
                     node.user_type = True
+                    user_types.append(buf)
                 buf = ''
             if buf != '':
                 node.add_child(buf)
@@ -214,7 +219,7 @@ class SyntaxTreeVisitor(ABC):
         """
         This method is invoked then processing "array" type node
         :param node: target node
-        :param data: related data item
+        :param context: related data item
         """
         pass
 
@@ -223,7 +228,7 @@ class SyntaxTreeVisitor(ABC):
         """
         This method is invoked then processing "list" type node
         :param node: target node
-        :param data: related data item
+        :param context: related data item
         """
         pass
 
@@ -232,7 +237,7 @@ class SyntaxTreeVisitor(ABC):
         """
         This method is invoked then processing "map" type node
         :param node: target node
-        :param data: related data item
+        :param context: related data item
         """
         pass
 
@@ -241,7 +246,7 @@ class SyntaxTreeVisitor(ABC):
         """
         This method is invoked then processing "int" type node
         :param node: target node
-        :param data: related data item
+        :param context: related data item
         """
         pass
 
@@ -250,7 +255,7 @@ class SyntaxTreeVisitor(ABC):
         """
         This method is invoked then processing "long" type node
         :param node: target node
-        :param data: related data item
+        :param context: related data item
         """
         pass
 
@@ -259,7 +264,7 @@ class SyntaxTreeVisitor(ABC):
         """
         This method is invoked then processing "float" type node
         :param node: target node
-        :param data: related data item
+        :param context: related data item
         """
         pass
 
@@ -268,7 +273,7 @@ class SyntaxTreeVisitor(ABC):
         """
         This method is invoked then processing "string" type node
         :param node: target node
-        :param data: related data item
+        :param context: related data item
         """
         pass
 
@@ -277,7 +282,7 @@ class SyntaxTreeVisitor(ABC):
         """
         This method is invoked then processing "bool" type node
         :param node: target node
-        :param data: related data item
+        :param context: related data item
         """
         pass
 
@@ -286,7 +291,7 @@ class SyntaxTreeVisitor(ABC):
         """
         This method is invoked then processing "object" type node
         :param node: target node
-        :param data: related data item
+        :param context: related data item
         """
         pass
 
@@ -294,7 +299,7 @@ class SyntaxTreeVisitor(ABC):
         """
         This method is invoked then processing "void" type node
         :param node: target node
-        :param data: related data item
+        :param context: related data item
         """
         return ''
 
@@ -303,6 +308,6 @@ class SyntaxTreeVisitor(ABC):
         Pass visitor to a tree, during the invocation one of the vistor methods will be invoked, depending on the
         target node type
         :param tree: target tree node
-        :param data: related data item
+        :param context: related data item
         """
         return tree.accept(self, context)

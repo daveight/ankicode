@@ -10,7 +10,7 @@ from anki.cards import Card
 from aqt.utils import run_async
 from testing.framework.lang_factory import get_lang_factory, AbstractLangFactory
 from testing.framework.test_runner import TestRunner
-from testing.framework.types import TestSuite
+from testing.framework.types import TestSuite, TestSuiteExecOpts
 from testing.framework.console_logger import ConsoleLogger
 from testing.framework.syntax.syntax_tree import SyntaxTree
 from testing.framework.string_utils import strip_html_tags
@@ -30,7 +30,11 @@ def parse_anki_card(card: Card) -> Tuple[str, str, List[str]]:
     return fn_name, description, rows
 
 
-def build_test_context(card: Card, lang: str) -> Tuple[SyntaxTree, TestSuite, AbstractLangFactory, List[str]]:
+def build_test_context(card: Card, lang: str) -> Tuple[SyntaxTree,
+                                                       TestSuite,
+                                                       TestSuiteExecOpts,
+                                                       AbstractLangFactory,
+                                                       List[str]]:
     """
     Builds testing context
     :param card: target card
@@ -46,7 +50,10 @@ def build_test_context(card: Card, lang: str) -> Tuple[SyntaxTree, TestSuite, Ab
     ts = TestSuite()
     ts.fn_name = fn_name
     ts.description = description
-    return tree, ts, factory, rows
+
+    opts = TestSuiteExecOpts(tree.nodes[-1].name)
+
+    return tree, ts, opts, factory, rows
 
 
 def get_solution_template(card: Card, lang: str) -> str:
@@ -56,7 +63,7 @@ def get_solution_template(card: Card, lang: str) -> str:
     :param lang: target programming language
     :return: solution template src
     """
-    tree, ts, factory, _ = build_test_context(card, lang)
+    tree, ts, _, factory, _ = build_test_context(card, lang)
     return factory.get_template_generator().get_template(tree, ts)
 
 
@@ -78,13 +85,13 @@ def run_tests(card: Card, src: str, lang: str, logger: ConsoleLogger, fncomplete
         raise Exception('Cannot run tests, while another execution is active')
 
     logger.clear()
-    tree, ts, factory, rows = build_test_context(card, lang)
+    tree, ts, opts, factory, rows = build_test_context(card, lang)
 
     try:
         test_suite_gen = factory.get_test_suite_generator()
         test_suite_src = test_suite_gen.generate_test_suite_src(ts, tree, src)
         runner = factory.get_test_runner()
-        runner.run(test_suite_src, rows, logger)
+        runner.run(test_suite_src, rows, opts, logger)
     except:
         logger.error("Unexpected runtime error: " + str(sys.exc_info()))
     finally:

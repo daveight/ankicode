@@ -49,3 +49,23 @@ class JavaTemplateGeneratorTests(unittest.TestCase):
                 }
             }
             ''').lstrip(), self.generator.get_template(tree, ts))
+
+    def test_solution_with_custom_types_double_generation(self):
+        ts = TestSuite()
+        ts.fn_name = 'sum'
+        ts.description = 'calculate sum of 2 objects'
+        tree = SyntaxTree.of(['object(int[val])<TypeA>[a]', 'TypeA[b]', 'int'])
+        self.assertEqual(textwrap.dedent('''
+            /**
+            * calculate sum of 2 objects
+            */
+            class TypeA {
+                int val;
+            }
+
+            public class Solution {
+                public int sum(TypeA a, TypeA b) {
+                    //Add code here
+                }
+            }
+            ''').lstrip(), self.generator.get_template(tree, ts))

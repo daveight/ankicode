@@ -124,10 +124,11 @@ class JavaTypeMapper(TypeMapper):
         :return: Java object-type declaration
         """
         args, _ = self.get_args(node, context)
-        context[node.node_type] = render_template('''
-            class {{type_name}} {
-                {%for a in args %}\t{{a.type}} {{a.name}};\n{% endfor %}}
-            ''', args=args, type_name=node.node_type)
+        if node.node_type not in context:
+            context[node.node_type] = render_template('''
+                class {{type_name}} {
+                    {%for a in args %}\t{{a.type}} {{a.name}};\n{% endfor %}}
+                ''', args=args, type_name=node.node_type)
         return node.node_type
 
     def visit_void(self, node: SyntaxTree, context):

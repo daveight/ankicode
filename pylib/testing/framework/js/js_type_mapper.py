@@ -103,8 +103,9 @@ class JsTypeMapper(TypeMapper):
         :return: JS object-type declaration
         """
         props, _ = self.get_args(node, context)
-        context[node.node_type] = render_template('''
-            * @typedef {{type_name}}
-            {% for p in props %}* @property { {{p.type}} } {{p.name}}
-            {% endfor %}''', props=props, type_name=node.node_type)
+        if node.node_type not in context:
+            context[node.node_type] = render_template('''
+                * @typedef {{type_name}}
+                {% for p in props %}* @property { {{p.type}} } {{p.name}}
+                {% endfor %}''', props=props, type_name=node.node_type)
         return node.node_type

@@ -105,11 +105,12 @@ class CppTypeMapper(TypeMapper):
         """
         type_name = node.node_type
         props, _ = self.get_args(node, context)
-        typedef = render_template(''' 
-            struct {{type_name}} {
-                {% for prop in props %}\t{{prop.type}} {{prop.name}};\n{% endfor %}};
-            ''', type_name=type_name, props=props)
-        context[type_name] = typedef
+        if type_name not in context:
+            typedef = render_template(''' 
+                struct {{type_name}} {
+                    {% for prop in props %}\t{{prop.type}} {{prop.name}};\n{% endfor %}};
+                ''', type_name=type_name, props=props)
+            context[type_name] = typedef
         return type_name
 
     def visit_void(self, node: SyntaxTree, context):
