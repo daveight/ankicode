@@ -1,7 +1,6 @@
 ## About
 
-CodeQuiz desktop app provides the fastest way to learn and memorize algorithms.<br/>
-The app uses spaced repetition of flashcards to increase the rate of learning.
+CodeQuiz desktop app provides the fastest way to learn and memorize algorithms.
 
 <img src="images/code-quiz.png" width="800"/>
 
