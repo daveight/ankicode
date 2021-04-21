@@ -17,14 +17,14 @@ class JavaInputConverterTests(unittest.TestCase):
         self.assertEqual(3, len(converters))
         self.assertEqual(ConverterFn('', '''return value.asInt();''', 'JsonNode', 'int'), converters[0])
         self.assertEqual(ConverterFn('', textwrap.dedent('''
-            int result[] = int[value.size()];
+            int result[] = new int[value.size()];
             int i = 0;
             for (JsonNode node : value) {
                 result[i++] = converter1(node);
             }
-            return result;''').lstrip(), 'JsonNode', 'int[]'), converters[1])
+            return result;'''), 'JsonNode', 'int[]'), converters[1])
         self.assertEqual(ConverterFn('a', textwrap.dedent('''
-            int[] result[] = int[value.size()][];
+            int[] result[] = new int[value.size()][];
             int i = 0;
             for (JsonNode node : value) {
                 result[i++] = converter2(node);
@@ -56,7 +56,7 @@ class JavaInputConverterTests(unittest.TestCase):
             for (JsonNode node : value) {
                 result.add(converter1(node));
             }
-            return result;'''.lstrip(), 'JsonNode', 'List<Integer>'), converters[1])
+            return result;''', 'JsonNode', 'List<Integer>'), converters[1])
         self.assertEqual(ConverterFn('b', '''return value.asInt();''', 'JsonNode', 'int'), converters[2])
         self.assertEqual(ConverterFn('a', '''
             Edge result = new Edge();
@@ -77,7 +77,7 @@ class JavaInputConverterTests(unittest.TestCase):
             for (JsonNode node : value) {
                 result.add(converter2(node));
             }
-            return result;'''.lstrip(), 'JsonNode', 'List<Integer>'), converters[2])
+            return result;''', 'JsonNode', 'List<Integer>'), converters[2])
         self.assertEqual(ConverterFn('b', '''return value.asInt();''', 'JsonNode', 'int'), converters[3])
         self.assertEqual(ConverterFn('', '''
             Edge result = new Edge();
@@ -89,8 +89,8 @@ class JavaInputConverterTests(unittest.TestCase):
             Map<String, Edge> result = new HashMap<>();
             Iterator<JsonNode> iterator = value.iterator();
             while (iterator.hasNext()) {
-                String prop = iterator.next().asText();
+                String key = converter1(iterator.next());
                 Edge val = converter5(iterator.next());
-                result.put(prop, val);
+                result.put(key, val);
             }
             return result;''', 'JsonNode', 'Map<String, Edge>'), converters[5])

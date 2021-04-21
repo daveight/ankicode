@@ -29,7 +29,6 @@ def render_template(template: str = '', retab: bool = False, **kwargs) -> str:
     s = re.sub(r'^\n+', '', s)
     s = re.sub(r'\n+$', '', s)
     s = '\n'.join([re.sub(r'^ +', '', line) for line in s.split('\n')])
-    s = re.sub(r' +', ' ', s)
     s = re.sub(r' ,', ',', s)
     s = re.sub(r' +\)', ')', s)
     s = re.sub(r'\( +', '(', s)

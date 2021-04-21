@@ -19,11 +19,11 @@ class JsInputConverterTests(unittest.TestCase):
         self.assertEqual(ConverterFn('', '''
             var result = []
             for (var i = 0; i < value.length; i++) { result.push(converter1(value[i])) }
-            return result'''.lstrip(), ''), converters[1])
+            return result''', ''), converters[1])
         self.assertEqual(ConverterFn('a', '''
             var result = []
             for (var i = 0; i < value.length; i++) { result.push(converter2(value[i])) }
-            return result'''.lstrip(), ''), converters[2])
+            return result''', ''), converters[2])
 
     def test_object_conversion(self):
         tree = SyntaxTree.of(['object(int[a],int[b])<Edge>[a]'])
@@ -47,7 +47,7 @@ class JsInputConverterTests(unittest.TestCase):
         self.assertEqual(ConverterFn('a', '''
             var result = []
             for (var i = 0; i < value.length; i++) { result.push(converter1(value[i])) }
-            return result'''.lstrip(), ''), converters[1])
+            return result''', ''), converters[1])
         self.assertEqual(ConverterFn('b', '''return value''', ''), converters[2])
         self.assertEqual(ConverterFn('a', '''
             var result = {}

@@ -59,4 +59,4 @@ class PythonTestSuiteGenerator(TestSuiteGenerator):
             \tprint(json.dumps({
             \t\t'result': {{converters.output.fn_name}}(result),
             \t\t'duration': duration }, default=lambda obj: obj.__dict__))
-            ''', ts=ts, solution_src=solution_src, converters=converters, fn_name=to_snake_case(ts.fn_name), retab=True)
+            ''', ts=ts, converters=converters, fn_name=to_snake_case(ts.fn_name), retab=True)

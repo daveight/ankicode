@@ -26,14 +26,14 @@ class CppOutputConverterTests(unittest.TestCase):
             for (int i = 0; i < value.size(); i++) {
                 result.add_element(converter1(value[i]));
             }
-            return result;'''.lstrip(), 'vector<int>', 'jute::jValue'), converters[1])
+            return result;''', 'vector<int>', 'jute::jValue'), converters[1])
         self.assertEqual(ConverterFn('a', '''
             jute::jValue result; 
             result.set_type(jute::JARRAY);
             for (int i = 0; i < value.size(); i++) {
                 result.add_element(converter2(value[i]));
             }
-            return result;'''.lstrip(), 'vector<vector<int>>', 'jute::jValue'), converters[2])
+            return result;''', 'vector<vector<int>>', 'jute::jValue'), converters[2])
 
     def test_object_conversion(self):
         tree = SyntaxTree.of(['object(int[a],int[b])<Edge>[a]'])
@@ -71,19 +71,19 @@ class CppOutputConverterTests(unittest.TestCase):
             jute::jValue result;
             result.set_type(jute::JNUMBER);
             result.set_string(std::to_string(value));
-            return result;'''.lstrip(), 'int', 'jute::jValue'), converters[0])
+            return result;''', 'int', 'jute::jValue'), converters[0])
         self.assertEqual(ConverterFn('a', '''
             jute::jValue result; 
             result.set_type(jute::JARRAY);
             for (int i = 0; i < value.size(); i++) {
                 result.add_element(converter1(value[i]));
             }
-            return result;'''.lstrip(), 'vector<int>', 'jute::jValue'), converters[1])
+            return result;''', 'vector<int>', 'jute::jValue'), converters[1])
         self.assertEqual(ConverterFn('b', '''
             jute::jValue result;
             result.set_type(jute::JNUMBER);
             result.set_string(std::to_string(value));
-            return result;'''.lstrip(), 'int', 'jute::jValue'), converters[2])
+            return result;''', 'int', 'jute::jValue'), converters[2])
         self.assertEqual(ConverterFn('a', '''
             jute::jValue result; 
             result.set_type(jute::JARRAY);
@@ -92,5 +92,5 @@ class CppOutputConverterTests(unittest.TestCase):
             result.add_element(prop);
             prop = converter3(value.b);
             result.add_element(prop);
-            return result;'''.lstrip(), 'Edge', 'jute::jValue'), converters[3])
+            return result;''', 'Edge', 'jute::jValue'), converters[3])
 

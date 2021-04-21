@@ -21,14 +21,14 @@ class CppInputConverterTests(unittest.TestCase):
               int obj = converter1(value[i]);
               result.push_back(obj);
             }
-            return result;'''.lstrip(), 'jute::jValue', 'vector<int>'), converters[1])
+            return result;''', 'jute::jValue', 'vector<int>'), converters[1])
         self.assertEqual(ConverterFn('a', '''
             vector<vector<int>> result;
             for (int i = 0; i < value.size(); i++) {
               vector<int> obj = converter2(value[i]);
               result.push_back(obj);
             }
-            return result;'''.lstrip(), 'jute::jValue', 'vector<vector<int>>'), converters[2])
+            return result;''', 'jute::jValue', 'vector<vector<int>>'), converters[2])
 
     def test_object_conversion(self):
         tree = SyntaxTree.of(['object(int[a],int[b])<Edge>[a]'])
@@ -55,7 +55,7 @@ class CppInputConverterTests(unittest.TestCase):
               int obj = converter1(value[i]);
               result.push_back(obj);
             }
-            return result;'''.lstrip(), 'jute::jValue', 'vector<int>'), converters[1])
+            return result;''', 'jute::jValue', 'vector<int>'), converters[1])
         self.assertEqual(ConverterFn('b', '''return value.as_int();''', 'jute::jValue', 'int'), converters[2])
         self.assertEqual(ConverterFn('a', '''
             Edge obj;
@@ -63,7 +63,6 @@ class CppInputConverterTests(unittest.TestCase):
             obj.b = converter3(value[1]);
             return obj;
         ''', 'jute::jValue', 'Edge'), converters[3])
-
 
     def test_map(self):
         tree = SyntaxTree.of(['map(string, object(list(int)[a],int[b])<Edge>)[a]'])
@@ -78,7 +77,7 @@ class CppInputConverterTests(unittest.TestCase):
               int obj = converter2(value[i]);
               result.push_back(obj);
             }
-            return result;'''.lstrip(), 'jute::jValue', 'vector<int>'), converters[2])
+            return result;''', 'jute::jValue', 'vector<int>'), converters[2])
         self.assertEqual(ConverterFn('b', '''return value.as_int();''', 'jute::jValue', 'int'), converters[3])
         self.assertEqual(ConverterFn('', '''
             Edge obj;

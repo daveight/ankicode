@@ -60,7 +60,7 @@ class JsOutputConverterTests(unittest.TestCase):
             return result''', ''), converters[4])
         self.assertEqual(ConverterFn('a', '''
             var result = []
-            	for (var [k, v] of value) {
+            for (var [k, v] of value) {
                 result.push(converter1(k));
                 result.push(converter5(v));
             }

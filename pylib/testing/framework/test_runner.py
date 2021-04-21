@@ -28,6 +28,8 @@ import pathlib
 isMac = sys.platform.startswith("darwin")
 isWin = sys.platform.startswith("win32")
 
+ERROR_LINE_OUTPUT_LIMIT = 100
+
 
 def create_src_file(src: str, name: str) -> SrcFile:
     """
@@ -135,11 +137,14 @@ class TestRunner(ABC):
                 tst_resp: Optional[TestResponse] = None
                 error = ''
                 while tst_resp is None and not self.stopped:
-                    for line in error_iterator:
-                        if not line:
+                    for i, line in enumerate(error_iterator):
+                        if not line or self.stopped:
                             break
-                        time.sleep(0.2)  # wait till all output will be collected
+                        time.sleep(0.2)  # short sleep not to overload CPU
                         error += line.decode('utf-8')
+                        if i > ERROR_LINE_OUTPUT_LIMIT:
+                            break
+
                     if error and self.check_for_errors(error, src_file, logger):
                         return
                     error = ''
@@ -147,13 +152,15 @@ class TestRunner(ABC):
                         if self.stopped:
                             test_logger.cancel()
                             return
+                        tst_resp = None
                         if not line:
                             break
                         try:
                             tst_resp = json.loads(line, object_hook=lambda d: TestResponse(**d))
                         except JSONDecodeError:
                             pass
-                        if not tst_resp or (tst_resp.result is None and tst_resp.duration is None):
+                        if not tst_resp or not isinstance(tst_resp, TestResponse) or \
+                                (tst_resp.result is None and tst_resp.duration is None):
                             logger.info(line.decode('utf-8'))
                         else:
                             break
