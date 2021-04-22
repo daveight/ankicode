@@ -39,6 +39,7 @@ class ReviewerBottomBar:
 
 THEMES = ['dracula', 'agate', 'github', 'solarized-dark', 'code-brewer', 'solarized-light', 'railscasts', 'monokai-sublime',
           'mono-blue', 'zenburn', 'androidstudio', 'atom-one-light', 'rainbow', 'atom-one-dark', 'tommorow', 'vs']
+DEFAULT_THEME_KEY = 'defaultCodeTheme'
 
 def replay_audio(card: Card, question_side: bool) -> None:
     if question_side:
@@ -161,8 +162,8 @@ class Reviewer:
         self._reps = 0
         # main window
         theme = THEMES[0]
-        if 'defaultCodeTheme' in self.mw.pm.meta:
-            theme = self.mw.pm.meta['defaultCodeTheme']
+        if DEFAULT_THEME_KEY in self.mw.pm.meta:
+            theme = self.mw.pm.meta[DEFAULT_THEME_KEY]
         self.web.stdHtml(
             self.revHtml(),
             css=["markdown.css", "font.css", "reviewer.css", "highlight/" + theme + ".css"],
@@ -327,6 +328,11 @@ class Reviewer:
             ("5", self.on_pause_audio),
             ("6", self.on_seek_backward),
             ("7", self.on_seek_forward),
+            ("Ctrl+R", lambda: self.runTests()),
+            ("Ctrl+J", lambda: self.switchLang('java')),
+            ("Alt+P", lambda: self.switchLang('python')),
+            ("Alt+C", lambda: self.switchLang('cpp')),
+            ("Alt+J", lambda: self.switchLang('js')),
         ]
 
     def on_pause_audio(self) -> None:
@@ -369,14 +375,14 @@ class Reviewer:
         elif url == "more":
             self.showContextMenu()
         elif url == "run":
-            self.web.evalWithCallback("codeansJar ? codeansJar.toString() : null", self._runTests)
+            self.runTests()
         elif url == "stop":
             self.stopTests()
         elif url.startswith("play:"):
             play_clicked_audio(url, self.card)
         elif url.startswith("lang:"):
             lang = url.split(":")[1]
-            self.onCodeLangSelected(lang)
+            self.switchLang(lang)
         else:
             print("unrecognized anki link:", url)
 
@@ -437,20 +443,25 @@ class Reviewer:
             buf,
         )
 
-    def _runTests(self, src):
-        self.web.eval("_activateStopButton()")
-        self._runner = run_tests(self.card,src, self._getCurrentLang(), self._logger,
-                                 lambda: self.web.eval("_activateRunButton()"))
+    def runTests(self):
+        def onSolutionSrc(src):
+            self.web.eval("_activateStopButton()")
+            run_tests(self.card, src, self._getCurrentLang(), self._logger,
+                      lambda: self.web.eval("_activateRunButton()"))
+        self.web.evalWithCallback("codeansJar ? codeansJar.toString() : null", onSolutionSrc)
 
-    def _switchLang(self, lang, src):
-        self._codingBuffer[self._getCurrentLang()] = src
-        self.mw.pm.setCodeLang(lang)
-        if lang in self._codingBuffer:
-            src = self._codingBuffer[lang]
-        else:
-            src = get_solution_template(self.card, lang)
-        self.web.eval("_reloadCode(%s, %s);" % (json.dumps(src), json.dumps(lang)))
-        self._logger.clear()
+    def switchLang(self, lang):
+        def onSolutionSrc(src):
+            self._codingBuffer[self._getCurrentLang()] = src
+            self.mw.pm.setCodeLang(lang)
+            if lang in self._codingBuffer:
+                src = self._codingBuffer[lang]
+            else:
+                src = get_solution_template(self.card, lang)
+            self.web.eval("_reloadCode(%s, %s);" % (json.dumps(src), json.dumps(lang)))
+            self._logger.clear()
+
+        self.web.evalWithCallback("codeansJar ? codeansJar.toString() : null", onSolutionSrc)
 
     def typeAnsQuestionFilter(self, buf: str) -> str:
         self.typeCorrect = None
@@ -816,25 +827,25 @@ time = %(time)d;
             [
                 "Java",
                 "",
-                lambda: self.onCodeLangSelected("java"),
+                lambda: self.switchLang("java"),
                 dict(checked=lang == "java"),
             ],
             [
                 "Python",
                 "",
-                lambda: self.onCodeLangSelected("python"),
+                lambda: self.switchLang("python"),
                 dict(checked=lang == "python"),
             ],
             [
                 "C++",
                 "",
-                lambda: self.onCodeLangSelected("cpp"),
+                lambda: self.switchLang("cpp"),
                 dict(checked=lang == "cpp"),
             ],
             [
                 "JavaScript",
                 "",
-                lambda: self.onCodeLangSelected("js"),
+                lambda: self.switchLang("js"),
                 dict(checked=lang == "js"),
             ],
         ]
@@ -959,12 +970,6 @@ time = %(time)d;
     def onThemeSelected(self, theme) -> None:
         self.mw.pm.setCodeTheme(theme)
         self.web.eval("_switchSkin('%s');" % theme)
-
-    def onCodeLangSelected(self, lang) -> None:
-        self.web.evalWithCallback(
-            "codeansJar ? codeansJar.toString() : null",
-            lambda src: self._switchLang(lang, src),
-        )
 
     def onMark(self) -> None:
         f = self.card.note()
