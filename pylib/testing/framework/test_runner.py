@@ -15,9 +15,8 @@ import time
 
 from deepdiff import DeepDiff
 from abc import abstractmethod, ABC
-from json import JSONDecodeError
 from os.path import normpath
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from testing.framework.io_utils import non_blocking_readlines
 from testing.framework.test_suite_gen import START_USER_SRC_MARKER
@@ -75,6 +74,31 @@ def get_code_offset(src: str, user_src_start_marker: str) -> int:
     """
     start_src_index = src.index(user_src_start_marker)
     return len(src[:start_src_index].split('\n'))
+
+
+def parse_response(line: str) -> Tuple[Optional[TestResponse], str]:
+    """
+    Parses a line from stdout, extracts response JSON (if presented) and other text
+    :param line: target line
+    :return: tuple of parsed test response and a message
+    """
+    buf = ''
+    line = line.strip()
+    end = len(line)
+    resp = None
+    if not line.endswith('}'):
+        return None, line
+    for i in range(0, len(line)):
+        if line[i] == '{':
+            try:
+                resp = json.loads(line[i:end], object_hook=lambda d: TestResponse(**d))
+            except Exception:
+                pass
+            if resp and isinstance(resp, TestResponse) and \
+                    (resp.result is not None and resp.duration is not None):
+                return resp, buf
+        buf += line[i]
+    return None, buf
 
 
 class TestRunner(ABC):
@@ -144,26 +168,17 @@ class TestRunner(ABC):
                         error += line.decode('utf-8')
                         if i > ERROR_LINE_OUTPUT_LIMIT:
                             break
-
                     if error and self.check_for_errors(error, src_file, logger):
                         return
                     error = ''
                     for line in line_iterator:
                         if self.stopped:
-                            test_logger.cancel()
-                            return
-                        tst_resp = None
+                            break
                         if not line:
                             break
-                        try:
-                            tst_resp = json.loads(line, object_hook=lambda d: TestResponse(**d))
-                        except JSONDecodeError:
-                            pass
-                        if not tst_resp or not isinstance(tst_resp, TestResponse) or \
-                                (tst_resp.result is None and tst_resp.duration is None):
-                            logger.info(line.decode('utf-8'))
-                        else:
-                            break
+                        tst_resp, msg = parse_response(line.decode('utf-8'))
+                        if msg:
+                            logger.info(msg)
                 if self.stopped:
                     test_logger.cancel()
                     return

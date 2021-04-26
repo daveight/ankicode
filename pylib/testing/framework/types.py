@@ -120,3 +120,9 @@ class TestResponse:
     def __init__(self, result: Any, duration: int):
         self.result = result
         self.duration = duration
+
+    def __eq__(self, other):
+        """Overrides the default implementation"""
+        if isinstance(other, TestResponse):
+            return self.result == other.result and self.duration == other.duration
+        return False
