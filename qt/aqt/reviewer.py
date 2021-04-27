@@ -250,6 +250,7 @@ class Reviewer:
         if self.mw.state != "review":
             # showing resetRequired screen; ignore space
             return
+        stop_tests()
         self.state = "answer"
         c = self.card
         a = c.a()

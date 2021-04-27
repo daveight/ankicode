@@ -65,6 +65,7 @@ from aqt.utils import (
     tooltip,
     tr,
 )
+from testing.framework.anki_testing_api import stop_tests
 
 install_pylib_legacy()
 
@@ -685,6 +686,7 @@ from the profile screen."
     def _reviewCleanup(self, newState):
         if newState != "resetRequired" and newState != "review":
             self.reviewer.cleanup()
+        stop_tests()
 
     # Resetting state
     ##########################################################################

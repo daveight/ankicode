@@ -6,7 +6,7 @@ CodeQuiz Types
 
 import re
 import tempfile
-from typing import TextIO, Any
+from typing import TextIO, Any, Optional
 
 
 class Arg:
@@ -117,7 +117,7 @@ class TestResponse:
     Defines format of test response
     """
 
-    def __init__(self, result: Any, duration: int):
+    def __init__(self, duration: int, result: Optional[Any] = None):
         self.result = result
         self.duration = duration
 

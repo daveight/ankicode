@@ -69,6 +69,6 @@ class JsTestSuiteGeneratorTests(GeneratorTestCase):
                 const end = new Date().getTime();
                 console.log(JSON.stringify({
                     'result': converter6(result),
-                    'duration': (start-end)
+                    'duration': (end-start)
                 }));
             });''', testing_src)

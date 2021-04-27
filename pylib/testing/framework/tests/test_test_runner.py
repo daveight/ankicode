@@ -34,3 +34,8 @@ class TestRunnerTests(unittest.TestCase):
         tst_resp, msg = parse_response(line)
         self.assertEqual(TestResponse(result=1, duration=1), tst_resp)
         self.assertEqual('ok{{}}', msg)
+
+    def test_line_parser_mixed_text_and_json_obscured_2(self):
+        line = '{"duration": 0}'
+        tst_resp, msg = parse_response(line)
+        self.assertEqual(TestResponse(result=None, duration=0), tst_resp)

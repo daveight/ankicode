@@ -56,7 +56,7 @@ class JsTestSuiteGenerator(TestSuiteGenerator):
             \tconst end = new Date().getTime();
             \tconsole.log(JSON.stringify({
             \t\t'result': {{converters.output.fn_name}}(result),
-            \t\t'duration': (start-end)
+            \t\t'duration': (end-start)
             \t}));
             });
             ''', ts=ts, converters=converters, solution_src=solution_src)

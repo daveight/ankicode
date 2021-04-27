@@ -94,8 +94,7 @@ def parse_response(line: str) -> Tuple[Optional[TestResponse], str]:
                 resp = json.loads(line[i:end], object_hook=lambda d: TestResponse(**d))
             except Exception:
                 pass
-            if resp and isinstance(resp, TestResponse) and \
-                    (resp.result is not None and resp.duration is not None):
+            if resp and isinstance(resp, TestResponse) and resp.duration is not None:
                 return resp, buf
         buf += line[i]
     return None, buf
