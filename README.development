@@ -1,4 +1,4 @@
-CodeQuiz development
+AnkiCode development
 =================
 
 Packaged betas
@@ -7,9 +7,9 @@ Packaged betas
 For non-developers who want to try this development code, the easiest way is
 to use a packaged version - please see:
 
-https://daveight.github.io/codequiz/
+https://daveight.github.io/AnkiCode/
 
-You are welcome to run CodeQuiz from source instead, but it is expected that you
+You are welcome to run AnkiCode from source instead, but it is expected that you
 can sort out all dependencies and issues by yourself - we are not able to
 provide support for problems you encounter when running from source.
 
@@ -164,7 +164,7 @@ and automatic backups will be disabled - so please don't use this except on a te
 If LOGTERM is set before starting Anki, warnings and error messages that are normally placed
 in the collection2.log file will also be printed on stdout.
 
-Running CodeQuiz Tests Locally
+Running AnkiCode Tests Locally
 ------------------------------
 Create "testing/libs" directory in the project's root folder. Inside "libs" folder create a link to a language
 installation folder

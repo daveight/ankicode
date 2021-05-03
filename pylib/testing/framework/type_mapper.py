@@ -38,7 +38,7 @@ class TypeMapper(SyntaxTreeVisitor, ABC):
     """
     Base class for language specific type mappers.
 
-    TypeMapper maps CodeQuize's types to a language specific types. It is used during the generation of
+    TypeMapper maps AnkiCodee's types to a language specific types. It is used during the generation of
     a solution's template, to build correct argument types.
 
     NOTE: for a non-standard types (such as classes or structs) it also builds a class definition and puts

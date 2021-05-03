@@ -21,7 +21,7 @@ class PythonTestRunner(TestRunner):
         Builds shell command to execute source file using embedded python interpreter
 
         :param src_file: target source file to execute
-        :param resource_path: CodeQuiz resource path
+        :param resource_path: AnkiCode resource path
         :param is_win: True - if windows, False if Unix/MacOS
         :return: shell command to execute source file
         """

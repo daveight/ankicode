@@ -1,9 +1,9 @@
-## CodeQuiz
-This repo contains all the code for the computer version of [CodeQuiz](https://daveight.github.io/codequiz/).
+## AnkiCode
+This repo contains all the code for the computer version of [AnkiCode](https://daveight.github.io/AnkiCode/).
 
 ### Downloads
-- [CodeQuiz-1.0.0-mac.dmg](https://cutt.ly/xkXLnGf)
-- [CodeQuiz-1.0.0-win.exe](https://cutt.ly/zkXL5kD)
+- [AnkiCode-1.0.0-mac.dmg](https://cutt.ly/xkXLnGf)
+- [AnkiCode-1.0.0-win.exe](https://cutt.ly/zkXL5kD)
 
 ### Docs
 For more information on building, please see [README.development](README.development).

@@ -24,7 +24,7 @@ class CppTestRunner(TestRunner):
         Builds a C++ execute command.
 
         :param src_file: target source file containing a test suite
-        :param resource_path: CodeQuiz resource path
+        :param resource_path: AnkiCode resource path
         :param is_win: True - if windows, False - if Unix/MacOS
         :return: shell command to execute a test suite
         """
@@ -35,7 +35,7 @@ class CppTestRunner(TestRunner):
         Builds a C++ compile command.
 
         :param src_file: target source file containing a test suite
-        :param resource_path: CodeQuiz resource path
+        :param resource_path: AnkiCode resource path
         :param is_win: True - if windows, False - if Unix/MacOS
         :return: shell command to compile a source file
         """
