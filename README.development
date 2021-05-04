@@ -13,7 +13,7 @@ You are welcome to run AnkiCode from source instead, but it is expected that you
 can sort out all dependencies and issues by yourself - we are not able to
 provide support for problems you encounter when running from source.
 
-Code Quiz is a fork of Anki. Below you will find the information on how to build it locally.
+AnkiCode is a fork of Anki. Below you will find the information on how to build it locally.
 
 Python wheels
 --------------
