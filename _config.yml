@@ -1,5 +1,5 @@
 #theme: jekyll-theme-hacker
-remote_theme: "b2a3e8/jekyll-theme-console"
+remote_theme: "MyNameIsCosmo/jekyll-theme-markdown-console"
 show_downloads: false
 header_pages:
   - index.md
