@@ -1,10 +1,10 @@
 ## About
 
-CodeQuiz desktop app provides the fastest way to learn and memorize algorithms.
+AnkiCode desktop app provides the fastest way to learn and memorize algorithms.
 
-<img src="images/code-quiz.png" width="800"/>
+<img src="images/code-quiz.png" width="100%"/>
 
-CodeQuiz is a fork of [Anki](https://apps.ankiweb.net/) app.
+AnkiCode is a fork of [Anki](https://apps.ankiweb.net/).
 
 ### Supported Languages
 
