@@ -35,6 +35,7 @@ Example:
 ![](images/programming_challenge.png)
 
 >User can select a Programming Language and Theme using `Language` and `Skin` selectboxes.
+
 <br/>
 
 ### "Programming Challenge" card hotkeys
