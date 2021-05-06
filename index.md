@@ -10,7 +10,7 @@
 ## Features
 ```
 * Code editor with syntax highlighting and themes.
-* Support of Java, C++, JavaScript and `Python`.
+* Support of Java, C++, JavaScript and Python.
 * Users can share their own programming challenges.
 * Everything is executed locally, no internet connection needed.
 ```
