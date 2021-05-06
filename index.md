@@ -1,17 +1,18 @@
 ## About
 
-AnkiCode desktop app provides the fastest way to learn and memorize algorithms.
+AnkiCode desktop app provides the fastest way to learn and memorize algorithms. It is built on top of [Anki](https://apps.ankiweb.net/).
+With the new "Programming Challenge" card type, it is now possible to write and execute code directly in the app.
 
-<img src="images/code-quiz.png" width="100%"/>
+### Features
+- Code editor with syntax highlighting and themes.
+- Support of Java, C++, JavaScript and Python.
+- Users can share their own programming challenges.
+- Everything is executed locally, no internet connection needed.
 
-AnkiCode is a fork of [Anki](https://apps.ankiweb.net/).
+### Downloads
 
-### Supported Languages
-
-- Java
-- C++
-- JavaScript
-- Python
+- [AnkiCode-1.1.0-mac](https://github.com/daveight/ankicode/releases/download/untagged-08fe16ecf0e2ea823f81/AnkiCode-1.1.0-mac.dmg)
+- [AnkiCode-1.1.0-win](https://github.com/daveight/ankicode/releases/download/untagged-08fe16ecf0e2ea823f81/AnkiCode-1.1.0-win.exe)
 
 ### Tutorials
 
@@ -21,12 +22,7 @@ AnkiCode is a fork of [Anki](https://apps.ankiweb.net/).
 
 ### Algorithm Decks:
 
-- [Sorting Algorithms](http://google.com)
-- [Graph Algorithms](http://google.com)
-- [Google Interview Questions](http://google.com)
-- [Facebook Interview Questions](http://google.com)
-
-### Downloads
+- [AnkiCode-Decks Repository](https://github.com/daveight/ankicode-decks)
 
 
 
