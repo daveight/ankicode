@@ -6,7 +6,7 @@ AnkiCode is a fork of Anki.
 
 <br/>
 
-## New "Programming Challenge" card type
+## New card type - "Programming Challenge"
 AnkiCode extends Anki by adding the new card type "Programming Challenge". Its fields are listed below:
 
 - Title
@@ -27,4 +27,11 @@ Example:
 | `Function name`| sum                                                        |
 | `Solution`     | \`\`\`js<br>function sum(a, b) { return a + b }<br>\`\`\`  |
 | `Test-Cases`   | int;int;int<br>  1;  1;  2<br>  2;  2;  4<br>  3;  3;  6   |
+
+<br/>
+
+## "Programming Challenge" card layout
+
+
+
 
