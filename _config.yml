@@ -1,1 +1,4 @@
-theme: jekyll-theme-cayman
+#theme: jekyll-theme-hacker
+remote_theme: "MyNameIsCosmo/jekyll-theme-markdown-console"
+show_downloads: false
+title: "AnkiCode"

@@ -1,20 +1,29 @@
 ## About
 
-CodeQuiz is a fork of Anki application. Anki allows to create and study flashcards. CodeQuiz extends Anki functionality, by adding a new flashcard type named "Coding Quiz". Using this card type user can practice his coding skills by solving programming challenges directly in the desktop application. CodeQuiz is equiped with integrated code editor and program execution runtime, which allows to execute code and verify it's correctness.
+AnkiCode desktop app provides the fastest way to learn and memorize algorithms. It is built on top of [Anki](https://apps.ankiweb.net/).
+With the new "Programming Challenge" card type, it is now possible to write and execute code directly in the app.
+
+## Features
+
+- Code editor with syntax highlighting and themes.
+- Support of Java, C++, JavaScript and Python.
+- Users can share their own programming challenges.
+- Everything is executed locally, no internet connection needed.
+
+## Downloads
+
+- [Download AnkiCode for Mac OS X 10.13.4+](https://github.com/daveight/ankicode/releases/download/untagged-08fe16ecf0e2ea823f81/AnkiCode-1.1.0-mac.dmg)
+- [Download AnkiCode for Windows 7/8/10](https://github.com/daveight/ankicode/releases/download/untagged-08fe16ecf0e2ea823f81/AnkiCode-1.1.0-win.exe)
+
+## Tutorials
+
+- [Getting Started](getting-started.md)
+- [Creating custom "Programming Challenge" deck](create-quiz.md)
+- [Tests format and supported data types](test-format.md)
+
+## Decks:
+
+- [AnkiCode-Decks repository](https://github.com/daveight/ankicode-decks)
 
 
-### Downloads
-- [CodeQuiz-1.0.0-mac.dmg](https://cutt.ly/xkXLnGf)
-- [CodeQuiz-1.0.0-win.exe](https://cutt.ly/zkXL5kD)
-
-### Code Quizes Collection
-
-[CodeQuiz Decks](https://github.com/daveight/codequiz-decks)
-
-### Tutorials
-
-- [How to create your own code quiz](create-quiz.md)
-- [How to import existing code quiz](import-quiz.md)
-- [How to execute a code quiz](execute-quiz.md)
-- [Test cases format](test-cases-format.md)
 
