@@ -16,8 +16,6 @@
 ```
 
 <br>
-- - -
-<br>
 
 ## Downloads
 
