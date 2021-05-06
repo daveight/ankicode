@@ -12,8 +12,8 @@ AnkiCode extends Anki by adding the new card type "Programming Challenge". Its f
 - Title
 - Description
 - Function name
-- Solution (markdown format)
-- Test-Cases (read more about their format [here](http://www.google.com))
+- Solution ([Markdown](http://www.google.com) format)
+- Test-Cases (read more about [format](http://www.google.com))
 
 <br/>
 
@@ -34,11 +34,12 @@ Example:
 <br/>
 ![](images/programming_challenge.png)
 
-User can select a Programming Language and Theme using `Language` and `Skin` selectboxes.
+>User can select a Programming Language and Theme using `Language` and `Skin` selectboxes.
+<br/>
 
 ### "Programming Challenge" card hotkeys
 
-| OS X   | Windows | Hotkey |
+| OS X   | Windows | Action |
 | --------- | ---------- | -------------------- | 
 | `Cmd + R` | `Ctrl + R` | Execute code         |
 | `Cmd + J` | `Ctrl + J` | Switch to Java       |
