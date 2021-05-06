@@ -30,9 +30,20 @@ Example:
 
 <br/>
 
-## "Programming Challenge" card layout
+## "Programming Challenge" card
 <br/>
-<img src="images/programming_challenge.png" alt="Programming Challenge Card Layout"/>
+![](images/programming_challenge.png)
 
+User can select a Programming Language and Theme using `Language` and `Skin` selectboxes.
+
+### "Programming Challenge" card hotkeys
+
+| OS X   | Windows | Hotkey |
+| --------- | ---------- | -------------------- | 
+| `Cmd + R` | `Ctrl + R` | Execute code         |
+| `Cmd + J` | `Ctrl + J` | Switch to Java       |
+| `Alt + J` | `Alt + J`  | Switch to JavaScript |
+| `Alt + P` | `Alt + P`  | Switch to Python     |
+| `Alt + C` | `Alt + C`  | Switch to C++        |
 
 
