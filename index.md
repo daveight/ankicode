@@ -3,6 +3,7 @@
 >AnkiCode desktop app provides the fastest way to learn and memorize algorithms. It is built on top of [Anki](https://apps.ankiweb.net/).
 >With the new "Programming Challenge" card type, it is now possible to write and execute code directly in the app.
 
+<br><br>
 - - -
 
 ## Features
