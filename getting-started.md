@@ -32,6 +32,7 @@ Example:
 
 ## "Programming Challenge" card layout
 
+<img src="images/programming_challenge.png" alt="Programming Challenge Card Layout"/>
 
 
 
