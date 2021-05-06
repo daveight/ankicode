@@ -15,7 +15,7 @@ AnkiCode extends Anki by adding the new card type "Programming Challenge". Its f
 - Solution (markdown format)
 - Test-Cases (read more about their format [here](http://www.google.com))
 
-<br>
+<br/><br/>
 
 Example:
 
@@ -26,5 +26,5 @@ Example:
 | `Decsription`  | Given two integers calculate their sum.                    |
 | `Function name`| sum                                                        |
 | `Solution`     | \`\`\`js<br>function sum(a, b) { return a + b }<br>\`\`\`  |
-| `Test-Cases`   | int;int;int<br>1;1;2<br>2;2;4<br>3;3;6                     |
+| `Test-Cases`   | int;int;int<br>  1;  1;  2<br>  2;  2;  4<br>  3;  3;  6   |
 
