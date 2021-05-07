@@ -1,41 +1,92 @@
-## How to create a code quiz?
+## How to create a Programming Challenge?
 
-1) Create the target deck (or select an existing one)
+In this tutorial we will cover how to create custom programming challenges using AnkiCode UI.
 
-   <img src="images/create-1.png" width="300">
+### Task
+Let's say you want to create a challenge which finds a min and max element in an integer array.
 
-2) Click Add link at the top menu
+### Select a target deck or create one
 
-   <img src="images/create-2.png" width="300">
+![](images/create-deck.png)
 
-3) Select "Code Quiz" as a card type
+### Click "Add" button in the top main menu
 
-4) Check that the deck name is correct in the Deck select
+![](images/create-card.png)
 
-5) In the `Title` field specify a short and unique title of the quiz
+- Select target deck's name in the Deck select
+- Select "Programming Challenge" in Type select
 
-6) In the `Description` field provide the quizes full description, which can include example test-cases, algorithm performance requirements, etc
-   For example:
-   
-   ```
-      Given an array of integers nums, sort the array in ascending order.
-      
-      Example1:
-      Input: nums = [4,3,2,1]
-      Output: [1,2,3,4]
-      
-      Example2:
-      Input: nums = [3,-1,0,6]
-      Output: [-1,0,3,6]      
-   ```
+### Title
 
-7) Specify a name of the target function `Function Name`. It will be used in the solution template.
+Populate a title for the challenge: "Find Min/Max element in array"
 
-8) `Solution` field will be displayed after Quiz submission, it contains Markdown-formatted solution description, it can also include code blocks as follows:
-   \`\`\` java
-   
-   System.out.println("Hello World");
-   \`\`\`
-   
-9) `Test-Cases` tab or semicolon separated values with test-cases. Read more about it's format here:
-[Test cases format](test-cases-format.md)
+### Description
+
+Description will be displayed in the code editor in the comments section, here you should describe the task:
+
+"Given an integer array, find it's min and max elements. For example [1, 2, 3, 4, 5], min=1 max=5"
+
+### Function Name
+
+"findMinMax"
+
+### Solution
+
+Here we must specify the information in the Markdown format which contains the solution plus all information neccessary. It can be the following:
+
+```python
+class MinMax:
+   def __init__(self, min, max):
+      self.min = min
+      self.max = max
+     
+def findMinMax(arr: List[int]):
+   min = arr[0]
+   max = arr[0]
+   for i in arr:
+      if min > arr[i]:
+         min = arr[i]
+      if max < arr[i]:
+         max = arr[i]
+   return MinMax(min, max)
+```
+
+Time-Complexity: O(n)
+
+### Test-Cases
+
+Test-Cases format is the following
+```
+array(int)[arr];object(int[min],int[max])<MinMax>
+```
+
+From this description it follows that the solution's function will accept 1 argument - integer array "arr" and must return a structure of type MinMax with 2 integer fields - min and max.
+
+We will specify 2 rows to verify the results
+
+```
+[1,2,3,4,5];[1,5]
+[5,-1,2,4,100];[-1,100]
+```
+
+### Card overview
+
+![](images/find-min-max-card.png)
+
+- Click Save button
+
+### Verify results
+
+- Navigate to the parent deck by clicking on it's title (for easier testing it is better to create a separate Deck which will contain exactly 1 card)
+- Click "Study Now"
+
+![](images/find-min-max-ui.png)
+
+### Select Language
+
+- For every language selected - you will see that the template was changed.
+- Now you can specify the solution code and click to Run it.
+- If solution contains errors - they will be displayed in the Console window.
+
+![](images/find-min-max-success.png)
+
