@@ -36,19 +36,15 @@ Here we must specify the information in the Markdown format which contains the s
 
 ```python
 class MinMax:
-   def __init__(self, min, max):
+   def __init__(self, min: int, max: int):
       self.min = min
       self.max = max
-     
-def findMinMax(arr: List[int]):
-   min = arr[0]
-   max = arr[0]
-   for i in arr:
-      if min > arr[i]:
-         min = arr[i]
-      if max < arr[i]:
-         max = arr[i]
-   return MinMax(min, max)
+def find_min_max(arr: List[int]) -> MinMax:
+    minMax = MinMax(arr[0], arr[0])
+    for i, element in enumerate(arr, 1):
+       minMax.min = min(element, minMax.min)
+       minMax.max = max(element, minMax.max)
+    return minMax
 ```
 
 Time-Complexity: O(n)
