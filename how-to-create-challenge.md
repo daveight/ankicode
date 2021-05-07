@@ -76,6 +76,8 @@ We will specify 2 rows to verify the results
 - Navigate to the parent deck by clicking on it's title (for easier testing it is better to create a separate Deck which will contain exactly 1 card)
 - Click "Study Now"
 
+<br/>
+
 <img src="images/find-min-max-ui.png" width="600"/>
 
 ### Select Language
@@ -83,6 +85,8 @@ We will specify 2 rows to verify the results
 - For every language selected - you will see that the template was changed.
 - Now you can specify the solution code and click to Run it.
 - If solution contains errors - they will be displayed in the Console window.
+
+<br/>
 
 <img src="images/find-min-max-success.png" width="600"/>
 
