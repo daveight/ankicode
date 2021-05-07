@@ -109,6 +109,8 @@ Example:
 
 ### Primitive types declaration
 
+<br/>
+
 `Arg-Type`[`Arg-Name`]
 >note: `Arg-Name` is optional
 
@@ -147,6 +149,9 @@ function foo(i) {
 <br/>
 
 ### Array/List type declaration
+
+<br/>
+
 list|array(`Inner-Type`)[`Arg-Name`]
 >note: `Arg-Name` is optional
 
@@ -185,6 +190,9 @@ function foo(arr) {
 <br/>
 
 ### Object type declaration
+
+<br/>
+
 object(`Field1-Type`[`Field1-Name`], `Field2-Type`[`Field2-Name`], ...)<`Object-Type`>
 >note: `FieldX-Name` is optional
 
