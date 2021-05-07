@@ -59,13 +59,11 @@ Test-Cases are stored in CSV format (semicolon or tab-separated).
 
 ### Test-Cases Header Format
 
-Header contains all neccessary type meta-information for a function's arguments and return value.
-Let's say we have to implement a function which takes N parameters and returns some type.
+Header contains all neccessary type meta-information for a function's arguments and return value. Generic Header declaration for N arguments:
 
 <br/>
 
-The Header declaration will look like this:
-`Arg1-Type`[`Arg1-Name`];`Arg2-Type`[`Arg2-Name`];...;`ArgN-Type`[`ArgN-Name`];`Result-Type`[`Verification-Opts`]
+```Arg1-Type[Arg1-Name];Arg2-Type[Arg2-Name];...;ArgN-Type[ArgN-Name];Result-Type[Verification-Opts]```
 
 <br/>
 
