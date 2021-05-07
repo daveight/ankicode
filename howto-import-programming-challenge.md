@@ -1,7 +1,7 @@
 ## How to import programming challenge decks?
 
 1) Challenges can be found in this repository [AnkiCode-Decks](https://github.com/daveight/ankicode-decks)
-2) Challenges are grouped by different topics, 1 CSV file per topic. CSV file contain a number of challenges.
+2) Challenges are grouped by different topics, 1 CSV file per topic. CSV file contain a number of challenges (cards).
 3) Download CSV files.
 4) Run AnkiCode
 5) Click "Import File" button in the bottom buttons row.
