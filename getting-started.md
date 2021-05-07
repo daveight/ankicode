@@ -69,6 +69,8 @@ Let's say we have to implement a function which takes N parameters and returns s
 - `Result-Type` Return value type (The function always must return some value, void type is not supported)
 - `Verification-Opts` List of comma-separated options with the verification params (see below)
 
+<br/>
+
 ### Supported Types
 
 | Type            | Java   | Python |  C++      |  JavaScript  |
@@ -83,6 +85,7 @@ Let's say we have to implement a function which takes N parameters and returns s
 | `map`           | Map    | Dict   | map       | Map          |
 | `object`        | class  | class  | struct    | Object       |
 
+<br/>
 
 ### Supported Verification Types
 
@@ -103,6 +106,8 @@ ignore_order=False => `[1, 0, 2]` != `[2, 0, 1]`
 
 `Arg-Type`[`Arg-Name`]
 >note: `Arg-Name` is optional
+
+<br/>
 
 Example:
 `int[i]`
@@ -174,8 +179,8 @@ function foo(arr) {
 <br/>
 
 ### Object type declaration
-object(`Inner-Type-1`[`Arg-Type-1`], `Inner-Type-2`[`Arg-Type-2`], ...)<`Object-Type`>
->note: `Arg-Name-X` is optional
+object(`Field1-Type`[`Field1-Name`], `Field2-Type`[`Field2-Name`], ...)<`Object-Type`>
+>note: `FIeldX-Name` is optional
 
 <br/>
 
