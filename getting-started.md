@@ -255,7 +255,11 @@ JavaScript
 
 In JavaScript no explicit types will be generated, instead of it the corresponding [JS Doc](https://jsdoc.app/index.html) will be generated
 
+<br/>
+
 ## Test-Case Rows
+
+<br/>
 
 Every row of CSV body represents one test case. In every column of every row value for a particular parameter is stored. Values of container types such as lists, maps, arrays, objects are stored in JSON arrays.
 
