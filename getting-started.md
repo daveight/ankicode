@@ -102,8 +102,8 @@ Arg1-Type[Arg1-Name];Arg2-Type[Arg2-Name];...;ArgN-Type[ArgN-Name];Result-Type[V
 
 Example:
 
-ignore_order=True => `[1, 0, 2]` == `[2, 0, 1]`
-ignore_order=False => `[1, 0, 2]` != `[2, 0, 1]`
+* ignore_order=True => `[1, 0, 2]` == `[2, 0, 1]`
+* ignore_order=False => `[1, 0, 2]` != `[2, 0, 1]`
 
 <br/>
 
