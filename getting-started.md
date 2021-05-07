@@ -13,7 +13,7 @@ AnkiCode extends Anki by adding the new card type "Programming Challenge". Field
 - Description
 - Function name
 - Solution ([Markdown](http://www.google.com) format)
-- Test-Cases (read more about [format](http://www.google.com))
+- Test-Cases (read more about format below)
 
 <br/>
 
