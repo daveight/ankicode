@@ -233,6 +233,30 @@ body.nightMode #editor-controls .inner button.stop .icon {
   box-sizing: border-box;
 }
 
+.isWin::-webkit-scrollbar, .isWin ::-webkit-scrollbar {
+    background-color: transparent;
+    width: 12px;
+}
+
+.isWin::-webkit-scrollbar-track, .isWin ::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.isWin::-webkit-scrollbar-thumb, .isWin ::-webkit-scrollbar-thumb {
+    background-color: #7f7f7f;
+    border-radius: 6px;
+    border: solid 1px #ccc;
+}
+
+.isWin.nightMode::-webkit-scrollbar-thumb, .isWin.nightMode ::-webkit-scrollbar-thumb {
+    background-color: #14151b !important;
+    border: solid 1px #484a54 !important;
+}
+
+.isWin::-webkit-scrollbar-button, .isWin ::-webkit-scrollbar-button {
+    display:none;
+}
+
 #progressbar .inner-therm, #progressbar .outer-therm {
   box-sizing: border-box;
   border-radius: 0 !important;
