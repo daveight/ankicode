@@ -159,6 +159,7 @@ foo_type foo(int[] arr) {
    ...
 }
 ```
+
 Python
 ```python
 def foo(arr: List[int]):
