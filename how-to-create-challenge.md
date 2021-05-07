@@ -11,7 +11,7 @@ Let's say you want to create a challenge which finds a min and max element in an
 
 ### Click "Add" button in the top main menu
 
-<img src="images/create-card.png" width="600"/>
+<img src="images/create-card.png" width="100%"/>
 
 - Select target deck's name in the Deck select
 - Select "Programming Challenge" in Type select
@@ -67,20 +67,20 @@ We will specify 2 rows to verify the results
 
 ### Card overview
 
-<img src="images/find-min-max-card.png" width="600"/>
+<img src="images/find-min-max-card.png" width="100%"/>
 
 - Click Save button
 
 ### Verify results
 
-<img src="images/find-min-max-ui.png" width="600"/>
+<img src="images/find-min-max-ui.png" width="100%"/>
 
 - Navigate to the parent deck by clicking on it's title (for easier testing it is better to create a separate Deck which will contain exactly 1 card)
 - Click "Study Now"
 
 ### Select Language
 
-<img src="images/find-min-max-success.png" width="600"/>
+<img src="images/find-min-max-success.png" width="100%"/>
 
 - For every language selected - you will see that the template was changed.
 - Now you can specify the solution code and click to Run it.
