@@ -71,7 +71,7 @@ Let's say we have to implement a function which takes N parameters and returns s
 
 <br/>
 
-### Supported Types
+### Supported Type Mappings
 
 | Type            | Java   | Python |  C++      |  JavaScript  |
 | --------------- | ------ | ------ | --------- | ------------ |
