@@ -63,7 +63,9 @@ Header contains all neccessary type meta-information for a function's arguments 
 
 <br/>
 
-```Arg1-Type[Arg1-Name];Arg2-Type[Arg2-Name];...;ArgN-Type[ArgN-Name];Result-Type[Verification-Opts]```
+```
+Arg1-Type[Arg1-Name];Arg2-Type[Arg2-Name];...;ArgN-Type[ArgN-Name];Result-Type[Verification-Opts]
+```
 
 <br/>
 
