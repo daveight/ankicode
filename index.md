@@ -28,8 +28,8 @@
 
 ## Tutorials
 - [Getting Started](getting-started.md)
-- [Creating custom "Programming Challenge" deck](create-quiz.md)
-- [Tests format and supported data types](test-format.md)
+- [How to import programming challenges](how-to-import-programming-challenge.md)
+- [How to create your own programming challenge](how-to-create-challenge.md)
 
 <br>
 - - -
