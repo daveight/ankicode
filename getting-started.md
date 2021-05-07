@@ -33,8 +33,6 @@ Example:
 ## Code Editor
 Using the integrated code editor user can debug his solution, errors and log messages will be displayed in the Console.
 
-<br/>
-
 ![](images/programming_challenge.png)
 
 >User can select a Programming Language and Theme using `Language` and `Skin` selectboxes.
@@ -53,30 +51,23 @@ Using the integrated code editor user can debug his solution, errors and log mes
 
 <br/>
 
-## Import Existing Programming Challenge
-
-Programming Challenge is Anki card, so it can be stored in any Anki supported format.
-
-Collection of AnkiCode Programming Challenges can be found in the following repository:
-* [AnkiCode-Decks](https://github.com/daveight/ankicode-decks)
-
-<br/>
-
 ## Test-Cases Format
 
 Test-Cases are stored in CSV format (semicolon or tab-separated).
+
+<br/>
 
 ### Test-Cases Header Format
 
 Header contains all neccessary type meta-information for a function's arguments and return value.
 Let's say we have to implement a function which takes N parameters and returns some type. The Header declaration will look like this:
 
-<`Arg1-Type`>[`Arg1-Name`];<`Arg2-Type`>[`Arg2-Name`];...;<`Result-Type`>[`Verification-Opts`]
+`Arg1-Type`[`Arg1-Name`];`Arg2-Type`[`Arg2-Name`];...;`Result-Type`[`Verification-Opts`]
 
 - `ArgX-Type` Type for a specific argument (List of all supported types you can find below).
 - `ArgX-Name` Argument's name - this parameter is optional.
 - `Result-Type` Return value type (The function always must return some value, void type is not supported)
-- `Verification-Opts` List of options which are used when verifying the result (see below)
+- `Verification-Opts` List of comma-separated options with the verification params (see below)
 
 ### Supported Types
 
@@ -99,10 +90,14 @@ Let's say we have to implement a function which takes N parameters and returns s
 | ---- | ------- | ----------- |
 | ignore_order | boolean (True or False), False by default | ignore order of elements during results comparison |
 
+<br/>
+
 Example:
 
 ignore_order=True => `[1, 0, 2]` == `[2, 0, 1]`
 ignore_order=False => `[1, 0, 2]` != `[2, 0, 1]`
+
+<br/>
 
 ### Primitive types declaration
 
@@ -139,9 +134,13 @@ function foo(i) {
 }
 ```
 
+<br/>
+
 ### Array/List type declaration
 list|array(`Inner-Type`)[`Arg-Name`]
 >note: `Arg-Name` is optional
+
+<br/>
 
 Example:
 `array(int)[arr]`
@@ -172,9 +171,13 @@ function foo(arr) {
 }
 ```
 
+<br/>
+
 ### Object type declaration
 object(`Inner-Type-1`[`Arg-Type-1`], `Inner-Type-2`[`Arg-Type-2`], ...)<`Object-Type`>
 >note: `Arg-Name-X` is optional
+
+<br/>
 
 Example:
 `object(array(int)[arr], float[b], object(int[a], String[b])<SubType>[sub])<MainType>[main]`
