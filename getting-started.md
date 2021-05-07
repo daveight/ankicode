@@ -185,7 +185,7 @@ function foo(arr) {
 
 ### Object type declaration
 object(`Field1-Type`[`Field1-Name`], `Field2-Type`[`Field2-Name`], ...)<`Object-Type`>
->note: `FIeldX-Name` is optional
+>note: `FieldX-Name` is optional
 
 <br/>
 
