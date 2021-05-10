@@ -39,5 +39,9 @@
 
 - [AnkiCode-Decks repository](https://github.com/daveight/ankicode-decks)
 
+<br>
+- - -
+<br>
 
-
+## Our Community:
+[<img src="images/slack_logo.png" height="20px">](https://ankicode.slack.com)
