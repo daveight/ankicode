@@ -20,7 +20,7 @@
 ## Downloads
 
 - [Download AnkiCode for Mac OS X 10.13.4+](https://github.com/daveight/ankicode/releases/download/untagged-08fe16ecf0e2ea823f81/AnkiCode-1.1.0-mac.dmg)
-- [Download AnkiCode for Windows 7/8/10](https://github.com/daveight/ankicode/releases/download/untagged-08fe16ecf0e2ea823f81/AnkiCode-1.1.0-win.exe)
+- [Download AnkiCode for Windows 7/8/10](https://github.com/daveight/ankicode/releases/download/1.1.0/AnkiCode-1.1.0-win.exe)
 
 <br>
 - - -
