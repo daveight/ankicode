@@ -19,7 +19,7 @@
 
 ## Downloads
 
-- [Download AnkiCode for Mac OS X 10.13.4+](https://cutt.ly/gbS0cQM)
+- [Download AnkiCode for Mac OS X 10.13.4+](https://cutt.ly/sbS2uQA)
 - [Download AnkiCode for Windows 7/8/10](https://cutt.ly/cbS0YAd)
 
 <br>
