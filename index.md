@@ -44,5 +44,5 @@
 - - -
 <br>
 
-## Communication Channels:
+## Communities:
 [<img src="images/slack_logo.png" height="20px">](https://ankicode.slack.com)
