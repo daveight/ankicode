@@ -28,7 +28,7 @@
 
 ## Tutorials
 - [Getting Started](getting-started.md)
-- [Youtube Tutorial: Solving an algorithm problem using AnkiCode](https://www.youtube.com/watch?v=dB23wJ1b6Ik)
+- [Youtube Tutorial: Counting the number of bits set in an integer](https://www.youtube.com/watch?v=dB23wJ1b6Ik)
 - [How to import programming challenges](how-to-import-programming-challenge.md)
 - [How to create your own programming challenge](how-to-create-challenge.md)
 
