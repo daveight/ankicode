@@ -20,7 +20,7 @@
 2. `pyenv install -v 3.7.3`
 3. `cp -r ~/.pyenv/versions/3.7.3 libs/python`
 
-## Install CPP
+## Install LLVM
 1. Download appropriate LLVM version (https://releases.llvm.org/download.html)
 2. `wget https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/clang+llvm-10.0.0-x86_64-linux-sles11.3.tar.xz` (For openSUSE)
 3. `tar xfv clang+llvm-10.0.0-x86_64-linux-sles11.3.tar.xz -C libs/cpp`
