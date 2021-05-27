@@ -34,6 +34,7 @@
 - [Youtube Tutorial: Counting the number of bits set in an integer](https://www.youtube.com/watch?v=dB23wJ1b6Ik)
 - [How to import programming challenges](how-to-import-programming-challenge.md)
 - [How to create your own programming challenge](how-to-create-challenge.md)
+- [How to bundle Linux app](bundle-linux-app.md)
 
 <br>
 - - -
