@@ -29,6 +29,15 @@
 - - -
 <br>
 
+## Linux installation
+
+>Run: apt-get install build-essential
+>before installation
+
+<br>
+- - -
+<br>
+
 ## Tutorials
 - [Getting Started](getting-started.md)
 - [Youtube Tutorial: Counting the number of bits set in an integer](https://www.youtube.com/watch?v=dB23wJ1b6Ik)
