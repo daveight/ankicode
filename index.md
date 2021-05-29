@@ -19,11 +19,11 @@
 
 ## Downloads
 
-- [Download AnkiCode for Mac OS X 10.13.4+](https://cutt.ly/sbS2uQA)
-- [Download AnkiCode for Windows 7/8/10](https://cutt.ly/cbS0YAd)
-- [Download AnkiCode Ubuntu 20](https://cutt.ly/vnuV1re)
-- [Download AnkiCode Ubuntu 16](https://cutt.ly/LnuV7xY)
-- [Download AnkiCode Debian 8](https://cutt.ly/nnuBykb)
+- [Download AnkiCode for Mac OS X 10.13.4+](https://cutt.ly/knp4juZ)
+- [Download AnkiCode for Windows 7/8/10](https://cutt.ly/pnp4lN3)
+- [Download AnkiCode Ubuntu 20](https://cutt.ly/enp4vrg)
+- [Download AnkiCode Ubuntu 16](https://cutt.ly/enp4xEi)
+- [Download AnkiCode Debian 9](https://cutt.ly/wnp4mwJ)
 
 <br>
 - - -
