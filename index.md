@@ -21,9 +21,9 @@
 
 - [Download AnkiCode for Mac OS X 10.13.4+](https://cutt.ly/knp4juZ)
 - [Download AnkiCode for Windows 7/8/10](https://cutt.ly/pnp4lN3)
-- [Download AnkiCode Ubuntu 20](https://cutt.ly/enp4vrg)
-- [Download AnkiCode Ubuntu 16](https://cutt.ly/enp4xEi)
-- [Download AnkiCode Debian 9](https://cutt.ly/wnp4mwJ)
+- [Download AnkiCode Ubuntu 20](https://cutt.ly/enp4vrg) (Ubuntu GLIBC 2.31-0ubuntu9.2)
+- [Download AnkiCode Ubuntu 16](https://cutt.ly/enp4xEi) (Ubuntu GLIBC 2.27-3ubuntu1.2)
+- [Download AnkiCode Debian 9](https://cutt.ly/wnp4mwJ) (Debian GLIBC 2.24-11+deb9u4)
 
 <br>
 - - -
