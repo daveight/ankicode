@@ -1,6 +1,6 @@
 # How to bundle Linux app
 
-1. Download ankicode empty app archive: `wget https://github.com/daveight/ankicode/releases/download/ankicode-1.1.0/Ankicode-1.0.0-linux-template.tar.xz`
+1. Download ankicode empty app archive: `wget https://github.com/daveight/ankicode/releases/download/ankicode-1.1.0/Ankicode-1.1.0-linux-template.tar.xz`
 2. Unarchive it: `tar -xvf ankicode-1.1.0-linux.tar.xz`
 3. `cd AnkiCode`
 4. `mkdir libs && cd libs`
