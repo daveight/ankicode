@@ -3,6 +3,7 @@
 """
 Java Input Converter Implementation
 """
+from typing import List
 
 from testing.framework.string_utils import render_template
 from testing.framework.type_converter import TypeConverter
@@ -149,15 +150,37 @@ class JavaInputConverter(TypeConverter):
     def visit_obj(self, node: SyntaxTree, context):
         """
         Converts input element to a class instance
-        [1, "2", 3] -> new SampleClass(1, "2", 3)
+        [1, 2, 3] -> ListNode<T>
 
         :param node: source node
         :param context: generation context
         :return: converter fn
         """
-        converters = [self.render(child, context) for child in node.nodes]
+        converters: List[ConverterFn] = [self.render(child, context) for child in node.nodes]
         src = render_template('''
             {{type_name}} result = new {{type_name}}();
             {% for c in converters %}result.{{c.prop_name}} = {{c.fn_name}}(value.get({{loop.index0}}));\n{% endfor %}
             return result;''', converters=converters, type_name=node.node_type)
         return ConverterFn(node.name, src, 'JsonNode', node.node_type)
+
+    def visit_linked_list(self, node: SyntaxTree, context):
+        """
+        Creates linked-list, for every input element invokes inner type converter and puts it inside linked list
+        linked_list(string):
+        ["a", "b", "c"] -> LinkedList<String>() { "a", "b", "c" }
+        """
+
+        child: ConverterFn = self.render(node.first_child(), context)
+        src = render_template('''
+            ListNode<{{child.ret_type}}> head = new ListNode<>();
+            ListNode<{{child.ret_type}}> node = head;
+            \tfor (JsonNode n : value) {
+            \t\tListNode<{{child.ret_type}}> nextNode = new ListNode<>();
+            \t\tnextNode.data = {{child.fn_name}}(n);
+            \t\tnode.next = nextNode;
+            \t\tnode = nextNode;
+            \t}
+            return head.next;
+        ''', child=child)
+        return ConverterFn(node.name, src, 'JsonNode', 'ListNode<' + child.ret_type + '>')
+
