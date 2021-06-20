@@ -150,7 +150,7 @@ class JavaInputConverter(TypeConverter):
     def visit_obj(self, node: SyntaxTree, context):
         """
         Converts input element to a class instance
-        [1, 2, 3] -> ListNode<T>
+        [1, "2", 3] -> new SampleClass(1, "2", 3)
 
         :param node: source node
         :param context: generation context
@@ -167,7 +167,7 @@ class JavaInputConverter(TypeConverter):
         """
         Creates linked-list, for every input element invokes inner type converter and puts it inside linked list
         linked_list(string):
-        ["a", "b", "c"] -> LinkedList<String>() { "a", "b", "c" }
+        ["a", "b", "c"] -> ListNode<String>() { "a", "b", "c" }
         """
 
         child: ConverterFn = self.render(node.first_child(), context)
