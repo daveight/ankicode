@@ -106,6 +106,7 @@ class CppOutputConverterTests(unittest.TestCase):
             return result;''', 'int', 'jute::jValue'), converters[0])
         self.assertEqual(ConverterFn('', '''
             jute::jValue result;
+            result.set_type(jute::JARRAY);
             ListNode<int>* n = &value;
             while (n != NULL) {
                 result.add_element(converter1(n->data));
