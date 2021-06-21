@@ -178,6 +178,7 @@ class CppOutputConverter(TypeConverter):
         child = self.render(node.first_child(), context)
         src = render_template('''
             \tjute::jValue result;
+            \tresult.set_type(jute::JARRAY);
             \tListNode<{{child.arg_type}}>* n = &value;
             \twhile (n != NULL) {
             \t\tresult.add_element({{child.fn_name}}(n->data));
