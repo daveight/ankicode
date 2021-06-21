@@ -74,7 +74,7 @@ class PythonTypeMappingsGeneratorTests(GeneratorTestCase):
             T = TypeVar('T')
                 
             class ListNode(Generic[T]):
-                def __init__(self, data: Optional[Type[T]]):
+                def __init__(self, data: Optional[Type[T]]=None):
                     self.data = data
                     self.next = None
         ''', type_defs['linked_list'])

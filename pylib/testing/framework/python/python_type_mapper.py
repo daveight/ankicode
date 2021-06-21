@@ -126,7 +126,7 @@ class PythonTypeMapper(TypeMapper):
                 T = TypeVar('T')
                 
                 class ListNode(Generic[T]):
-                    \tdef __init__(self, data: Optional[Type[T]]):
+                    \tdef __init__(self, data: Optional[Type[T]]=None):
                         \t\tself.data = data
                         \t\tself.next = None
                 '''
