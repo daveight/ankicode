@@ -92,3 +92,27 @@ class JsOutputConverterTests(unittest.TestCase):
                 n = n.next
             }
             return result''', ''), converters[1])
+
+    def test_binary_tree(self):
+        tree = SyntaxTree.of(['binary_tree(int)'])
+        arg_converters, converters = self.converter.get_converters(tree)
+        self.assertEqual(1, len(arg_converters))
+        self.assertEqual(2, len(converters))
+        self.assertEqual(ConverterFn('', 'return value', ''), converters[0])
+        self.assertEqual(ConverterFn('', '''
+            const result = []
+            const queue = []
+            queue.push(value)
+            while (queue.length) {
+                node = queue.shift()
+                if (node) {
+                    result.push(converter1(node.data))
+                }
+                if (node.left) {
+                    queue.push(node.left)
+                }
+                if (node.right) {
+                    queue.push(node.right)
+                }
+            }
+            return result''', ''), converters[1])

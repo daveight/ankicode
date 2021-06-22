@@ -78,3 +78,19 @@ class PythonTypeMappingsGeneratorTests(GeneratorTestCase):
                     self.data = data
                     self.next = None
         ''', type_defs['linked_list'])
+
+    def test_binary_tree(self):
+        tree = SyntaxTree.of(['binary_tree(int)'])
+        args, type_defs = self.type_mapper.get_args(tree)
+        self.assertEqual(1, len(args))
+        self.assertEqual('BinaryTreeNode[int]', args[0].type)
+        self.assertEqual(1, len(type_defs.keys()))
+        self.assertEqualsIgnoreWhiteSpaces('''
+            T = TypeVar('T')
+
+            class BinaryTreeNode(Generic[T]):
+                def __init__(self, data: Optional[Type[T]]=None):
+                    self.data = data
+                    self.left = None
+                    self.right = None
+        ''', type_defs['binary_tree'])

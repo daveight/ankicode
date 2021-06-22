@@ -61,3 +61,17 @@ class CppTypeMapperTests(GeneratorTestCase):
                 ListNode<T>* next;
             };''', type_defs['linked_list'])
 
+    def test_binary_tree(self):
+        tree = SyntaxTree.of(['binary_tree(int)'])
+        args, type_defs = self.type_mapper.get_args(tree)
+        self.assertEqual(1, len(args))
+        self.assertEqual('BinaryTreeNode<int>', args[0].type)
+        self.assertEqual(1, len(type_defs.keys()))
+        self.assertEqualsIgnoreWhiteSpaces('''
+            template<typename T>
+            struct BinaryTreeNode {
+                T data;
+                BinaryTreeNode<T>* left;
+                BinaryTreeNode<T>* right;
+            };''', type_defs['binary_tree'])
+

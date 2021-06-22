@@ -29,6 +29,7 @@ namespace jute {
         void add_property(std::string key, jValue v);
         void add_element(jValue v);
         void set_string(std::string s);
+        bool is_null();
         int as_int();
         long int as_long();
         double as_double();

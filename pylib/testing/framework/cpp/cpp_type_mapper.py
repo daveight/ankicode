@@ -94,7 +94,7 @@ class CppTypeMapper(TypeMapper):
         :return: C++ string-type declaration
         """
         return 'bool'
- 
+
     def visit_obj(self, node: SyntaxTree, context):
         """
         C++ mapping for object-type. Stores type definition to the context
@@ -140,3 +140,22 @@ class CppTypeMapper(TypeMapper):
                 };
             '''
         return 'ListNode<' + self.render(child, context) + '>'
+
+    def visit_binary_tree(self, node: SyntaxTree, context):
+        """
+        c++ mapping for binary tree type
+        :param node: target syntax tree node
+        :param context: generation context
+        :return: c++ binary-tree type declaration
+        """
+        child: SyntaxTree = node.first_child()
+        if node.node_type not in context:
+            context[node.node_type] = '''
+                template <typename T>
+                struct BinaryTreeNode {
+                    \tT data;
+                    \tBinaryTreeNode<T>* left;
+                    \tBinaryTreeNode<T>* right;
+                }; 
+            '''
+        return 'BinaryTreeNode<' + self.render(child, context) + '>'

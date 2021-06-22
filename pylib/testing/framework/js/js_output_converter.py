@@ -169,3 +169,28 @@ class JsOutputConverter(TypeConverter):
 
         return ConverterFn(node.name, src, '')
 
+    def visit_binary_tree(self, node: SyntaxTree, context):
+        """
+        Converts binary-tree to a list
+        binary_tree(string):
+        BinaryTreeNode<String>() { "a", left: "b", right: "c" } -> ["a", "b", "c"]
+        """
+        child = self.render(node.first_child(), context)
+        src = render_template('''
+            const result = []
+            const queue = []
+            queue.push(value)
+            while (queue.length) {
+                \tnode = queue.shift()
+                \tif (node) {
+                    \t\tresult.push({{child.fn_name}}(node.data))
+                \t}
+                \tif (node.left) {
+                    \t\tqueue.push(node.left)
+                \t}
+                \tif (node.right) {
+                    \t\tqueue.push(node.right)
+                \t}
+            }
+            return result''', child=child)
+        return ConverterFn(node.name, src, '')

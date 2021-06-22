@@ -154,3 +154,30 @@ class PythonInputConverter(TypeConverter):
 
         return ConverterFn(node.name, src, '', 'ListNode[' + child.ret_type + ']')
 
+    def visit_binary_tree(self, node: SyntaxTree, context):
+        """
+        Creates binary-tree, for every input element invokes inner type converter and puts it inside binary tree
+        binary_tree(string):
+        ["a", "b", "c"] -> BinaryTreeNode<String>() { "a", left: "b", right: "c" }
+        """
+        child: ConverterFn = self.render(node.first_child(), context)
+        src = render_template('''
+            \tnodes = []
+            \tfor item in value:
+                \t\tnode = BinaryTreeNode()
+                \t\tif item is None:
+                    \t\t\tnode = None
+                \t\telse:
+                    \t\t\tnode.data = {{child.fn_name}}(item)
+                \t\tnodes.append(node)
+            \tchildren = [n for n in nodes]
+            \troot = children.pop(0)
+            \tfor node in nodes:
+                \t\tif node is not None:
+                    \t\t\tif children:
+                        \t\t\t\tnode.left = children.pop(0)
+                    \t\t\tif children:
+                        \t\t\t\tnode.right = children.pop(0)
+            \treturn root
+        ''', child=child)
+        return ConverterFn(node.name, src, '', 'BinaryTreeNode[' + child.ret_type + ']')

@@ -176,3 +176,28 @@ class JavaOutputConverter(TypeConverter):
 
         return ConverterFn(node.name, src, 'ListNode<' + child.ret_type + '>', 'List<' + child.ret_type + '>')
 
+    def visit_binary_tree(self, node: SyntaxTree, context):
+        """
+        Converts binary-tree to a list
+        binary_tree(string):
+        BinaryTreeNode<String>() { "a", left: "b", right: "c" } -> ["a", "b", "c"]
+        """
+        child = self.render(node.first_child(), context)
+        src = render_template('''
+            List<{{child.ret_type}}> result = new ArrayList<>();
+            Queue<BinaryTreeNode<{{child.ret_type}}>> queue = new LinkedList<>();
+            queue.add(value);
+            while (!queue.isEmpty()) {
+                \tBinaryTreeNode<{{child.ret_type}}> node = queue.poll();
+                \tif (node != null) {
+                    \t\tresult.add({{child.fn_name}}(node.data));
+                    \t\tif (node.left != null) {
+                        \t\t\tqueue.add(node.left);
+                    \t\t}
+                    \t\tif (node.right != null) {
+                        \t\t\tqueue.add(node.right);
+                    \t\t}
+                \t}
+            }
+            return result;''', child=child)
+        return ConverterFn(node.name, src, 'BinaryTreeNode<' + child.ret_type + '>', 'List<' + child.ret_type + '>')

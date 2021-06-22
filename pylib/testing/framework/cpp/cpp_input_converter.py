@@ -159,3 +159,45 @@ class CppInputConverter(TypeConverter):
         ''', child=child)
         return ConverterFn(node.name, src, 'jute::jValue', 'ListNode<' + child.ret_type + '>')
 
+    def visit_binary_tree(self, node: SyntaxTree, context):
+        """
+        Creates binary-list, for every input element invokes inner type converter and puts it inside linked list
+        linked_list(string):
+        ["a", "b", "c"] -> BinaryTree<String>() { "a", left="b", right="c" }
+        """
+        child: ConverterFn = self.render(node.first_child(), context)
+        src = render_template('''
+            vector<BinaryTreeNode<{{child.ret_type}}>*> nodes;
+            for (int i = 0; i < value.size(); i++) {
+                \tBinaryTreeNode<{{child.ret_type}}>* node = new BinaryTreeNode<{{child.ret_type}}>();
+                \tnode->left = NULL;
+                \tnode->right = NULL;
+                \tif (value[i].is_null()) {
+                    \t\tnode = NULL;
+                \t} else {
+                    \t\tnode->data = {{child.fn_name}}(value[i]);
+                \t}
+                \t\tnodes.push_back(node);
+            }
+            queue<BinaryTreeNode<{{child.ret_type}}>*> children;
+            for (int i = 0; i < nodes.size(); i++) {
+                \tchildren.push(nodes[i]);
+            }
+            BinaryTreeNode<{{child.ret_type}}>* root = children.front();
+            children.pop();
+            for (int i = 0; i < nodes.size(); i++) {
+                \tBinaryTreeNode<{{child.ret_type}}>* node = nodes[i];
+                \tif (node != NULL) {
+                    \t\tif (!children.empty()) {
+                        \t\t\tnode->left = children.front();
+                        \t\t\tchildren.pop();
+                    \t\t}
+                    \t\tif (!children.empty()) {
+                        \t\t\tnode->right = children.front();
+                        \t\t\tchildren.pop();
+                    \t\t}
+                \t}
+            }
+            return *root;
+        ''', child=child)
+        return ConverterFn(node.name, src, 'jute::jValue', 'BinaryTreeNode<' + child.ret_type + '>')

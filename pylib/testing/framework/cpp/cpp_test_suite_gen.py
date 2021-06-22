@@ -31,6 +31,7 @@ class CppTestSuiteGenerator(TestSuiteGenerator):
             \t#include <stdexcept>
             \t#include <string>
             \t#include <chrono>
+            \t#include <queue> 
             \tusing namespace std;'''
 
     def get_testing_src(self, ts: TestSuite, converters: TestSuiteConverters, solution_src: str):

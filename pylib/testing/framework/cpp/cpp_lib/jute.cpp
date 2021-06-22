@@ -100,6 +100,9 @@ void jValue::add_element(jValue v) {
 void jValue::set_string(string s) {
     svalue = s;
 }
+bool jValue::is_null() {
+    return svalue == "null";
+}
 int jValue::as_int() {
     stringstream ss;
     ss << svalue;

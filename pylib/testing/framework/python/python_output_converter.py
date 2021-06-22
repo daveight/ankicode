@@ -157,5 +157,26 @@ class PythonOutputConverter(TypeConverter):
             \t
             \treturn result''', child=child)
 
-        return ConverterFn(node.name, src, 'List[' + child.ret_type + ']', 'ListNode[' + child.ret_type + ']')
+        return ConverterFn(node.name, src, 'ListNode[' + child.ret_type + ']', 'List[' + child.ret_type + ']')
 
+    def visit_binary_tree(self, node: SyntaxTree, context):
+        """
+        Converts binary_tree to a list
+        linked_list(string):
+        LinkedList<String>() { "a", "b", "c" } -> ["a", "b", "c"]
+        """
+        child = self.render(node.first_child(), context)
+        src = render_template('''
+            \tresult = []
+            \tqueue = []
+            \tqueue.append(value)
+            \twhile queue:
+              \t\tnode = queue.pop(0)
+              \t\tif node is not None:
+                \t\t\tresult.append({{child.fn_name}}(node.data))
+                \t\t\tif node.left is not None:
+                    \t\t\t\tqueue.append(node.left)
+                \t\t\tif node.right is not None:
+                    \t\t\t\tqueue.append(node.right)
+            \treturn result''', child=child)
+        return ConverterFn(node.name, src, 'BinaryTreeNode[' + child.ret_type + ']', 'List[' + child.ret_type + ']')

@@ -115,3 +115,32 @@ class CppOutputConverterTests(unittest.TestCase):
             return result;
         ''', 'ListNode<int>', 'jute::jValue'), converters[1])
 
+    def test_binary_tree(self):
+        tree = SyntaxTree.of(['binary_tree(int)'])
+        arg_converters, converters = self.converter.get_converters(tree)
+        self.assertEqual(1, len(arg_converters))
+        self.assertEqual(2, len(converters))
+        self.assertEqual(ConverterFn('', '''
+            jute::jValue result;
+            result.set_type(jute::JNUMBER);
+            result.set_string(std::to_string(value));
+            return result;''', 'int', 'jute::jValue'), converters[0])
+        self.assertEqual(ConverterFn('', '''
+            jute::jValue result;
+            result.set_type(jute::JARRAY);
+            queue<BinaryTreeNode<int>> q;
+            q.push(value);
+            while (!q.empty()) {
+                BinaryTreeNode<int> node = q.front();
+                result.add_element(converter1(node.data));
+                q.pop();
+                if (node.left != NULL) {
+                    q.push(*node.left);
+                }
+                if (node.right != NULL) {
+                    q.push(*node.right);
+                }
+            }
+            return result;
+        ''', 'BinaryTreeNode<int>', 'jute::jValue'), converters[1])
+

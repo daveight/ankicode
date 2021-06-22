@@ -114,3 +114,44 @@ class CppInputConverterTests(unittest.TestCase):
             }
             return *head->next;
         ''', 'jute::jValue', 'ListNode<string>'), converters[1])
+
+    def test_binary_tree(self):
+        tree = SyntaxTree.of(['binary_tree(string)'])
+        arg_converters, converters = self.converter.get_converters(tree)
+        self.assertEqual(1, len(arg_converters))
+        self.assertEqual(2, len(converters))
+        self.assertEqual(ConverterFn('', '''return value.as_string();''', 'jute::jValue', 'string'), converters[0])
+        self.assertEqual(ConverterFn('', '''
+            vector<BinaryTreeNode<string>*> nodes;
+            for (int i = 0; i < value.size(); i++) {
+                BinaryTreeNode<string>* node = new BinaryTreeNode<string>();
+                node->left = NULL;
+                node->right = NULL;
+                if (value[i].is_null()) {
+                    node = NULL;
+                } else {
+                    node->data = converter1(value[i]);
+                }
+                    nodes.push_back(node);
+            }
+            queue<BinaryTreeNode<string>*> children;
+            for (int i = 0; i < nodes.size(); i++) {
+                children.push(nodes[i]);
+            }
+            BinaryTreeNode<string>* root = children.front();
+            children.pop();
+            for (int i = 0; i < nodes.size(); i++) {
+                BinaryTreeNode<string>* node = nodes[i];
+                if (node != NULL) {
+                    if (!children.empty()) {
+                        node->left = children.front();
+                        children.pop();
+                    }
+                    if (!children.empty()) {
+                        node->right = children.front();
+                        children.pop();
+                    }
+                }
+            }
+            return *root;
+        ''', 'jute::jValue', 'BinaryTreeNode<string>'), converters[1])

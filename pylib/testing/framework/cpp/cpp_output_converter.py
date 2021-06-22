@@ -173,7 +173,7 @@ class CppOutputConverter(TypeConverter):
         """
         Converts linked-list to a list
         linked_list(string):
-        LinkedList<String>() { "a", "b", "c" } -> ["a", "b", "c"]
+        ListNode<String>() { "a", "b", "c" } -> ["a", "b", "c"]
         """
         child = self.render(node.first_child(), context)
         src = render_template('''
@@ -187,4 +187,30 @@ class CppOutputConverter(TypeConverter):
             \treturn result;''', child=child)
 
         return ConverterFn(node.name, src, 'ListNode<' + child.arg_type + '>', 'jute::jValue')
+
+    def visit_binary_tree(self, node: SyntaxTree, context):
+        """
+        Converts binary-tree to a list
+        binary_tree(string):
+        BinaryTreeNode<String>() { "a", "b", "c" } -> ["a", "b", "c"]
+        """
+        child = self.render(node.first_child(), context)
+        src = render_template('''
+            jute::jValue result;
+            result.set_type(jute::JARRAY);
+            queue<BinaryTreeNode<{{child.arg_type}}>> q;
+            q.push(value);
+            while (!q.empty()) {
+                \tBinaryTreeNode<{{child.arg_type}}> node = q.front();
+                \tresult.add_element({{child.fn_name}}(node.data));
+                \tq.pop();
+                \tif (node.left != NULL) {
+                    \t\tq.push(*node.left);
+                \t}
+                \tif (node.right != NULL) {
+                    \t\tq.push(*node.right);
+                \t}
+            }
+            return result;''', child=child)
+        return ConverterFn(node.name, src, 'BinaryTreeNode<' + child.arg_type + '>', 'jute::jValue')
 

@@ -27,8 +27,9 @@ class CppTestSuiteGeneratorTests(GeneratorTestCase):
             #include "cpp_lib/jute.h"
             #include <functional>
             #include <stdexcept>
-            #include<string>
-            #include<chrono>
+            #include <string>
+            #include <chrono>
+            #include <queue>
             using namespace std;
 
             //begin_user_src
