@@ -102,18 +102,24 @@ class CppInputConverterTests(unittest.TestCase):
         self.assertEqual(2, len(converters))
         self.assertEqual(ConverterFn('', '''return value.as_string();''', 'jute::jValue', 'string'), converters[0])
         self.assertEqual(ConverterFn('', '''
-            ListNode<string>* head = new ListNode<string>;
-            ListNode<string>* node = head;
-            for (int i = 0; i < value.size(); i++) {
-                ListNode<string>* nextNode = new ListNode<string>;
-                nextNode->next = NULL;
-                string obj = converter1(value[i]);
-                nextNode->data = obj;
-                node->next = nextNode;
-                node = nextNode;
+            if (value.size() == 0) {
+                return nullptr;
             }
-            return *head->next;
-        ''', 'jute::jValue', 'ListNode<string>'), converters[1])
+            shared_ptr<ListNode<string>> head = make_shared<ListNode<string>>();
+            head->data = converter1(value[0]);
+            head->next = nullptr;
+
+            shared_ptr<ListNode<string>> node = head;
+                for (int i = 1; i < value.size(); i++) {
+                    shared_ptr<ListNode<string>> nextNode = make_shared<ListNode<string>>();
+                    string obj = converter1(value[i]);
+                    nextNode->data = obj;
+                    nextNode->next = nullptr;
+                    node->next = nextNode;
+                    node = nextNode;
+                }
+            return head;
+        ''', 'jute::jValue', 'shared_ptr<ListNode<string>>'), converters[1])
 
     def test_binary_tree(self):
         tree = SyntaxTree.of(['binary_tree(string)'])
@@ -122,27 +128,28 @@ class CppInputConverterTests(unittest.TestCase):
         self.assertEqual(2, len(converters))
         self.assertEqual(ConverterFn('', '''return value.as_string();''', 'jute::jValue', 'string'), converters[0])
         self.assertEqual(ConverterFn('', '''
-            vector<BinaryTreeNode<string>*> nodes;
+            vector<shared_ptr<BinaryTreeNode<string>>> nodes;
             for (int i = 0; i < value.size(); i++) {
-                BinaryTreeNode<string>* node = new BinaryTreeNode<string>();
-                node->left = NULL;
-                node->right = NULL;
+                shared_ptr<BinaryTreeNode<string>> node =
+            make_shared<BinaryTreeNode<string>>();
+                node->left = nullptr;
+                node->right = nullptr;
                 if (value[i].is_null()) {
-                    node = NULL;
+                    node = nullptr;
                 } else {
                     node->data = converter1(value[i]);
                 }
-                    nodes.push_back(node);
+                nodes.push_back(node);
             }
-            queue<BinaryTreeNode<string>*> children;
+            queue<shared_ptr<BinaryTreeNode<string>>> children;
             for (int i = 0; i < nodes.size(); i++) {
                 children.push(nodes[i]);
             }
-            BinaryTreeNode<string>* root = children.front();
+            shared_ptr<BinaryTreeNode<string>> root = children.front();
             children.pop();
             for (int i = 0; i < nodes.size(); i++) {
-                BinaryTreeNode<string>* node = nodes[i];
-                if (node != NULL) {
+                shared_ptr<BinaryTreeNode<string>> node = nodes[i];
+                if (node != nullptr) {
                     if (!children.empty()) {
                         node->left = children.front();
                         children.pop();
@@ -153,5 +160,5 @@ class CppInputConverterTests(unittest.TestCase):
                     }
                 }
             }
-            return *root;
-        ''', 'jute::jValue', 'BinaryTreeNode<string>'), converters[1])
+            return root;
+        ''', 'jute::jValue', 'shared_ptr<BinaryTreeNode<string>>'), converters[1])

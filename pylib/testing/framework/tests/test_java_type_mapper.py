@@ -66,6 +66,13 @@ class JavaTypeMapperTests(GeneratorTestCase):
             class ListNode<T> {
                 T data;
                 ListNode<T> next;
+
+                public ListNode() { }
+
+                public ListNode(T data, ListNode<T> next) {
+                    this.data = data;
+                    this.next = next;
+                }
             }''', type_defs['linked_list'])
 
     def test_binary_tree(self):
@@ -79,5 +86,13 @@ class JavaTypeMapperTests(GeneratorTestCase):
                 T data;
                 BinaryTreeNode<T> left;
                 BinaryTreeNode<T> right;
+
+                public BinaryTreeNode() { }
+
+                public BinaryTreeNode(T data, BinaryTreeNode<T> left, BinaryTreeNode<T> right) {
+                    this.data = data;
+                    this.left = left;
+                    this.right = right;
+                }
             }''', type_defs['binary_tree'])
 

@@ -146,9 +146,9 @@ class PythonTypeMapper(TypeMapper):
                 T = TypeVar('T')
 
                 class BinaryTreeNode(Generic[T]):
-                    \tdef __init__(self, data: Optional[Type[T]]=None):
+                    \tdef __init__(self, data: Optional[Type[T]]=None, left=None, right=None):
                         \t\tself.data = data
-                        \t\tself.left = None
-                        \t\tself.right = None
+                        \t\tself.left = left
+                        \t\tself.right = right
                 '''
         return 'BinaryTreeNode[' + self.render(child, context) + ']'

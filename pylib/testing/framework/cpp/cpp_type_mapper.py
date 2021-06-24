@@ -132,14 +132,22 @@ class CppTypeMapper(TypeMapper):
         child: SyntaxTree = node.first_child()
         if node.node_type not in context:
             context[node.node_type] = '''
-                template<class T>
+                template<typename T>
+
                 struct ListNode {
                 public:
                     \tT data;
-                    \tListNode<T>* next;
+                    \tshared_ptr<ListNode<T>> next;
+
+                    \tListNode() { }
+
+                    \tListNode(T data, shared_ptr<ListNode<T>> next) {
+                    \t\tthis->data = data;
+                    \t\tthis->next = next;
+                    \t}
                 };
             '''
-        return 'ListNode<' + self.render(child, context) + '>'
+        return 'shared_ptr<ListNode<' + self.render(child, context) + '>>'
 
     def visit_binary_tree(self, node: SyntaxTree, context):
         """
@@ -152,10 +160,19 @@ class CppTypeMapper(TypeMapper):
         if node.node_type not in context:
             context[node.node_type] = '''
                 template <typename T>
+
                 struct BinaryTreeNode {
                     \tT data;
-                    \tBinaryTreeNode<T>* left;
-                    \tBinaryTreeNode<T>* right;
+                    \tshared_ptr<BinaryTreeNode<T>> left;
+                    \tshared_ptr<BinaryTreeNode<T>> right;
+
+                    \tBinaryTreeNode() { } 
+
+                    \tBinaryTreeNode(T data, shared_ptr<BinaryTreeNode<T>> left, shared_ptr<BinaryTreeNode<T>> right) {
+                    \t\tthis->data = data;
+                    \t\tthis->left = left;
+                    \t\tthis->right = right;
+                    \t} 
                 }; 
             '''
-        return 'BinaryTreeNode<' + self.render(child, context) + '>'
+        return 'shared_ptr<BinaryTreeNode<' + self.render(child, context) + '>>'

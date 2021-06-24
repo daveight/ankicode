@@ -107,13 +107,13 @@ class CppOutputConverterTests(unittest.TestCase):
         self.assertEqual(ConverterFn('', '''
             jute::jValue result;
             result.set_type(jute::JARRAY);
-            ListNode<int>* n = &value;
-            while (n != NULL) {
+            shared_ptr<ListNode<int>> n = value;
+            while (n != nullptr) {
                 result.add_element(converter1(n->data));
                 n = n->next;
             }
             return result;
-        ''', 'ListNode<int>', 'jute::jValue'), converters[1])
+        ''', 'shared_ptr<ListNode<int>>', 'jute::jValue'), converters[1])
 
     def test_binary_tree(self):
         tree = SyntaxTree.of(['binary_tree(int)'])
@@ -128,19 +128,21 @@ class CppOutputConverterTests(unittest.TestCase):
         self.assertEqual(ConverterFn('', '''
             jute::jValue result;
             result.set_type(jute::JARRAY);
-            queue<BinaryTreeNode<int>> q;
+            queue<shared_ptr<BinaryTreeNode<int>>> q;
             q.push(value);
             while (!q.empty()) {
-                BinaryTreeNode<int> node = q.front();
-                result.add_element(converter1(node.data));
+                shared_ptr<BinaryTreeNode<int>> node = q.front();
                 q.pop();
-                if (node.left != NULL) {
-                    q.push(*node.left);
+                if (node != nullptr) {
+                    result.add_element(converter1(node->data));
+                    q.push(node->left);
+                    q.push(node->right);
+                } else {
+                    jute::jValue empty(jute::JNULL);
+                    result.add_element(empty);
                 }
-                if (node.right != NULL) {
-                    q.push(*node.right);
-                }
-            }
+            } 
+            result.reduce_right();
             return result;
-        ''', 'BinaryTreeNode<int>', 'jute::jValue'), converters[1])
+        ''', 'shared_ptr<BinaryTreeNode<int>>', 'jute::jValue'), converters[1])
 

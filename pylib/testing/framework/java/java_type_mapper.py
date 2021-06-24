@@ -153,6 +153,13 @@ class JavaTypeMapper(TypeMapper):
                 class ListNode<T> {
                     \tT data;
                     \tListNode<T> next;
+ 
+                    \tpublic ListNode() { }
+
+                    \tpublic ListNode(T data, ListNode<T> next) {
+                    \t\tthis.data = data;
+                    \t\tthis.next = next;
+                    \t}
                 }
             '''
         return 'ListNode<' + self.render(child, context) + '>'
@@ -171,6 +178,14 @@ class JavaTypeMapper(TypeMapper):
                     \tT data;
                     \tBinaryTreeNode<T> left;
                     \tBinaryTreeNode<T> right;
+
+                    \tpublic BinaryTreeNode() { }
+ 
+                    \tpublic BinaryTreeNode(T data, BinaryTreeNode<T> left, BinaryTreeNode<T> right) {
+                    \t\tthis.data = data;
+                    \t\tthis.left = left;
+                    \t\tthis.right = right;
+                    \t}
                 }
             '''
         return 'BinaryTreeNode<' + self.render(child, context) + '>'

@@ -123,9 +123,9 @@ class JsTypeMapper(TypeMapper):
         if node.node_type not in context:
             context[node.node_type] = '''
                 class ListNode {
-                    \tconstructor(data = null) {
+                    \tconstructor(data = null, next = null) {
                     \t\tthis.data = data
-                    \t\tthis.next = null
+                    \t\tthis.next = next
                     \t}
                 }
                 '''
@@ -142,10 +142,10 @@ class JsTypeMapper(TypeMapper):
         if node.node_type not in context:
             context[node.node_type] = '''
                 class BinaryTreeNode {
-                    \tconstructor(data = null) {
+                    \tconstructor(data = null, left = null, right = null) {
                     \t\tthis.data = data
-                    \t\tthis.left = null
-                    \t\tthis.right = null
+                    \t\tthis.left = left
+                    \t\tthis.right = right
                     \t}
                 }
                 '''

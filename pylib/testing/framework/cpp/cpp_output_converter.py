@@ -179,14 +179,14 @@ class CppOutputConverter(TypeConverter):
         src = render_template('''
             \tjute::jValue result;
             \tresult.set_type(jute::JARRAY);
-            \tListNode<{{child.arg_type}}>* n = &value;
-            \twhile (n != NULL) {
+            \tshared_ptr<ListNode<{{child.arg_type}}>> n = value;
+            \twhile (n != nullptr) {
             \t\tresult.add_element({{child.fn_name}}(n->data));
             \t\tn = n->next;
             \t}
             \treturn result;''', child=child)
 
-        return ConverterFn(node.name, src, 'ListNode<' + child.arg_type + '>', 'jute::jValue')
+        return ConverterFn(node.name, src, 'shared_ptr<ListNode<' + child.arg_type + '>>', 'jute::jValue')
 
     def visit_binary_tree(self, node: SyntaxTree, context):
         """
@@ -198,19 +198,21 @@ class CppOutputConverter(TypeConverter):
         src = render_template('''
             jute::jValue result;
             result.set_type(jute::JARRAY);
-            queue<BinaryTreeNode<{{child.arg_type}}>> q;
+            queue<shared_ptr<BinaryTreeNode<{{child.arg_type}}>>> q;
             q.push(value);
             while (!q.empty()) {
-                \tBinaryTreeNode<{{child.arg_type}}> node = q.front();
-                \tresult.add_element({{child.fn_name}}(node.data));
+                \tshared_ptr<BinaryTreeNode<{{child.arg_type}}>> node = q.front();
                 \tq.pop();
-                \tif (node.left != NULL) {
-                    \t\tq.push(*node.left);
+                \tif (node != nullptr) {
+                \t\tresult.add_element({{child.fn_name}}(node->data));
+                \t\tq.push(node->left);
+                \t\tq.push(node->right);
+                \t} else {
+                \t\tjute::jValue empty(jute::JNULL);
+                \t\tresult.add_element(empty);
                 \t}
-                \tif (node.right != NULL) {
-                    \t\tq.push(*node.right);
-                \t}
-            }
+            } 
+            result.reduce_right();
             return result;''', child=child)
-        return ConverterFn(node.name, src, 'BinaryTreeNode<' + child.arg_type + '>', 'jute::jValue')
+        return ConverterFn(node.name, src, 'shared_ptr<BinaryTreeNode<' + child.arg_type + '>>', 'jute::jValue')
 

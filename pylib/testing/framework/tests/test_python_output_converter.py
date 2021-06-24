@@ -98,9 +98,17 @@ class PythonOutputConverterTests(unittest.TestCase):
                 node = queue.pop(0)
                 if node is not None:
                     result.append(converter1(node.data))
-                    if node.left is not None:
-                        queue.append(node.left)
-                    if node.right is not None:
-                        queue.append(node.right)
+                    queue.append(node.left)
+                    queue.append(node.right)
+                else:
+                    result.append(None)
+            j = None
+            for i in range(len(result) - 1, 1, -1):
+                if result[i] is None:
+                    j = i
+                else:
+                    break
+            if j is not None:
+                result = result[:-j-1]
             return result
         ''', 'BinaryTreeNode[int]', 'List[int]'), converters[1])

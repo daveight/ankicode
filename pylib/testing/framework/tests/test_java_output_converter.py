@@ -98,11 +98,10 @@ class JavaOutputConverterTests(unittest.TestCase):
         self.assertEqual(ConverterFn('', '''
             List<Integer> result = new ArrayList<>();
             while (value != null) {
-                result.add(value.data);
+                result.add(converter1(value.data));
                 value = value.next;
             }
-            return result;
-        ''', 'ListNode<Integer>', 'List<Integer>'), converters[1])
+            return result;''', 'ListNode<Integer>', 'List<Integer>'), converters[1])
 
     def test_binary_tree(self):
         tree = SyntaxTree.of(['binary_tree(int)'])
@@ -118,14 +117,18 @@ class JavaOutputConverterTests(unittest.TestCase):
                 BinaryTreeNode<Integer> node = queue.poll();
                 if (node != null) {
                     result.add(converter1(node.data));
-                    if (node.left != null) {
-                        queue.add(node.left);
-                    }
-                    if (node.right != null) {
-                        queue.add(node.right);
-                    }
+                    queue.add(node.left);
+                    queue.add(node.right);
+                } else {
+                    result.add(null);
                 }
             }
-            return result;
-        ''', 'BinaryTreeNode<Integer>', 'List<Integer>'), converters[1])
+            for (int i = result.size() - 1; i > 0; i--) {
+                if (result.get(i) == null) {
+                    result.remove(i);
+                } else {
+                    break;
+                }
+            }
+            return result;''', 'BinaryTreeNode<Integer>', 'List<Integer>'), converters[1])
 

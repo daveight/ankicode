@@ -145,11 +145,11 @@ class JsOutputConverter(TypeConverter):
         """
         converters: List[ConverterFn] = [self.render(n, context) for n in node.nodes]
         return ConverterFn(node.name, render_template('''
-            \tvar result = []
+            var result = []
             {% for converter in converters %}
-                \tresult.push({{converter.fn_name}}(value.{{converter.prop_name}}))
+                result.push({{converter.fn_name}}(value.{{converter.prop_name}}))
             {% endfor %}
-            \treturn result''', converters=converters), '')
+            return result''', converters=converters), '')
 
     def visit_linked_list(self, node: SyntaxTree, context):
         """
@@ -159,13 +159,13 @@ class JsOutputConverter(TypeConverter):
         """
         child = self.render(node.first_child(), context)
         src = render_template('''
-            \tresult = []
-            \tn = value
-            \twhile (n != null) {
-            \t\tresult.push({{child.fn_name}}(n.data))
-            \t\tn = n.next
-            \t}
-            \treturn result''', child=child)
+            result = []
+            n = value
+            while (n != null) {
+            \tresult.push({{child.fn_name}}(n.data))
+            \tn = n.next
+            }
+            return result''', child=child)
 
         return ConverterFn(node.name, src, '')
 
@@ -181,16 +181,21 @@ class JsOutputConverter(TypeConverter):
             const queue = []
             queue.push(value)
             while (queue.length) {
-                \tnode = queue.shift()
-                \tif (node) {
-                    \t\tresult.push({{child.fn_name}}(node.data))
-                \t}
-                \tif (node.left) {
-                    \t\tqueue.push(node.left)
-                \t}
-                \tif (node.right) {
-                    \t\tqueue.push(node.right)
-                \t}
+            \tnode = queue.shift()
+            \tif (node) {
+            \t\tresult.push({{child.fn_name}}(node.data))
+            \t\tqueue.push(node.left)
+            \t\tqueue.push(node.right)
+            \t} else {
+            \t\tresult.push(null);
+            \t}
+            }
+            for (let i = result.length - 1; i > 0; i--) {
+            \tif (result[i] == null) {
+            \t\tresult.pop()
+            \t} else {
+            \t\tbreak
+            \t}
             }
             return result''', child=child)
         return ConverterFn(node.name, src, '')

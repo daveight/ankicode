@@ -157,7 +157,7 @@ class PythonOutputConverter(TypeConverter):
             \t
             \treturn result''', child=child)
 
-        return ConverterFn(node.name, src, 'ListNode[' + child.ret_type + ']', 'List[' + child.ret_type + ']')
+        return ConverterFn(node.name, src, 'ListNode[' + child.arg_type + ']', 'List[' + child.ret_type + ']')
 
     def visit_binary_tree(self, node: SyntaxTree, context):
         """
@@ -171,12 +171,20 @@ class PythonOutputConverter(TypeConverter):
             \tqueue = []
             \tqueue.append(value)
             \twhile queue:
-              \t\tnode = queue.pop(0)
-              \t\tif node is not None:
-                \t\t\tresult.append({{child.fn_name}}(node.data))
-                \t\t\tif node.left is not None:
-                    \t\t\t\tqueue.append(node.left)
-                \t\t\tif node.right is not None:
-                    \t\t\t\tqueue.append(node.right)
+            \t\tnode = queue.pop(0)
+            \t\tif node is not None:
+            \t\t\tresult.append({{child.fn_name}}(node.data))
+            \t\t\tqueue.append(node.left)
+            \t\t\tqueue.append(node.right)
+            \t\telse:
+            \t\t\tresult.append(None)
+            \tj = None
+            \tfor i in range(len(result) - 1, 1, -1):
+            \t\tif result[i] is None:
+            \t\t\tj = i
+            \t\telse:
+            \t\t\tbreak
+            \tif j is not None:
+            \t\tresult = result[:-j-1]
             \treturn result''', child=child)
-        return ConverterFn(node.name, src, 'BinaryTreeNode[' + child.ret_type + ']', 'List[' + child.ret_type + ']')
+        return ConverterFn(node.name, src, 'BinaryTreeNode[' + child.arg_type + ']', 'List[' + child.ret_type + ']')

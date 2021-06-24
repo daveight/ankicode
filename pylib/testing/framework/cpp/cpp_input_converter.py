@@ -145,19 +145,25 @@ class CppInputConverter(TypeConverter):
         """
         child: ConverterFn = self.render(node.first_child(), context)
         src = render_template('''
-            ListNode<{{child.ret_type}}>* head = new ListNode<{{child.ret_type}}>;
-            ListNode<{{child.ret_type}}>* node = head;
-            \tfor (int i = 0; i < value.size(); i++) {
-                \t\tListNode<{{child.ret_type}}>* nextNode = new ListNode<{{child.ret_type}}>;
-                \t\tnextNode->next = NULL;
-                \t\t{{child.ret_type}} obj = {{child.fn_name}}(value[i]);
-                \t\tnextNode->data = obj;
-                \t\tnode->next = nextNode;
-                \t\tnode = nextNode;
+            if (value.size() == 0) {
+            \treturn nullptr;
+            }
+            shared_ptr<ListNode<{{child.ret_type}}>> head = make_shared<ListNode<{{child.ret_type}}>>();
+            head->data = {{child.fn_name}}(value[0]);
+            head->next = nullptr;
+            
+            shared_ptr<ListNode<{{child.ret_type}}>> node = head;
+            \tfor (int i = 1; i < value.size(); i++) {
+            \t\tshared_ptr<ListNode<{{child.ret_type}}>> nextNode = make_shared<ListNode<{{child.ret_type}}>>();
+            \t\t{{child.ret_type}} obj = {{child.fn_name}}(value[i]);
+            \t\tnextNode->data = obj;
+            \t\tnextNode->next = nullptr;
+            \t\tnode->next = nextNode;
+            \t\tnode = nextNode;
             \t}
-            return *head->next;
+            return head;
         ''', child=child)
-        return ConverterFn(node.name, src, 'jute::jValue', 'ListNode<' + child.ret_type + '>')
+        return ConverterFn(node.name, src, 'jute::jValue', 'shared_ptr<ListNode<' + child.ret_type + '>>')
 
     def visit_binary_tree(self, node: SyntaxTree, context):
         """
@@ -167,37 +173,38 @@ class CppInputConverter(TypeConverter):
         """
         child: ConverterFn = self.render(node.first_child(), context)
         src = render_template('''
-            vector<BinaryTreeNode<{{child.ret_type}}>*> nodes;
+            vector<shared_ptr<BinaryTreeNode<{{child.ret_type}}>>> nodes;
             for (int i = 0; i < value.size(); i++) {
-                \tBinaryTreeNode<{{child.ret_type}}>* node = new BinaryTreeNode<{{child.ret_type}}>();
-                \tnode->left = NULL;
-                \tnode->right = NULL;
+                \tshared_ptr<BinaryTreeNode<{{child.ret_type}}>> node =
+                    make_shared<BinaryTreeNode<{{child.ret_type}}>>();
+                \tnode->left = nullptr;
+                \tnode->right = nullptr;
                 \tif (value[i].is_null()) {
-                    \t\tnode = NULL;
+                \t\tnode = nullptr;
                 \t} else {
-                    \t\tnode->data = {{child.fn_name}}(value[i]);
+                \t\tnode->data = {{child.fn_name}}(value[i]);
                 \t}
-                \t\tnodes.push_back(node);
+                \tnodes.push_back(node);
             }
-            queue<BinaryTreeNode<{{child.ret_type}}>*> children;
+            queue<shared_ptr<BinaryTreeNode<{{child.ret_type}}>>> children;
             for (int i = 0; i < nodes.size(); i++) {
                 \tchildren.push(nodes[i]);
             }
-            BinaryTreeNode<{{child.ret_type}}>* root = children.front();
+            shared_ptr<BinaryTreeNode<{{child.ret_type}}>> root = children.front();
             children.pop();
             for (int i = 0; i < nodes.size(); i++) {
-                \tBinaryTreeNode<{{child.ret_type}}>* node = nodes[i];
-                \tif (node != NULL) {
-                    \t\tif (!children.empty()) {
-                        \t\t\tnode->left = children.front();
-                        \t\t\tchildren.pop();
-                    \t\t}
-                    \t\tif (!children.empty()) {
-                        \t\t\tnode->right = children.front();
-                        \t\t\tchildren.pop();
-                    \t\t}
+                \tshared_ptr<BinaryTreeNode<{{child.ret_type}}>> node = nodes[i];
+                \tif (node != nullptr) {
+                \t\tif (!children.empty()) {
+                \t\t\tnode->left = children.front();
+                \t\t\tchildren.pop();
+                \t\t}
+                \t\tif (!children.empty()) {
+                \t\t\tnode->right = children.front();
+                \t\t\tchildren.pop();
+                \t\t}
                 \t}
             }
-            return *root;
+            return root;
         ''', child=child)
-        return ConverterFn(node.name, src, 'jute::jValue', 'BinaryTreeNode<' + child.ret_type + '>')
+        return ConverterFn(node.name, src, 'jute::jValue', 'shared_ptr<BinaryTreeNode<' + child.ret_type + '>>')

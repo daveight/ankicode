@@ -107,12 +107,17 @@ class JsOutputConverterTests(unittest.TestCase):
                 node = queue.shift()
                 if (node) {
                     result.push(converter1(node.data))
-                }
-                if (node.left) {
                     queue.push(node.left)
-                }
-                if (node.right) {
                     queue.push(node.right)
+                } else {
+                    result.push(null);
+                }
+            }
+            for (let i = result.length - 1; i > 0; i--) {
+                if (result[i] == null) {
+                    result.pop()
+                } else {
+                    break
                 }
             }
             return result''', ''), converters[1])
