@@ -109,6 +109,6 @@ class PythonOutputConverterTests(unittest.TestCase):
                 else:
                     break
             if j is not None:
-                result = result[:-j-1]
+                result = result[:j]
             return result
         ''', 'BinaryTreeNode[int]', 'List[int]'), converters[1])

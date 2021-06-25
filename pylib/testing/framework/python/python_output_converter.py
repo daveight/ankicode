@@ -185,6 +185,6 @@ class PythonOutputConverter(TypeConverter):
             \t\telse:
             \t\t\tbreak
             \tif j is not None:
-            \t\tresult = result[:-j-1]
+            \t\tresult = result[:j]
             \treturn result''', child=child)
         return ConverterFn(node.name, src, 'BinaryTreeNode[' + child.arg_type + ']', 'List[' + child.ret_type + ']')
