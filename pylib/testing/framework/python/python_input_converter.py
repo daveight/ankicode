@@ -146,9 +146,9 @@ class PythonInputConverter(TypeConverter):
             \thead = ListNode(None)
             \tnode = head
             \tfor item in value:
-                \t\tnextNode = ListNode({{child.fn_name}}(item))
-                \t\tnode.next = nextNode
-                \t\tnode = nextNode
+            \t\tnextNode = ListNode({{child.fn_name}}(item))
+            \t\tnode.next = nextNode
+            \t\tnode = nextNode
             \treturn head.next
         ''', child=child)
 
@@ -164,20 +164,20 @@ class PythonInputConverter(TypeConverter):
         src = render_template('''
             \tnodes = []
             \tfor item in value:
-                \t\tnode = BinaryTreeNode()
-                \t\tif item is None:
-                    \t\t\tnode = None
-                \t\telse:
-                    \t\t\tnode.data = {{child.fn_name}}(item)
-                \t\tnodes.append(node)
+            \t\tnode = BinaryTreeNode()
+            \t\tif item is None:
+            \t\t\tnode = None
+            \t\telse:
+            \t\t\tnode.data = {{child.fn_name}}(item)
+            \t\tnodes.append(node)
             \tchildren = [n for n in nodes]
             \troot = children.pop(0)
             \tfor node in nodes:
-                \t\tif node is not None:
-                    \t\t\tif children:
-                        \t\t\t\tnode.left = children.pop(0)
-                    \t\t\tif children:
-                        \t\t\t\tnode.right = children.pop(0)
+            \t\tif node is not None:
+            \t\t\tif children:
+            \t\t\t\tnode.left = children.pop(0)
+            \t\t\tif children:
+            \t\t\t\tnode.right = children.pop(0)
             \treturn root
         ''', child=child)
         return ConverterFn(node.name, src, '', 'BinaryTreeNode[' + child.ret_type + ']')

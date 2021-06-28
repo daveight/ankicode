@@ -194,25 +194,25 @@ class JavaInputConverter(TypeConverter):
         src = render_template('''
             List<BinaryTreeNode<{{child.ret_type}}>> nodes = new ArrayList<>();
             for (JsonNode n : value) {
-                \tBinaryTreeNode<{{child.ret_type}}> node = new BinaryTreeNode<>();
-                \tif (n.isNull()) {
-                \t\tnode = null;
-                \t} else {
-                \t\tnode.data = {{child.fn_name}}(n);
-                \t}
-                \tnodes.add(node);
+            \tBinaryTreeNode<{{child.ret_type}}> node = new BinaryTreeNode<>();
+            \tif (n.isNull()) {
+            \t\tnode = null;
+            \t} else {
+            \t\tnode.data = {{child.fn_name}}(n);
+            \t}
+            \tnodes.add(node);
             }
             Deque<BinaryTreeNode<{{child.ret_type}}>> children = new LinkedList<>(nodes);
             BinaryTreeNode<{{child.ret_type}}> root = children.removeFirst();
             for (BinaryTreeNode<{{child.ret_type}}> node : nodes) {
-                \tif (node != null) {
-                \t\tif (!children.isEmpty()) {
-                \t\t\tnode.left = children.removeFirst();
-                \t\t}
-                \t\tif (!children.isEmpty()) {
-                \t\t\tnode.right = children.removeFirst();
-                \t\t}
-                \t}
+            \tif (node != null) {
+            \t\tif (!children.isEmpty()) {
+            \t\t\tnode.left = children.removeFirst();
+            \t\t}
+            \t\tif (!children.isEmpty()) {
+            \t\t\tnode.right = children.removeFirst();
+            \t\t}
+            \t}
             }
             return root;
         ''', child=child)

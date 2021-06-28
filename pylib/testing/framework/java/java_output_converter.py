@@ -167,12 +167,12 @@ class JavaOutputConverter(TypeConverter):
         """
         child = self.render(node.first_child(), context)
         src = render_template('''
-            \tList<{{child.ret_type}}> result = new ArrayList<>();
-            \twhile (value != null) {
-            \t\tresult.add({{child.fn_name}}(value.data));
-            \t\tvalue = value.next;
-            \t}
-            \treturn result;''', child=child)
+            List<{{child.ret_type}}> result = new ArrayList<>();
+            while (value != null) {
+            \tresult.add({{child.fn_name}}(value.data));
+            \tvalue = value.next;
+            }
+            return result;''', child=child)
 
         return ConverterFn(node.name, src, 'ListNode<' + child.arg_type + '>', 'List<' + child.ret_type + '>')
 
@@ -188,21 +188,21 @@ class JavaOutputConverter(TypeConverter):
             Queue<BinaryTreeNode<{{child.arg_type}}>> queue = new LinkedList<>();
             queue.add(value);
             while (!queue.isEmpty()) {
-                \tBinaryTreeNode<{{child.arg_type}}> node = queue.poll();
-                \tif (node != null) {
-                \t\tresult.add({{child.fn_name}}(node.data));
-                \t\tqueue.add(node.left);
-                \t\tqueue.add(node.right);
-                \t} else {
-                \t\tresult.add(null);
-                \t}
+            \tBinaryTreeNode<{{child.arg_type}}> node = queue.poll();
+            \tif (node != null) {
+            \t\tresult.add({{child.fn_name}}(node.data));
+            \t\tqueue.add(node.left);
+            \t\tqueue.add(node.right);
+            \t} else {
+            \t\tresult.add(null);
+            \t}
             }
             for (int i = result.size() - 1; i > 0; i--) {
-                \tif (result.get(i) == null) {
-                \t\tresult.remove(i);
-                \t} else {
-                \t\tbreak;
-                \t}
+            \tif (result.get(i) == null) {
+            \t\tresult.remove(i);
+            \t} else {
+            \t\tbreak;
+            \t}
             }
             return result;''', child=child)
         return ConverterFn(node.name, src, 'BinaryTreeNode<' + child.arg_type + '>', 'List<' + child.ret_type + '>')

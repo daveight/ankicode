@@ -158,10 +158,10 @@ class JsInputConverter(TypeConverter):
             \tconst head = new ListNode(null)
             \tlet node = head
             \tfor (let item of value) {
-                \t\tlet nextNode = new ListNode()
-                \t\tnextNode.data = {{child.fn_name}}(item)
-                \t\tnode.next = nextNode
-                \t\tnode = nextNode
+            \t\tlet nextNode = new ListNode()
+            \t\tnextNode.data = {{child.fn_name}}(item)
+            \t\tnode.next = nextNode
+            \t\tnode = nextNode
             \t}
             \treturn head.next
         ''', child=child)
@@ -178,13 +178,13 @@ class JsInputConverter(TypeConverter):
         src = render_template('''
             const nodes = []
             for (let n of value) {
-                \tlet node = new BinaryTreeNode()
-                \tif (n == null) {
-                    \tnode = null
-                \t} else {
-                    \tnode.data = {{child.fn_name}}(n)
-                \t}
-                \tnodes.push(node)
+            \tlet node = new BinaryTreeNode()
+            \tif (n == null) {
+            \t\tnode = null
+            \t} else {
+            \t\tnode.data = {{child.fn_name}}(n)
+            \t}
+            \tnodes.push(node)
             }
             const children = []
             for (n of nodes) {
@@ -192,14 +192,14 @@ class JsInputConverter(TypeConverter):
             }
             const root = children.shift()
             for (let node of nodes) {
-                \tif (node != null) {
-                    \t\tif (children.length) {
-                        \t\t\tnode.left = children.shift()
-                    \t\t}
-                    \t\tif (children.length) {
-                        \t\t\tnode.right = children.shift()
-                    \t\t}
-                \t}
+            \tif (node != null) {
+            \t\tif (children.length) {
+            \t\t\tnode.left = children.shift()
+            \t\t}
+            \t\tif (children.length) {
+            \t\t\tnode.right = children.shift()
+            \t\t}
+            \t}
             }
             return root
         ''', child=child)

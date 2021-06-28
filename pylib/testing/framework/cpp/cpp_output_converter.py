@@ -201,16 +201,16 @@ class CppOutputConverter(TypeConverter):
             queue<shared_ptr<BinaryTreeNode<{{child.arg_type}}>>> q;
             q.push(value);
             while (!q.empty()) {
-                \tshared_ptr<BinaryTreeNode<{{child.arg_type}}>> node = q.front();
-                \tq.pop();
-                \tif (node != nullptr) {
-                \t\tresult.add_element({{child.fn_name}}(node->data));
-                \t\tq.push(node->left);
-                \t\tq.push(node->right);
-                \t} else {
-                \t\tjute::jValue empty(jute::JNULL);
-                \t\tresult.add_element(empty);
-                \t}
+            \tshared_ptr<BinaryTreeNode<{{child.arg_type}}>> node = q.front();
+            \tq.pop();
+            \tif (node != nullptr) {
+            \t\tresult.add_element({{child.fn_name}}(node->data));
+            \t\tq.push(node->left);
+            \t\tq.push(node->right);
+            \t} else {
+            \t\tjute::jValue empty(jute::JNULL);
+            \t\tresult.add_element(empty);
+            \t}
             } 
             result.reduce_right();
             return result;''', child=child)

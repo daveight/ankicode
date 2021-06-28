@@ -175,16 +175,15 @@ class CppInputConverter(TypeConverter):
         src = render_template('''
             vector<shared_ptr<BinaryTreeNode<{{child.ret_type}}>>> nodes;
             for (int i = 0; i < value.size(); i++) {
-                \tshared_ptr<BinaryTreeNode<{{child.ret_type}}>> node =
-                    make_shared<BinaryTreeNode<{{child.ret_type}}>>();
-                \tnode->left = nullptr;
-                \tnode->right = nullptr;
-                \tif (value[i].is_null()) {
-                \t\tnode = nullptr;
-                \t} else {
-                \t\tnode->data = {{child.fn_name}}(value[i]);
-                \t}
-                \tnodes.push_back(node);
+            \tshared_ptr<BinaryTreeNode<{{child.ret_type}}>> node = make_shared<BinaryTreeNode<{{child.ret_type}}>>();
+            \tnode->left = nullptr;
+            \tnode->right = nullptr;
+            \tif (value[i].is_null()) {
+            \t\tnode = nullptr;
+            \t} else {
+            \t\tnode->data = {{child.fn_name}}(value[i]);
+            \t}
+            \tnodes.push_back(node);
             }
             queue<shared_ptr<BinaryTreeNode<{{child.ret_type}}>>> children;
             for (int i = 0; i < nodes.size(); i++) {
@@ -193,17 +192,17 @@ class CppInputConverter(TypeConverter):
             shared_ptr<BinaryTreeNode<{{child.ret_type}}>> root = children.front();
             children.pop();
             for (int i = 0; i < nodes.size(); i++) {
-                \tshared_ptr<BinaryTreeNode<{{child.ret_type}}>> node = nodes[i];
-                \tif (node != nullptr) {
-                \t\tif (!children.empty()) {
-                \t\t\tnode->left = children.front();
-                \t\t\tchildren.pop();
-                \t\t}
-                \t\tif (!children.empty()) {
-                \t\t\tnode->right = children.front();
-                \t\t\tchildren.pop();
-                \t\t}
-                \t}
+            \tshared_ptr<BinaryTreeNode<{{child.ret_type}}>> node = nodes[i];
+            \tif (node != nullptr) {
+            \t\tif (!children.empty()) {
+            \t\t\tnode->left = children.front();
+            \t\t\tchildren.pop();
+            \t\t}
+            \t\tif (!children.empty()) {
+            \t\t\tnode->right = children.front();
+            \t\t\tchildren.pop();
+            \t\t}
+            \t}
             }
             return root;
         ''', child=child)
