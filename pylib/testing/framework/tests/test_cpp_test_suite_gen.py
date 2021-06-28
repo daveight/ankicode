@@ -30,6 +30,7 @@ class CppTestSuiteGeneratorTests(GeneratorTestCase):
             #include <string>
             #include <chrono>
             #include <queue>
+            #include <set>
             using namespace std;
 
             //begin_user_src

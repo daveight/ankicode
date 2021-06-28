@@ -169,13 +169,17 @@ class PythonOutputConverter(TypeConverter):
         src = render_template('''
             \tresult = []
             \tqueue = []
+            \tvisited = set([])
             \tqueue.append(value)
             \twhile queue:
             \t\tnode = queue.pop(0)
             \t\tif node is not None:
+            \t\t\tvisited.add(node)
             \t\t\tresult.append({{child.fn_name}}(node.data))
-            \t\t\tqueue.append(node.left)
-            \t\t\tqueue.append(node.right)
+            \t\t\tif node.left is not None and not node.left in visited:
+            \t\t\t\tqueue.append(node.left)
+            \t\t\tif node.right is not None and not node.right in visited:
+            \t\t\t\tqueue.append(node.right)
             \t\telse:
             \t\t\tresult.append(None)
             \tj = None

@@ -93,13 +93,17 @@ class PythonOutputConverterTests(unittest.TestCase):
         self.assertEqual(ConverterFn('', '''
             result = []
             queue = []
+            visited = set([])
             queue.append(value)
             while queue:
                 node = queue.pop(0)
                 if node is not None:
+                    visited.add(node)
                     result.append(converter1(node.data))
-                    queue.append(node.left)
-                    queue.append(node.right)
+                    if node.left is not None and not node.left in visited:
+                        queue.append(node.left)
+                    if node.right is not None and not node.right in visited:
+                        queue.append(node.right)
                 else:
                     result.append(None)
             j = None

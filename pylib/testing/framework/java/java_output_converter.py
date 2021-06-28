@@ -186,13 +186,19 @@ class JavaOutputConverter(TypeConverter):
         src = render_template('''
             List<{{child.ret_type}}> result = new ArrayList<>();
             Queue<BinaryTreeNode<{{child.arg_type}}>> queue = new LinkedList<>();
+            Set<BinaryTreeNode<{{child.arg_type}}>> visited = new HashSet<>();
             queue.add(value);
             while (!queue.isEmpty()) {
             \tBinaryTreeNode<{{child.arg_type}}> node = queue.poll();
             \tif (node != null) {
+            \t\tvisited.add(node);
             \t\tresult.add({{child.fn_name}}(node.data));
-            \t\tqueue.add(node.left);
-            \t\tqueue.add(node.right);
+            \t\tif (node.left != null && !visited.contains(node.left)) {
+            \t\t\tqueue.add(node.left);
+            \t\t}
+            \t\tif (node.right != null && !visited.contains(node.right)) {
+            \t\t\tqueue.add(node.right);
+            \t\t}
             \t} else {
             \t\tresult.add(null);
             \t}

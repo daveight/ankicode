@@ -112,13 +112,19 @@ class JavaOutputConverterTests(unittest.TestCase):
         self.assertEqual(ConverterFn('', '''
             List<Integer> result = new ArrayList<>();
             Queue<BinaryTreeNode<Integer>> queue = new LinkedList<>();
+            Set<BinaryTreeNode<Integer>> visited = new HashSet<>();
             queue.add(value);
             while (!queue.isEmpty()) {
                 BinaryTreeNode<Integer> node = queue.poll();
                 if (node != null) {
+                    visited.add(node);
                     result.add(converter1(node.data));
-                    queue.add(node.left);
-                    queue.add(node.right);
+                    if (node.left != null && !visited.contains(node.left)) {
+                        queue.add(node.left);
+                    }
+                    if (node.right != null && !visited.contains(node.right)) {
+                        queue.add(node.right);
+                    }
                 } else {
                     result.add(null);
                 }

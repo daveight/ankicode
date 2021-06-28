@@ -199,14 +199,20 @@ class CppOutputConverter(TypeConverter):
             jute::jValue result;
             result.set_type(jute::JARRAY);
             queue<shared_ptr<BinaryTreeNode<{{child.arg_type}}>>> q;
+            set<shared_ptr<BinaryTreeNode<{{child.arg_type}}>>> visited;
             q.push(value);
             while (!q.empty()) {
             \tshared_ptr<BinaryTreeNode<{{child.arg_type}}>> node = q.front();
             \tq.pop();
             \tif (node != nullptr) {
+            \t\tvisited.insert(node);
             \t\tresult.add_element({{child.fn_name}}(node->data));
-            \t\tq.push(node->left);
-            \t\tq.push(node->right);
+            \t\tif (node->left != nullptr && visited.count(node->left) == 0) {
+            \t\t\tq.push(node->left);
+            \t\t}
+            \t\tif (node->right != nullptr && visited.count(node->right) == 0) {
+            \t\t\tq.push(node->right);
+            \t\t}
             \t} else {
             \t\tjute::jValue empty(jute::JNULL);
             \t\tresult.add_element(empty);

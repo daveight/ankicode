@@ -102,13 +102,19 @@ class JsOutputConverterTests(unittest.TestCase):
         self.assertEqual(ConverterFn('', '''
             const result = []
             const queue = []
+            const visited = new Set()
             queue.push(value)
             while (queue.length) {
                 node = queue.shift()
                 if (node) {
+                    visited.add(node)
                     result.push(converter1(node.data))
-                    queue.push(node.left)
-                    queue.push(node.right)
+                    if (node.left != null && !visited.has(node.left)) {
+                        queue.push(node.left)
+                    }
+                    if (node.right != null && !visited.has(node.right)) {
+                        queue.push(node.right)
+                    }
                 } else {
                     result.push(null);
                 }

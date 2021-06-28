@@ -179,13 +179,19 @@ class JsOutputConverter(TypeConverter):
         src = render_template('''
             const result = []
             const queue = []
+            const visited = new Set()
             queue.push(value)
             while (queue.length) {
             \tnode = queue.shift()
             \tif (node) {
+            \t\tvisited.add(node)
             \t\tresult.push({{child.fn_name}}(node.data))
-            \t\tqueue.push(node.left)
-            \t\tqueue.push(node.right)
+            \t\tif (node.left != null && !visited.has(node.left)) {
+            \t\t\tqueue.push(node.left)
+            \t\t}
+            \t\tif (node.right != null && !visited.has(node.right)) {
+            \t\t\tqueue.push(node.right)
+            \t\t}
             \t} else {
             \t\tresult.push(null);
             \t}

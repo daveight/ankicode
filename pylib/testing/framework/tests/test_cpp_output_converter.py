@@ -129,14 +129,20 @@ class CppOutputConverterTests(unittest.TestCase):
             jute::jValue result;
             result.set_type(jute::JARRAY);
             queue<shared_ptr<BinaryTreeNode<int>>> q;
+            set<shared_ptr<BinaryTreeNode<int>>> visited;
             q.push(value);
             while (!q.empty()) {
                 shared_ptr<BinaryTreeNode<int>> node = q.front();
                 q.pop();
                 if (node != nullptr) {
+                    visited.insert(node);
                     result.add_element(converter1(node->data));
-                    q.push(node->left);
-                    q.push(node->right);
+                    if (node->left != nullptr && visited.count(node->left) == 0) {
+                        q.push(node->left);
+                    }
+                    if (node->right != nullptr && visited.count(node->right) == 0) {
+                        q.push(node->right);
+                    }
                 } else {
                     jute::jValue empty(jute::JNULL);
                     result.add_element(empty);
