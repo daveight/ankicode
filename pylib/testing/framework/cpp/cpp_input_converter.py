@@ -145,23 +145,21 @@ class CppInputConverter(TypeConverter):
         """
         child: ConverterFn = self.render(node.first_child(), context)
         src = render_template('''
-            if (value.size() == 0) {
-            \treturn nullptr;
+            vector<shared_ptr<ListNode<{{child.ret_type}}>>> nodes; 
+            for (int i = 0; i < value.size(); i += 2) {
+            \tshared_ptr<ListNode<{{child.ret_type}}>> node = make_shared<ListNode<{{child.ret_type}}>>();
+            \tnode->data = {{child.fn_name}}(value[i]);
+            \tnodes.push_back(node);
             }
-            shared_ptr<ListNode<{{child.ret_type}}>> head = make_shared<ListNode<{{child.ret_type}}>>();
-            head->data = {{child.fn_name}}(value[0]);
-            head->next = nullptr;
-            
-            shared_ptr<ListNode<{{child.ret_type}}>> node = head;
-            \tfor (int i = 1; i < value.size(); i++) {
-            \t\tshared_ptr<ListNode<{{child.ret_type}}>> nextNode = make_shared<ListNode<{{child.ret_type}}>>();
-            \t\t{{child.ret_type}} obj = {{child.fn_name}}(value[i]);
-            \t\tnextNode->data = obj;
-            \t\tnextNode->next = nullptr;
+            for (int i = 1; i < value.size(); i += 2) {
+            \tshared_ptr<ListNode<{{child.ret_type}}>> node = nodes[floor((i - 1) / 2)];
+            \tint nextIndex = value[i].as_int();
+            \tif (nextIndex >= 0) {
+            \t\tshared_ptr<ListNode<{{child.ret_type}}>> nextNode = nodes[nextIndex];
             \t\tnode->next = nextNode;
-            \t\tnode = nextNode;
             \t}
-            return head;
+            }
+            return nodes.size() == 0 ? nullptr : nodes[0];
         ''', child=child)
         return ConverterFn(node.name, src, 'jute::jValue', 'shared_ptr<ListNode<' + child.ret_type + '>>')
 
