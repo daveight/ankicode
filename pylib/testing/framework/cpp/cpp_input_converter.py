@@ -145,21 +145,39 @@ class CppInputConverter(TypeConverter):
         """
         child: ConverterFn = self.render(node.first_child(), context)
         src = render_template('''
-            vector<shared_ptr<ListNode<{{child.ret_type}}>>> nodes; 
-            for (int i = 0; i < value.size(); i += 2) {
-            \tshared_ptr<ListNode<{{child.ret_type}}>> node = make_shared<ListNode<{{child.ret_type}}>>();
-            \tnode->data = {{child.fn_name}}(value[i]);
-            \tnodes.push_back(node);
-            }
-            for (int i = 1; i < value.size(); i += 2) {
-            \tshared_ptr<ListNode<{{child.ret_type}}>> node = nodes[floor((i - 1) / 2)];
-            \tint nextIndex = value[i].as_int();
-            \tif (nextIndex >= 0) {
-            \t\tshared_ptr<ListNode<{{child.ret_type}}>> nextNode = nodes[nextIndex];
-            \t\tnode->next = nextNode;
+            set<int> visited;
+            shared_ptr<ListNode<{{child.ret_type}}>> head = nullptr;
+            shared_ptr<ListNode<{{child.ret_type}}>> node = nullptr;
+            int i = 1;
+            while (visited.count(i) == 0) {
+            \t{{child.ret_type}} data = {{child.fn_name}}(value[i - 1]);
+            \tif (data < 0) {
+            \t\tbreak;
             \t}
+            \tauto tmp = make_shared<ListNode<{{child.ret_type}}>>(data);
+            \tif (head == nullptr) {
+            \t\thead = tmp;
+            \t\tnode = head;
+            \t} else {
+            \t\tnode->next = tmp;
+            \t\tnode = tmp;
+            \t}
+            \tif (i >= value.size()) {
+            \t\tbreak;
+            \t}
+            \tvisited.insert(i);
+            \ti = 2 * value[i].as_int() + 1;
             }
-            return nodes.size() == 0 ? nullptr : nodes[0];
+            if (visited.count(i) != 0 && i < value.size()) {
+            \ti = (i / 2);
+            \tshared_ptr<ListNode<int>> iter = head;
+            \tint j = 0;
+            \twhile (i-- != j) {
+            \t\titer = iter->next;
+            \t}
+            \tnode->next = iter;
+            }
+            return head;
         ''', child=child)
         return ConverterFn(node.name, src, 'jute::jValue', 'shared_ptr<ListNode<' + child.ret_type + '>>')
 

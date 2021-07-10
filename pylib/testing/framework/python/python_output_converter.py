@@ -157,7 +157,7 @@ class PythonOutputConverter(TypeConverter):
             \t\tvalue = value.next
             \treturn result''', child=child)
 
-        return ConverterFn(node.name, src, 'List[' + child.ret_type + ']', 'ListNode[' + child.ret_type + ']')
+        return ConverterFn(node.name, src, 'ListNode[' + child.ret_type + ']', 'List[' + child.ret_type + ']')
 
     def visit_binary_tree(self, node: SyntaxTree, context):
         """
