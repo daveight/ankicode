@@ -16,14 +16,14 @@ class JavaOutputConverterTests(unittest.TestCase):
         self.assertEqual(3, len(converters))
         self.assertEqual(ConverterFn('', 'return value;', 'int', 'int'), converters[0])
         self.assertEqual(ConverterFn('', '''
-            int result[] = new int[value.size()];
+            int result[] = new int[value.length];
             int i = 0;
             for (int item : value) {
                 result[i++] = converter1(item);
             }
             return result;''', 'int[]', 'int[]'), converters[1])
         self.assertEqual(ConverterFn('a', '''
-            int[] result[] = new int[value.size()][];
+            int[] result[] = new int[value.length][];
             int i = 0;
             for (int[] item : value) {
                 result[i++] = converter2(item);
@@ -122,14 +122,14 @@ class JavaOutputConverterTests(unittest.TestCase):
                 if (node != null) {
                     visited.add(node);
                     result.add(converter1(node.data));
-                    if (node.left != null && !visited.contains(node.left)) {
-                        queue.add(node.left);
-                    }
-                    if (node.right != null && !visited.contains(node.right)) {
-                        queue.add(node.right);
-                    }
                 } else {
                     result.add(null);
+                }
+                if (node != null && !visited.contains(node.left)) {
+                    queue.add(node.left);
+                }
+                if (node != null && !visited.contains(node.right)) {
+                    queue.add(node.right);
                 }
             }
             for (int i = result.size() - 1; i > 0; i--) {

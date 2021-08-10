@@ -176,14 +176,14 @@ class PythonOutputConverter(TypeConverter):
             \t\tif node is not None:
             \t\t\tvisited.add(node)
             \t\t\tresult.append({{child.fn_name}}(node.data))
-            \t\t\tif node.left is not None and not node.left in visited:
-            \t\t\t\tqueue.append(node.left)
-            \t\t\tif node.right is not None and not node.right in visited:
-            \t\t\t\tqueue.append(node.right)
             \t\telse:
             \t\t\tresult.append(None)
+            \t\tif node is not None and not node.left in visited:
+            \t\t\tqueue.append(node.left)
+            \t\tif node is not None and not node.right in visited:
+            \t\t\tqueue.append(node.right)
             \tj = None
-            \tfor i in range(len(result) - 1, 1, -1):
+            \tfor i in range(len(result) - 1, 0, -1):
             \t\tif result[i] is None:
             \t\t\tj = i
             \t\telse:

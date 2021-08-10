@@ -11,17 +11,18 @@ from testing.framework.types import ConverterFn
 from testing.framework.syntax.syntax_tree import SyntaxTree, is_primitive_type
 
 
-def wrap_array_declaration(inner_type: str) -> str:
+def generate_array_declaration(inner_type: str, size_method: str) -> str:
     """
     generates java array declaration
     :param inner_type: type to be wrapped
+    :param size_method: value size method's name
     :return: string containing the variable array declaration
     """
     if '[' in inner_type:
         idx = inner_type.index('[')
-        initializer = inner_type[:idx] + '[value.size()]' + inner_type[idx:]
+        initializer = inner_type[:idx] + '[value.' + size_method + ']' + inner_type[idx:]
     else:
-        initializer = inner_type + '[value.size()]'
+        initializer = inner_type + '[value.' + size_method + ']'
     return f'{inner_type} result[] = new {initializer};'
 
 
@@ -41,7 +42,7 @@ class JavaInputConverter(TypeConverter):
         :return: converter fn
         """
         child = self.render(node.first_child(), context)
-        array_declaration: str = wrap_array_declaration(child.ret_type)
+        array_declaration: str = generate_array_declaration(child.ret_type, 'size()')
         src = render_template('''
             \t{{array_declaration}}
             \tint i = 0;

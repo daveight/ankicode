@@ -138,15 +138,15 @@ class CppOutputConverterTests(unittest.TestCase):
                 if (node != nullptr) {
                     visited.insert(node);
                     result.add_element(converter1(node->data));
-                    if (node->left != nullptr && visited.count(node->left) == 0) {
-                        q.push(node->left);
-                    }
-                    if (node->right != nullptr && visited.count(node->right) == 0) {
-                        q.push(node->right);
-                    }
                 } else {
                     jute::jValue empty(jute::JNULL);
                     result.add_element(empty);
+                }
+                if (node != nullptr && visited.count(node->left) == 0) {
+                    q.push(node->left);
+                }
+                if (node != nullptr && visited.count(node->right) == 0) {
+                    q.push(node->right);
                 }
             } 
             result.reduce_right();

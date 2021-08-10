@@ -100,14 +100,14 @@ class PythonOutputConverterTests(unittest.TestCase):
                 if node is not None:
                     visited.add(node)
                     result.append(converter1(node.data))
-                    if node.left is not None and not node.left in visited:
-                        queue.append(node.left)
-                    if node.right is not None and not node.right in visited:
-                        queue.append(node.right)
                 else:
                     result.append(None)
+                if node is not None and not node.left in visited:
+                    queue.append(node.left)
+                if node is not None and not node.right in visited:
+                    queue.append(node.right)
             j = None
-            for i in range(len(result) - 1, 1, -1):
+            for i in range(len(result) - 1, 0, -1):
                 if result[i] is None:
                     j = i
                 else:

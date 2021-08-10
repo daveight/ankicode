@@ -3,7 +3,7 @@
 """
 Java Output Converter Implementation
 """
-from testing.framework.java.java_input_converter import wrap_array_declaration
+from testing.framework.java.java_input_converter import generate_array_declaration
 from testing.framework.string_utils import render_template
 from testing.framework.type_converter import TypeConverter
 from testing.framework.types import ConverterFn
@@ -25,7 +25,7 @@ class JavaOutputConverter(TypeConverter):
         :return: dummy converter fn
         """
         child: ConverterFn = self.render(node.first_child(), context)
-        array_declaration = wrap_array_declaration(child.ret_type)
+        array_declaration = generate_array_declaration(child.ret_type, 'length')
 
         src = render_template('''
             \t{{array_declaration}}
@@ -195,14 +195,14 @@ class JavaOutputConverter(TypeConverter):
             \tif (node != null) {
             \t\tvisited.add(node);
             \t\tresult.add({{child.fn_name}}(node.data));
-            \t\tif (node.left != null && !visited.contains(node.left)) {
-            \t\t\tqueue.add(node.left);
-            \t\t}
-            \t\tif (node.right != null && !visited.contains(node.right)) {
-            \t\t\tqueue.add(node.right);
-            \t\t}
             \t} else {
             \t\tresult.add(null);
+            \t}
+            \tif (node != null && !visited.contains(node.left)) {
+            \t\tqueue.add(node.left);
+            \t}
+            \tif (node != null && !visited.contains(node.right)) {
+            \t\tqueue.add(node.right);
             \t}
             }
             for (int i = result.size() - 1; i > 0; i--) {

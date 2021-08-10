@@ -187,14 +187,14 @@ class JsOutputConverter(TypeConverter):
             \tif (node) {
             \t\tvisited.add(node)
             \t\tresult.push({{child.fn_name}}(node.data))
-            \t\tif (node.left != null && !visited.has(node.left)) {
-            \t\t\tqueue.push(node.left)
-            \t\t}
-            \t\tif (node.right != null && !visited.has(node.right)) {
-            \t\t\tqueue.push(node.right)
-            \t\t}
             \t} else {
             \t\tresult.push(null);
+            \t}
+            \tif (node != null && !visited.has(node.left)) {
+            \t\tqueue.push(node.left)
+            \t}
+            \tif (node != null && !visited.has(node.right)) {
+            \t\tqueue.push(node.right)
             \t}
             }
             for (let i = result.length - 1; i > 0; i--) {

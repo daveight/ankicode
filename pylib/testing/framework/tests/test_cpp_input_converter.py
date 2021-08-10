@@ -106,11 +106,8 @@ class CppInputConverterTests(unittest.TestCase):
             shared_ptr<ListNode<string>> head = nullptr;
             shared_ptr<ListNode<string>> node = nullptr;
             int i = 1;
-            while (visited.count(i) == 0) {
+            while (visited.count(i) == 0 && i <= value.size()) {
                 string data = converter1(value[i - 1]);
-                if (data < 0) {
-                    break;
-                }
                 auto tmp = make_shared<ListNode<string>>(data);
                 if (head == nullptr) {
                     head = tmp;

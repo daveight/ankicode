@@ -149,11 +149,8 @@ class CppInputConverter(TypeConverter):
             shared_ptr<ListNode<{{child.ret_type}}>> head = nullptr;
             shared_ptr<ListNode<{{child.ret_type}}>> node = nullptr;
             int i = 1;
-            while (visited.count(i) == 0) {
+            while (visited.count(i) == 0 && i <= value.size()) {
             \t{{child.ret_type}} data = {{child.fn_name}}(value[i - 1]);
-            \tif (data < 0) {
-            \t\tbreak;
-            \t}
             \tauto tmp = make_shared<ListNode<{{child.ret_type}}>>(data);
             \tif (head == nullptr) {
             \t\thead = tmp;

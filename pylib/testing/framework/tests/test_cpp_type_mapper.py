@@ -59,9 +59,9 @@ class CppTypeMapperTests(GeneratorTestCase):
             public:
                 T data;
                 shared_ptr<ListNode<T>> next;
+                ListNode() { }
                 ListNode(T data) : data{data}, next{nullptr} { }
                 ListNode(T data, shared_ptr<ListNode<T>> next) : data{data}, next{next} { }
-                ~ListNode() { while (next) next = std::move(next->next); }
             };''', type_defs['linked_list'])
 
     def test_binary_tree(self):
@@ -76,7 +76,7 @@ class CppTypeMapperTests(GeneratorTestCase):
                 T data;
                 shared_ptr<BinaryTreeNode<T>> left;
                 shared_ptr<BinaryTreeNode<T>> right;
-
+                BinaryTreeNode() { } 
                 BinaryTreeNode(T data, shared_ptr<BinaryTreeNode<T>> left, shared_ptr<BinaryTreeNode<T>> right) {
                     this->data = data;
                     this->left = left;

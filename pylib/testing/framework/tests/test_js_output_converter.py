@@ -111,14 +111,14 @@ class JsOutputConverterTests(unittest.TestCase):
                 if (node) {
                     visited.add(node)
                     result.push(converter1(node.data))
-                    if (node.left != null && !visited.has(node.left)) {
-                        queue.push(node.left)
-                    }
-                    if (node.right != null && !visited.has(node.right)) {
-                        queue.push(node.right)
-                    }
                 } else {
                     result.push(null);
+                }
+                if (node != null && !visited.has(node.left)) {
+                    queue.push(node.left)
+                }
+                if (node != null && !visited.has(node.right)) {
+                    queue.push(node.right)
                 }
             }
             for (let i = result.length - 1; i > 0; i--) {

@@ -208,15 +208,15 @@ class CppOutputConverter(TypeConverter):
             \tif (node != nullptr) {
             \t\tvisited.insert(node);
             \t\tresult.add_element({{child.fn_name}}(node->data));
-            \t\tif (node->left != nullptr && visited.count(node->left) == 0) {
-            \t\t\tq.push(node->left);
-            \t\t}
-            \t\tif (node->right != nullptr && visited.count(node->right) == 0) {
-            \t\t\tq.push(node->right);
-            \t\t}
             \t} else {
             \t\tjute::jValue empty(jute::JNULL);
             \t\tresult.add_element(empty);
+            \t}
+            \tif (node != nullptr && visited.count(node->left) == 0) {
+            \t\tq.push(node->left);
+            \t}
+            \tif (node != nullptr && visited.count(node->right) == 0) {
+            \t\tq.push(node->right);
             \t}
             } 
             result.reduce_right();
