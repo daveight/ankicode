@@ -32,7 +32,6 @@ isLin = sys.platform.startswith("linux")
 
 WIN_KILL_SLEEP_DELAY_SEC = 10
 ERROR_LINE_OUTPUT_LIMIT = 100
-LIBS_FOLDER = 'libs'
 
 
 def create_src_file(src: str, name: str) -> SrcFile:
