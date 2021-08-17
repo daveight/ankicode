@@ -466,7 +466,8 @@ class Reviewer:
             self.web.eval("_reloadCode(%s, %s);" % (json.dumps(src), json.dumps(lang)))
             self._logger.clear()
 
-        self.web.evalWithCallback("codeansJar ? codeansJar.toString() : null", onSolutionSrc)
+        if lang in get_supported_languages():
+            self.web.evalWithCallback("codeansJar ? codeansJar.toString() : null", onSolutionSrc)
 
     def typeAnsQuestionFilter(self, buf: str) -> str:
         self.typeCorrect = None
