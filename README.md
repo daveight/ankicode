@@ -2,24 +2,23 @@
 This repo contains all the code for the computer version of AnkiCode.
 Official website: [https://ankicode.app](https://ankicode.app)
 
-![AnkiCode](https://github.com/daveight/ankicode/raw/master/images/anki-editor.png "AnkiCode")
-
 ### Features
 - new card type "Programming Challenge" allows to memorize algorithms Anki way.
 - Support of C++, Java, JavaScript, Python languages.
 - Code execution runtime is bundled inside the app, the code is executed locally.
 - Integrated code editor with syntax highlighting and theme selection.
 
+![AnkiCode](https://github.com/daveight/ankicode/raw/master/images/anki-editor.png "AnkiCode")
+
 ### Downloads
 
 | Platform        | Language      | Link                                                     | Size    |
-| --------------- |:-------------:| --------------------------------------------------------:|--------:|
+| :-------------- |:------------- | --------------------------------------------------------:|--------:|
 | Windows 7/8/9   | Python        | [AnkiCode-1.2.0-win-python.exe](https://cutt.ly/5WrDute) | 96.4 MB |
 |                 | Java          | [AnkiCode-1.2.0-win-java.exe](https://cutt.ly/8WrDfCd)   | 253 MB  |
 |                 | JavaScript    | [AnkiCode-1.2.0-win-js.exe](https://cutt.ly/EWrDcw9)     | 98.2 MB |
 |                 | C++           | [AnkiCode-1.2.0-win-cpp.exe](https://cutt.ly/1WrDQJt)    | 174 MB  |
 |                 | All in One    | [AnkiCode-1.2.0-win-all.exe](https://cutt.ly/jWrDPH1)    | 377 MB  |
-| --------------- |:-------------:| --------------------------------------------------------:|--------:|
 | Mac OS 10.13.4+ | Python        | [AnkiCode-1.2.0-mac-python.dmg](https://cutt.ly/eWrD2cP) | 386 MB  |
 |                 | Java          | [AnkiCode-1.2.0-mac-java.dmg](https://cutt.ly/wWrD8Tr)   | 433 MB  |
 |                 | JavaScript    | [AnkiCode-1.2.0-mac-js.dmg](https://cutt.ly/tWrD68Q)     | 384 MB  |
@@ -29,7 +28,7 @@ Official website: [https://ankicode.app](https://ankicode.app)
 ### Programming Challenge Decks
 
 | Name                | Link                                                  | Size    |
-| ------------------- |:-----------------------------------------------------:|--------:|
+| :------------------ |:------------------------------------------------------|--------:|
 | Arrays              | [arrays.apkg](https://cutt.ly/aWrGrZG)                | 3.36 MB |
 | Binary Search Trees | [binary_search_trees.apkg](https://cutt.ly/GWrGxIr)   | 7.03 MB |
 | Binary Trees        | [binary_trees.apkg](https://cutt.ly/GWrGRRw)          | 6.85 MB |
