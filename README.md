@@ -1,5 +1,5 @@
 ## About
-This repo contains all the code for the computer version of AnkiCode.
+This repo contains all the code for the computer version of AnkiCode.<br>
 Official website: [https://ankicode.app](https://ankicode.app)
 
 ### Features
@@ -46,8 +46,8 @@ Official website: [https://ankicode.app](https://ankicode.app)
 | Strings             | [strings.apkg](https://cutt.ly/bWrHPKt)               | 1.31 MB |
 
 ### Docs
-For more information on building, please see [README.development](README.development).
-If you'd like to contribute code, please see [README.contributing](README.contributing).
+- For more information on building, please see [README.development](README.development).
+- If you'd like to contribute code, please see [README.contributing](README.contributing).
 
 ### Videos
 - [AnkiCode Tutorial](https://www.youtube.com/watch?v=dB23wJ1b6Ik)
