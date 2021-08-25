@@ -8,7 +8,7 @@ This repo contains all the code for the computer version of AnkiCode.
 - Code execution runtime is bundled inside the app, the code is executed locally.
 - Integrated code editor with syntax highlighting and theme selection.
 
---
+---
 
 ![AnkiCode](https://github.com/daveight/ankicode/raw/master/images/anki-editor.png "AnkiCode")
 
@@ -27,7 +27,7 @@ This repo contains all the code for the computer version of AnkiCode.
 |                   | C++           | [AnkiCode-1.2.0-mac-cpp.dmg](https://cutt.ly/eWrFuxw)    | 459 MB  |
 |                   | All in One    | [AnkiCode-1.2.0-mac-cpp.dmg](https://cutt.ly/5WrFfHL)    | 596 MB  |
 
---
+---
 
 ### Programming Challenge Decks
 
@@ -49,7 +49,7 @@ This repo contains all the code for the computer version of AnkiCode.
 | Stacks & Queues     | [stacks_and_queues.apkg](https://cutt.ly/xWrHTi9)     | 839 KB  |
 | Strings             | [strings.apkg](https://cutt.ly/bWrHPKt)               | 1.31 MB |
 
---
+---
 
 ### Docs
 - For more information on building, please see [README.development](README.development).
