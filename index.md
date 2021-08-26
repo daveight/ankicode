@@ -24,7 +24,7 @@
 ## Downloads
 
 | Platform          | Language      | Link                                                     | Size    |
-| :---------------- |:------------- | --------------------------------------------------------:|--------:|
+| :---------------- |:------------- | :--------------------------------------------------------|:--------|
 | `Windows 7/8/9`   | Python        | [AnkiCode-1.2.0-win-python.exe](https://cutt.ly/5WrDute) | 96.4 MB |
 |                   | Java          | [AnkiCode-1.2.0-win-java.exe](https://cutt.ly/8WrDfCd)   | 253 MB  |
 |                   | JavaScript    | [AnkiCode-1.2.0-win-js.exe](https://cutt.ly/EWrDcw9)     | 98.2 MB |
@@ -42,10 +42,10 @@
 
 ### Programming Challenge Decks
 
-> Source: https://github.com/daveight/ankicode-decks
+> Source: [https://github.com/daveight/ankicode-decks](https://github.com/daveight/ankicode-decks)
 
 | Name                | Link                                                  | Size    |
-| :------------------ |:------------------------------------------------------|--------:|
+| :------------------ |:------------------------------------------------------|:--------|
 | Arrays              | [arrays.apkg](https://cutt.ly/aWrGrZG)                | 3.36 MB |
 | Binary Search Trees | [binary_search_trees.apkg](https://cutt.ly/GWrGxIr)   | 7.03 MB |
 | Binary Trees        | [binary_trees.apkg](https://cutt.ly/GWrGRRw)          | 6.85 MB |
