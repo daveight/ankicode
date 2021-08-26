@@ -27,7 +27,7 @@ This repo contains all the code for the computer version of AnkiCode.
 |                   | Java          | [AnkiCode-1.2.0-mac-java.dmg](https://cutt.ly/wWrD8Tr)   | 433 MB  |
 |                   | JavaScript    | [AnkiCode-1.2.0-mac-js.dmg](https://cutt.ly/tWrD68Q)     | 384 MB  |
 |                   | C++           | [AnkiCode-1.2.0-mac-cpp.dmg](https://cutt.ly/eWrFuxw)    | 459 MB  |
-|                   | All in One    | [AnkiCode-1.2.0-mac-cpp.dmg](https://cutt.ly/5WrFfHL)    | 596 MB  |
+|                   | All in One    | [AnkiCode-1.2.0-mac-all.dmg](https://cutt.ly/5WrFfHL)    | 596 MB  |
 
 ---
 
