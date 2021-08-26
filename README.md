@@ -12,6 +12,8 @@ This repo contains all the code for the computer version of AnkiCode.
 
 ![AnkiCode](https://github.com/daveight/ankicode/raw/master/images/anki-editor.png "AnkiCode")
 
+---
+
 ### Downloads
 
 | Platform          | Language      | Link                                                     | Size    |
