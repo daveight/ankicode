@@ -88,6 +88,8 @@ Arg1-Type[Arg1-Name];Arg2-Type[Arg2-Name];...;ArgN-Type[ArgN-Name];Result-Type[V
 | `list`          | List   | List   | vector    | array        |
 | `array`         | array  | List   | vector    | array        |
 | `map`           | Map    | Dict   | map       | Map          |
+| `linked_list`   | LinkedListNode | LinkedListNode | LinkedListNode | LinkedListNode |
+| `binary_tree`   | BinaryTreeNode | BinaryTreeNode | BinaryTreeNode | LinkedListNode |
 | `object`        | class  | class  | struct    | Object       |
 
 <br/>
