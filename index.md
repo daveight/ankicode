@@ -77,13 +77,5 @@
 - - -
 <br>
 
-## Decks:
-
-- [AnkiCode-Decks repository](https://github.com/daveight/ankicode-decks)
-
-<br>
-- - -
-<br>
-
 ## Communities:
 [<img src="images/slack_logo.png" height="20px">](https://ankicode.slack.com)
