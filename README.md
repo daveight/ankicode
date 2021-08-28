@@ -16,18 +16,18 @@ This repo contains all the code for the computer version of AnkiCode.
 
 ### Downloads
 
-| Platform          | Language      | Link                                                     | Size    |
-| :---------------- |:------------- | :--------------------------------------------------------|:--------|
-| `Windows 7/8/9`   | Python        | [AnkiCode-1.2.0-win-python.exe](https://cutt.ly/5WrDute) | 96.4 MB |
-|                   | Java          | [AnkiCode-1.2.0-win-java.exe](https://cutt.ly/8WrDfCd)   | 253 MB  |
-|                   | JavaScript    | [AnkiCode-1.2.0-win-js.exe](https://cutt.ly/EWrDcw9)     | 98.2 MB |
-|                   | C++           | [AnkiCode-1.2.0-win-cpp.exe](https://cutt.ly/1WrDQJt)    | 174 MB  |
-|                   | All in One    | [AnkiCode-1.2.0-win-all.exe](https://cutt.ly/jWrDPH1)    | 377 MB  |
-| `Mac OS 10.13.4+` | Python        | [AnkiCode-1.2.0-mac-python.dmg](https://cutt.ly/eWrD2cP) | 386 MB  |
-|                   | Java          | [AnkiCode-1.2.0-mac-java.dmg](https://cutt.ly/wWrD8Tr)   | 433 MB  |
-|                   | JavaScript    | [AnkiCode-1.2.0-mac-js.dmg](https://cutt.ly/tWrD68Q)     | 384 MB  |
-|                   | C++           | [AnkiCode-1.2.0-mac-cpp.dmg](https://cutt.ly/eWrFuxw)    | 459 MB  |
-|                   | All in One    | [AnkiCode-1.2.0-mac-all.dmg](https://cutt.ly/5WrFfHL)    | 596 MB  |
+| Platform          | Language         | Link                                                     | Size    |
+| :---------------- |:---------------- | :--------------------------------------------------------|:--------|
+| `Windows 7/8/9`   | Python           | [AnkiCode-1.2.0-win-python.exe](https://cutt.ly/5WrDute) | 96.4 MB |
+|                   | Java             | [AnkiCode-1.2.0-win-java.exe](https://cutt.ly/8WrDfCd)   | 253 MB  |
+|                   | JavaScript       | [AnkiCode-1.2.0-win-js.exe](https://cutt.ly/EWrDcw9)     | 98.2 MB |
+|                   | C++              | [AnkiCode-1.2.0-win-cpp.exe](https://cutt.ly/1WrDQJt)    | 174 MB  |
+|                   | All in One       | [AnkiCode-1.2.0-win-all.exe](https://cutt.ly/jWrDPH1)    | 377 MB  |
+| `Mac OS 10.13.4+` | Python           | [AnkiCode-1.2.0-mac-python.dmg](https://cutt.ly/eWrD2cP) | 386 MB  |
+|                   | Java             | [AnkiCode-1.2.0-mac-java.dmg](https://cutt.ly/wWrD8Tr)   | 433 MB  |
+|                   | JavaScript       | [AnkiCode-1.2.0-mac-js.dmg](https://cutt.ly/tWrD68Q)     | 384 MB  |
+|                   | C++ (non-stable) | [AnkiCode-1.2.0-mac-cpp.dmg](https://cutt.ly/eWrFuxw)    | 459 MB  |
+|                   | All in One       | [AnkiCode-1.2.0-mac-all.dmg](https://cutt.ly/5WrFfHL)    | 596 MB  |
 
 ---
 
