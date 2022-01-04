@@ -45,7 +45,6 @@
 > Source: [https://github.com/daveight/ankicode-decks](https://github.com/daveight/ankicode-decks)
 
 <br>
-<br>
 
 Decks based on the book ["Elements of Programming Interviews"](http://elementsofprogramminginterviews.com/) by Adnan Aziz, Tsung-Hsien Lee, Amin Prakash.
 
