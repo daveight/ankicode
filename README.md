@@ -3,7 +3,7 @@ This repo contains all the code for the computer version of AnkiCode.
 > [https://ankicode.app](https://ankicode.app)
 
 ### Features
-- New card type "Programming Challenge" allows to memorize algorithms Anki way.
+- New card type "Programming Challenge" which allows to memorize programming challenges solutions using Anki algorithm.
 - Support of `C++`, `Java`, `JavaScript`, `Python` languages.
 - Code execution runtime is bundled inside the app, the code is executed locally.
 - Integrated code editor with syntax highlighting and theme selection.
