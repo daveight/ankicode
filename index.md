@@ -9,7 +9,7 @@
 
 ## Features
 ```
-* New card type "Programming Challenge" allows to execute and memorize programming challenges solutions using Anki algorithm.
+* New card type "Programming Challenge" allows to memorize programming solutions using Anki algorithm.
 * Support of C++, Java, JavaScript, Python languages.
 * Code execution runtime is bundled inside the app, the code is executed locally.
 * Integrated code editor with syntax highlighting and theme selection.
