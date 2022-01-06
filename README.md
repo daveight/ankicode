@@ -70,10 +70,10 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 | 21 | [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/) |  Easy  |  `Tree` `Depth-first Search`   |
 | 22 | [Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/) |  Easy  |  `Tree` `Breadth-first Search`   |
 | 23 | [Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/) |  Easy  |  `Tree` `Depth-first Search`   |
-| 24 | [Binary Tree Level Order Traversal II](: https://leetcode.com/problems/binary-tree-level-order-traversal-ii/) |  Easy  |  `Tree` `Breadth-first Search`   |
-| 25 | [Balanced Binary Tree](: https://leetcode.com/problems/balanced-binary-tree/) |  Easy  |  `Tree` `Depth-first Search`   |
+| 24 | [Binary Tree Level Order Traversal II](https://leetcode.com/problems/binary-tree-level-order-traversal-ii/) |  Easy  |  `Tree` `Breadth-first Search`   |
+| 25 | [Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/) |  Easy  |  `Tree` `Depth-first Search`   |
 | 26 | [Minimum Depth of Binary Tree](https://leetcode.com/problems/minimum-depth-of-binary-tree/) |  Easy  |  `Tree` `Depth-first Search` `Breadth-first Search`   |
-| 27 | [Path Sum](: https://leetcode.com/problems/path-sum/) |  Easy  |  `Tree` `Depth-first Search`   |
+| 27 | [Path Sum](https://leetcode.com/problems/path-sum/) |  Easy  |  `Tree` `Depth-first Search`   |
 | 28 | [Pascal's Triangle](https://leetcode.com/problems/pascals-triangle/) |  Easy  |  `Array`   |
 | 29 | [Pascal's Triangle II](https://leetcode.com/problems/pascals-triangle-ii/) |  Easy  |  `Array`   |
 | 30 | [Valid Palindrome](https://leetcode.com/problems/valid-palindrome/) |  Easy  |  `Two Pointers` `String`   |
@@ -156,7 +156,7 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 | 107 | [Convert Sorted Array to Binary Search Tree](https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/) |  Medium  |  `Tree` `Depth-first Search`   |
 | 108 | [Convert Sorted List to Binary Search Tree](https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/) |  Medium  |  `Depth-first Search` `Linked List`   |
 | 109 | [Path Sum II](https://leetcode.com/problems/path-sum-ii/) |  Medium  |  `Tree` `Depth-first Search`   |
-| 110 | [Flatten Binary Tree to Linked List](: https://leetcode.com/problems/flatten-binary-tree-to-linked-list/) |  Medium  |  `Tree` `Depth-first Search`   |
+| 110 | [Flatten Binary Tree to Linked List](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/) |  Medium  |  `Tree` `Depth-first Search`   |
 | 111 | [Triangle](https://leetcode.com/problems/triangle/) |  Medium  |  `Array` `Dynamic Programming`   |
 | 112 | [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/) |  Medium  |  `Array` `Dynamic Programming`   |
 | 113 | [Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/) |  Medium  |  `Array` `Greedy`   |
@@ -165,7 +165,7 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 | 116 | [Surrounded Regions](https://leetcode.com/problems/surrounded-regions/) |  Medium  |  `Breadth-first Search`   |
 | 117 | [Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning/) |  Medium  |  `Backtracking`   |
 | 118 | [Single Number](https://leetcode.com/problems/single-number/) |  Medium  |  `Hash Table` `Bit Manipulation`   |
-| 119 | [Word Break](: https://leetcode.com/problems/word-break/) |  Medium  |  `Dynamic Programming`   |
+| 119 | [Word Break](https://leetcode.com/problems/word-break/) |  Medium  |  `Dynamic Programming`   |
 | 120 | [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/) |  Medium  |  `Linked List` `Two Pointers`   |
 | 121 | [Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/) |  Medium  |  `Linked List` `Two Pointers`   |
 | 122 | [Reorder List](https://leetcode.com/problems/reorder-list/) |  Medium  |  `Linked List`   |
