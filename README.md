@@ -45,8 +45,8 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 
 ---
 
-| #    | Name                | Complexity  | Tags | Link                                                  |
-| :--- | :------------------ |:----------- |:---- | :-----------------------------------------------------|
+| #    | Name                | Complexity  | Tags |
+| :--- | :------------------ |:----------- |:---- |
 | 1 | [ZigZag Conversion](https://leetcode.com/problems/zigzag-conversion/) |  Easy  |  `String`   |
 | 2 | [Reverse Integer](https://leetcode.com/problems/reverse-integer/) |  Easy  |  `Math`   |
 | 3 | [Palindrome Number](https://leetcode.com/problems/palindrome-number/) |  Easy  |  `Math`   |
