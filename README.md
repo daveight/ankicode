@@ -176,7 +176,7 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 | 127 | [Reverse Words in a String](https://leetcode.com/problems/reverse-words-in-a-string/) |  Medium  |  `String`   |
 | 128 | [Maximum Product Subarray](https://leetcode.com/problems/maximum-product-subarray/) |  Medium  |  `Array` `Dynamic Programming`   |
 | 129 | [Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/) |  Medium  |  `Array` `Binary Search`   |
-| 130 | [longest-substring-with-at-most-two-distinct-characters](https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/) |  Medium  |  `String`  |
+| 130 | [Longest Substring with at most Two Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/) |  Medium  |  `String`  |
 | 131 | [One Edit Distance](https://leetcode.com/problems/one-edit-distance/) |  Medium  |  `String`  |
 | 132 | [Find Peak Element](https://leetcode.com/problems/find-peak-element/) |  Medium  |  `Array` `Binary Search`   |
 | 133 | [Missing Ranges](https://leetcode.com/problems/missing-ranges/) |  Medium  |  `Array`  |
