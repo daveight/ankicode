@@ -43,7 +43,7 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 | Medium              | 114    | [medium.apkg](https://1odg.short.gy/Y9gAlc)                | 103 KB  |
 | Hard                | 44     | [hard.apkg](https://1odg.short.gy/2jH1yu)                  | 51 KB   |
 
----
+<br>
 
 | #    | Name                | Complexity  | Tags |
 | :--- | :------------------ |:----------- |:---- |
@@ -280,6 +280,8 @@ Decks based on the book ["Elements of Programming Interviews"](http://elementsof
 | Sorting             | 12     | [sorting.apkg](https://1odg.short.gy/Vg6NeM)               | 1.28 MB |
 | Stacks & Queues     | 7      | [stacks_and_queues.apkg](https://1odg.short.gy/IULB1X)     | 839 KB  |
 | Strings             | 18     | [strings.apkg](https://1odg.short.gy/DxM1MV)               | 1.31 MB |
+
+<br>
 
 | #    | Name                | Tags |
 | :--- | :------------------ |:---- |
