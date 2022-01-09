@@ -1,5 +1,5 @@
 ## About
-Fork of [https://github.com/ankitects/anki](https://github.com/ankitects/anki)
+Fork of [https://github.com/ankitects/anki](https://github.com/ankitects/anki).
 
 This repo contains all the code for the computer version of AnkiCode.
 > [https://ankicode.app](https://ankicode.app)
