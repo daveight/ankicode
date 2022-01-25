@@ -56,7 +56,9 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 
 ### Problems List
 
-<details><summary>Click to Expand/Collapse</summary>
+<details>
+  <summary>Click to Expand/Collapse</summary>
+
 
 
 | #    | Name                | Complexity  | Tags |
@@ -270,6 +272,7 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 | 207 | [Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) |  Hard  |  `Heap`   |
 | 208 | [Paint House](https://leetcode.com/problems/paint-house-ii/) |  Hard  |  `Dynamic Programming`  |
 | 209 | [Alien Dictionary](https://leetcode.com/problems/alien-dictionary/) |  Hard  |  `Graph` `Topological Sort`  |
+
 
 </details>
   
