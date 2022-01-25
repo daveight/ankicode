@@ -56,6 +56,9 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 
 ### Problems List
 
+<details><summary>Click to Expand/Collapse</summary>
+
+
 | #    | Name                | Complexity  | Tags |
 | :--- | :------------------ |:----------- |:---- |
 | 1 | [ZigZag Conversion](https://leetcode.com/problems/zigzag-conversion/) |  Easy  |  `String`   |
@@ -268,6 +271,8 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 | 208 | [Paint House](https://leetcode.com/problems/paint-house-ii/) |  Hard  |  `Dynamic Programming`  |
 | 209 | [Alien Dictionary](https://leetcode.com/problems/alien-dictionary/) |  Hard  |  `Graph` `Topological Sort`  |
 
+</details>
+  
 ---
 
 ## Elements of Programming Interviews
@@ -293,6 +298,8 @@ Decks based on the book ["Elements of Programming Interviews"](http://elementsof
 | Strings             | 18     | [strings.apkg](https://1odg.short.gy/DxM1MV)               | 1.31 MB |
 
 ### Problems List
+
+<details><summary>Click to Expand/Collapse</summary>
 
 | #    | Name                | Tags |
 | :--- | :------------------ |:---- |
@@ -504,6 +511,8 @@ Decks based on the book ["Elements of Programming Interviews"](http://elementsof
 | 206 | Find the first occurrence of a substring | `Strings` |
 | 207 | Compute all valid IP addresses | `Strings` |
 
+</details>
+                                              
 <br>
 - - -
 <br>
