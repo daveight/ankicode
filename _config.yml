@@ -2,6 +2,4 @@
 remote_theme: "MyNameIsCosmo/jekyll-theme-markdown-console"
 show_downloads: false
 title: "AnkiCode"
-markdown: kramdown
-kramdown:
-  parse_block_html: true
+markdown: CommonMarkGhPages
