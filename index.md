@@ -58,8 +58,12 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 
 <details>
   <summary>Click to Expand/Collapse</summary>
+<!-- The fenced code block below must be separated by
+     blank lines on either side to work correctly -->
 
-<p>
+```bash
+echo "It is possible to include Markdown within HTML tags."
+```
 
 | #    | Name                | Complexity  | Tags |
 | :--- | :------------------ |:----------- |:---- |
@@ -272,7 +276,6 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 | 207 | [Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) |  Hard  |  `Heap`   |
 | 208 | [Paint House](https://leetcode.com/problems/paint-house-ii/) |  Hard  |  `Dynamic Programming`  |
 | 209 | [Alien Dictionary](https://leetcode.com/problems/alien-dictionary/) |  Hard  |  `Graph` `Topological Sort`  |
-  </p>
 
 </details>
   
