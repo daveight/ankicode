@@ -2,7 +2,7 @@
 Fork of [https://github.com/ankitects/anki](https://github.com/ankitects/anki).
 
 This repo contains all the code for the computer version of AnkiCode.
-> [https://ankicode.app](https://ankicode.app)
+> [https://daveight.github.io/ankicode/](https://daveight.github.io/ankicode/)
 
 ### Features
 - New card "Programming Challenge" allows to memorize programming solutions using Anki algorithm.
