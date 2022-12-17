@@ -20,16 +20,16 @@ This repo contains all the code for the computer version of AnkiCode.
 
 | Platform          | Language         | Link                                                          | Size    |
 | :---------------- |:---------------- | :-------------------------------------------------------------|:--------|
-| `Windows 7/8/9`   | Python           | [AnkiCode-1.2.1-win-python.exe](https://1odg.short.gy/btK4eH) | 96.4 MB |
-|                   | Java             | [AnkiCode-1.2.1-win-java.exe](https://1odg.short.gy/pUk60F)   | 253 MB  |
-|                   | JavaScript       | [AnkiCode-1.2.1-win-js.exe](https://1odg.short.gy/XZUc7m)     | 98.2 MB |
-|                   | C++              | [AnkiCode-1.2.1-win-cpp.exe](https://1odg.short.gy/JybLTV)    | 174 MB  |
-|                   | All in One       | [AnkiCode-1.2.1-win-all.exe](https://1odg.short.gy/FpqpQt)    | 377 MB  |
-| `Mac OS 10.13.4+` | Python           | [AnkiCode-1.2.1-mac-python.dmg](https://1odg.short.gy/Kth6DD) | 386 MB  |
-|                   | Java             | [AnkiCode-1.2.1-mac-java.dmg](https://1odg.short.gy/KS7Ah6)   | 433 MB  |
-|                   | JavaScript       | [AnkiCode-1.2.1-mac-js.dmg](https://1odg.short.gy/FVc8vj)     | 384 MB  |
-|                   | C++ (non-stable) | [AnkiCode-1.2.1-mac-cpp.dmg](https://1odg.short.gy/ppWyaz)    | 459 MB  |
-|                   | All in One       | [AnkiCode-1.2.1-mac-all.dmg](https://1odg.short.gy/Fy3WYk)    | 596 MB  |
+| `Windows 7/8/9`   | Python           | [AnkiCode-1.2.1-win-python.exe](https://github.com/daveight/ankicode/releases/download/ankicode-1.2.1/AnkiCode-1.2.1-win-python.exe) | 96.4 MB |
+|                   | Java             | [AnkiCode-1.2.1-win-java.exe](https://github.com/daveight/ankicode/releases/download/ankicode-1.2.1/AnkiCode-1.2.1-win-java.exe)   | 253 MB  |
+|                   | JavaScript       | [AnkiCode-1.2.1-win-js.exe](https://github.com/daveight/ankicode/releases/download/ankicode-1.2.1/AnkiCode-1.2.1-win-js.exe)     | 98.2 MB |
+|                   | C++              | [AnkiCode-1.2.1-win-cpp.exe](https://github.com/daveight/ankicode/releases/download/ankicode-1.2.1/AnkiCode-1.2.1-win-cpp.exe)    | 174 MB  |
+|                   | All in One       | [AnkiCode-1.2.1-win-all.exe](https://github.com/daveight/ankicode/releases/download/ankicode-1.2.1/AnkiCode-1.2.1-win.exe)    | 377 MB  |
+| `Mac OS 10.13.4+` | Python           | [AnkiCode-1.2.1-mac-python.dmg](https://github.com/daveight/ankicode/releases/download/ankicode-1.2.1/AnkiCode-1.2.1-mac-python.dmg) | 386 MB  |
+|                   | Java             | [AnkiCode-1.2.1-mac-java.dmg](https://github.com/daveight/ankicode/releases/download/ankicode-1.2.1/AnkiCode-1.2.1-mac-java.dmg)   | 433 MB  |
+|                   | JavaScript       | [AnkiCode-1.2.1-mac-js.dmg](https://github.com/daveight/ankicode/releases/download/ankicode-1.2.1/AnkiCode-1.2.1-mac-js.dmg)     | 384 MB  |
+|                   | C++ (non-stable) | [AnkiCode-1.2.1-mac-cpp.dmg](https://github.com/daveight/ankicode/releases/download/ankicode-1.2.1/AnkiCode-1.2.1-mac-cpp.dmg)    | 459 MB  |
+|                   | All in One       | [AnkiCode-1.2.1-mac-all.dmg](https://github.com/daveight/ankicode/releases/download/ankicode-1.2.1/AnkiCode-1.2.1-mac.dmg)    | 596 MB  |
 
 ---
 
@@ -41,9 +41,9 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 
 | Name                | Count  |Link                                                        | Size    |
 | :------------------ |:-------|:-----------------------------------------------------------|:--------|
-| Easy                | 50     | [easy.apkg](https://1odg.short.gy/Ot9m35)                  | 31 KB   |
-| Medium              | 114    | [medium.apkg](https://1odg.short.gy/Y9gAlc)                | 103 KB  |
-| Hard                | 44     | [hard.apkg](https://1odg.short.gy/2jH1yu)                  | 51 KB   |
+| Easy                | 50     | [easy.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.0/leetcode_easy.apkg)                  | 31 KB   |
+| Medium              | 114    | [medium.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.0/leetcode_medium.apkg)                | 103 KB  |
+| Hard                | 44     | [hard.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.0/leetcode_hard.apkg)                  | 51 KB   |
 
 ### Problems List
 <details><summary>Click to Expand/Collapse</summary>
