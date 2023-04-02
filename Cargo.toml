@@ -1,0 +1,47 @@
+[workspace.package]
+version = "0.0.0"
+authors = ["Ankitects Pty Ltd and contributors <https://help.ankiweb.net>"]
+license = "AGPL-3.0-or-later"
+rust-version = "1.65"
+edition = "2021"
+
+[workspace]
+members = [
+  "rslib",
+  "rslib/i18n",
+  "rslib/i18n_helpers",
+  "rslib/linkchecker",
+  "pylib/rsbridge",
+  "build/configure",
+  "build/ninja_gen",
+  "build/archives",
+  "build/runner",
+  "ftl",
+  "tools/workspace-hack",
+  "qt/bundle/win",
+  "qt/bundle/mac",
+]
+exclude = ["qt/bundle"]
+resolver = "2"
+
+# Apply mild optimizations to our dependencies in dev mode, which among other things
+# improves sha2 performance by about 21x. Opt 1 chosen due to
+# https://doc.rust-lang.org/cargo/reference/profiles.html#overrides-and-generics. This
+# applies to the dependencies of unit tests as well.
+[profile.dev.package."*"]
+opt-level = 1
+debug = 0
+
+[profile.dev.package.anki_i18n]
+opt-level = 1
+debug = 0
+
+[profile.dev.package.runner]
+opt-level = 1
+
+# Debug info off by default, which speeds up incremental builds and produces a considerably
+# smaller library.
+[profile.dev.package.anki]
+debug = 0
+[profile.dev.package.rsbridge]
+debug = 0

@@ -1,0 +1,77 @@
+preferences-automatically-sync-on-profile-openclose = Sincronizza automaticamente all'apertura/chiusura del profilo
+preferences-backups = Backup
+preferences-change-deck-depending-on-note-type = Cambia mazzo a seconda del tipo di nota
+preferences-changes-will-take-effect-when-you = I cambiamenti avranno effetto dopo il riavvio di Anki.
+preferences-hours-past-midnight = ore dopo mezzanotte
+preferences-language = Lingua
+preferences-interrupt-current-audio-when-answering = Interrompi l'audio mentre rispondi
+preferences-learn-ahead-limit = Mostra in anticipo - Limite
+preferences-mins = min
+preferences-network = Rete
+preferences-next-day-starts-at = Il giorno successivo inizia
+preferences-media-is-not-backed-up = I backup automatici non includono i file multimediali. Si consiglia di effettuare un backup periodico della cartella di Anki per garantire la sicurezza dei dati.
+preferences-on-next-sync-force-changes-in = Alla prossima sincronizzazione, forza i cambiamenti in una direzione
+preferences-paste-clipboard-images-as-png = Incolla immagini dagli appunti come png
+preferences-paste-without-shift-key-strips-formatting = Incolla senza tasto Maiusc rimuove la formattazione
+preferences-periodically-sync-media = Sincronizza periodicamente i file multimediali
+preferences-please-restart-anki-to-complete-language = Riavvia Anki per completare il cambiamento di lingua.
+preferences-preferences = Preferenze
+preferences-scheduling = Pianifica
+preferences-show-learning-cards-with-larger-steps = Mostra le carte in apprendimento con passi più grandi prima delle ripetizioni
+preferences-show-next-review-time-above-answer = Mostra la prossima scadenza sopra i pulsanti di risposta
+preferences-show-play-buttons-on-cards-with = Mostra i pulsanti di riproduzione sulle carte con l'audio
+preferences-show-remaining-card-count = Mostra il contatore delle carte rimanenti durante le ripetizioni
+preferences-some-settings-will-take-effect-after = Alcune opzioni avranno effetto solo dopo il riavvio di Anki.
+preferences-tab-synchronisation = Sincronizzazione
+preferences-synchronizationnot-currently-enabled-click-the-sync = <b>Sincronizzazione</b><br> Non abilitata correntemente; clicca il pulsante di sincronizzazione nella finestra principale per abilitarla.
+preferences-synchronize-audio-and-images-too = Sincronizza anche l'audio e le immagini
+preferences-timebox-time-limit = Limite di tempo per sessione
+preferences-user-interface-size = Dimensione dell'interfaccia utente
+preferences-when-adding-default-to-current-deck = Aggiungi le note nuove al mazzo corrente
+preferences-you-can-restore-backups-via-fileswitch = Puoi ripristinare i backup attraverso File > Cambia Profilo > Apri backup.
+preferences-legacy-timezone-handling = Vecchio sistema di gestione dei fusi orari (pieno di bug, ma richiesto da AnkiDroid <= 2.14)
+preferences-default-search-text = Testo di ricerca di default
+preferences-default-search-text-example = es. 'deck:current'
+preferences-theme = Tema
+preferences-theme-follow-system = Seguire il sistema
+preferences-theme-light = Chiaro
+preferences-theme-dark = Scuro
+preferences-v3-scheduler = Pianificatore V3
+preferences-ignore-accents-in-search = Ignora accenti nelle ricerche (più lento)
+preferences-backup-explanation =
+    Anki esegue periodicamente il backup della tua collezione. Dopo che i backup hanno più di 2 giorni,
+    Anki inizierà a rimuoverne alcuni per liberare spazio su disco.
+preferences-daily-backups = Backup giornalieri da conservare:
+preferences-weekly-backups = Backup settimanali da conservare:
+preferences-monthly-backups = Backup mensili da conservare:
+preferences-minutes-between-backups = Minuti tra i backup automatici:
+preferences-reduce-motion = Riduci movimenti
+preferences-reduce-motion-tooltip = Disabilita varie animazioni e transizioni dell'interfaccia utente
+preferences-custom-sync-url = Server di sincronizzazione self-hosted
+preferences-custom-sync-url-disclaimer = Solo per utenti esperti - consultare il manuale
+preferences-hide-top-bar-during-review = Nascondi la barra superiore durante le ripetizioni
+preferences-hide-bottom-bar-during-review = Nascondi la barra inferiore durante le ripetizioni
+preferences-always = Sempre
+preferences-full-screen-only = Solo a schermo intero
+preferences-appearance = Aspetto
+preferences-general = Generale
+preferences-style = Stile
+preferences-review = Ripetizioni
+preferences-distractions = Distrazioni
+preferences-minimalist-mode = Modalità minimalista
+preferences-editing = Modifica
+preferences-browsing = Sfoglia
+preferences-default-deck = Mazzo Default
+preferences-account = Account AnkiWeb
+preferences-note = N.B.
+preferences-scheduler = Pianificatore
+preferences-user-interface = Interfaccia Utente
+preferences-import-export = Importa/Esporta
+preferences-reset-window-sizes = Ripristina dimensioni finestre
+preferences-reset-window-sizes-complete = Le dimensioni e le posizioni delle finestre sono state ripristinate.
+
+## NO NEED TO TRANSLATE. This text is no longer used by Anki, and will be removed in the future.
+
+preferences-basic = Basilare
+preferences-reviewer = Reviewer
+preferences-media = File multimediali

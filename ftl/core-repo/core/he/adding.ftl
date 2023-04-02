@@ -1,0 +1,11 @@
+adding-add-shortcut-ctrlandenter = הוספה (קיצור מקשים: ctrl+enter)
+adding-added = נוספו
+adding-close-and-lose-current-input = האם לסגור מבלי לשמור את השינויים?
+adding-edit = ערוך את "{ $val }"
+adding-history = היסטוריה
+adding-note-deleted = (רשומה נמחקה)
+adding-shortcut = קיצור דרך: { $val }
+adding-the-first-field-is-empty = השדה הראשון ריק.
+adding-you-have-a-cloze-deletion-note = סוג הרשומה הוא השלמת החסר, אך אין שום חסר להשלמה. להמשיך?
+adding-cloze-outside-cloze-notetype = ניתן להשתמש באפשרות השלם את החסר רק על רשומות מסוג השלם את החסר.
+adding-cloze-outside-cloze-field = ניתן להשתמש בהשלם את החסר רק בשדות המשתמשים במסנן 'השלם את החסר:'. בדרך כלל זהו השדה הראשון.

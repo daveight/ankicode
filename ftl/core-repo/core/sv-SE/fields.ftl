@@ -1,0 +1,14 @@
+fields-add-field = Lägg till Fält
+fields-delete-field-from = Radera fält från { $val }?
+fields-editing-font = Redigeringstypsnitt
+fields-field = Fält:
+fields-field-name = Fältnamn:
+fields-fields-for = Fält för { $val }
+fields-font = Typsnitt:
+fields-new-position-1 = Ny position (1...{ $val }):
+fields-notes-require-at-least-one-field = Noter behöver minst ett fält.
+fields-remember-last-input-when-adding = Kom ihåg senaste inmatning
+fields-reverse-text-direction-rtl = Byt textriktning (RTL)
+fields-size = Storlek:
+fields-sort-by-this-field-in-the = Sortera efter detta fält
+fields-that-field-name-is-already-used = Det fältnamnet används redan.

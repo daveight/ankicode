@@ -1,0 +1,11 @@
+importing-failed = Импорт дампуурсан.
+importing-by-default-anki-will-detect-the = Анки стандарт процессоор талбарын хооронд тэмдгийг илрүүлнэ, жишээ нь, таслал, цэгтэй таслал, гэх мэт. Анки тэмдгийг буруу илрүүлбэл энд оруулна уу. Таб бол \t хэрэглэнэ уу.
+importing-change = Өөрчлөх
+importing-field-mapping = Талбарын тааруулах
+importing-field-of-file-is = Файлын талбар <b>{ $val }</b> :
+importing-import-options = Импортын тохиргоонууд
+importing-map-to = { $val }-тай тааруулах
+importing-map-to-tags = Шошготой холбо
+importing-mapped-to = <b>{ $val }</b>-тай тааруулсан
+importing-mapped-to-tags = <b>Шошгууд</b>-той тааруулах
+importing-supermemo-xml-export-xml = Supermemo XML-руу экпорт (*.xml)

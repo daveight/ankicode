@@ -1,0 +1,12 @@
+editing-add-media = Legg til media
+editing-an-error-occurred-while-opening = Det oppstod en feil under åpning av { $val }
+editing-cards = Kort
+editing-change-colour-f8 = Endre farge (F8)
+editing-cut = Klipp up
+editing-edit-current = Endre Nåværende
+editing-edit-html = Endre HTML
+editing-fields = Felt
+editing-html-editor = HTML-redigering
+editing-latex = LaTeX
+editing-show-duplicates = Vis duplikater
+editing-tags = Etiketter

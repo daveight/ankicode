@@ -1,0 +1,13 @@
+editing-add-media = Dodaj medije
+editing-cards = Kartice
+editing-cut = Izreži
+editing-edit-current = Uređivanje aktualnog
+editing-edit-html = Promijeni HTML
+editing-fields = Polja
+editing-html-editor = HTML uređivač
+editing-latex-equation = LaTeX jednadžba
+editing-latex-math-env = LaTeX math okr.
+editing-media = Medijske datoteke
+editing-paste = Zalijepi
+editing-show-duplicates = Prikaži duplikate
+editing-tags = Oznake

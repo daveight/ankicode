@@ -1,0 +1,9 @@
+fields-add-field = Προσθήκη πεδίου
+fields-delete-field-from = Διαγραφή πεδίου από  { $val };
+fields-editing-font = Επεξεργασία Γραμματοσειράς
+fields-field = Πεδίο:
+fields-field-name = Όνομα πεδίου:
+fields-fields-for = Πεδία για { $val }
+fields-font = Γραμματοσειρά
+fields-size = Μέγεθος:
+fields-that-field-name-is-already-used = Αυτό το όνομα αρχείου έχει ήδη χρησιμοποιηθεί.

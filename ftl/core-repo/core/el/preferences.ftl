@@ -1,0 +1,13 @@
+preferences-automatically-sync-on-profile-openclose = Αυτόματος συγχρονισμός του προφίλ στο άνοιγμα/κλείσιμο
+preferences-backups = Αντίγραφα Ασφαλείας
+preferences-backupsanki-will-create-a-backup-of = <b>Αντίγραφα</b><br>Το Anki θα δημιουργήσει ένα αντίγραφο ασφαλείας της συλλογής σου κάθε φορά που κλείνει ή συγχρονίζεται.
+preferences-basic = Βασικό
+preferences-change-deck-depending-on-note-type = Αλλαγή τράπουλας ανάλογα με τον τύπο σημείωσης
+preferences-hours-past-midnight = ώρες μετά τα μεσάνυχτα
+preferences-interface-language = Γλώσσα Διεπαφής:
+preferences-mins = λεπτά
+preferences-network = Δίκτυο
+preferences-next-day-starts-at = Η επόμενη μέρα αρχίζει στις
+preferences-synchronisation = <b>Συγχρονισμός</b>
+preferences-synchronizationnot-currently-enabled-click-the-sync = <
+preferences-synchronize-audio-and-images-too = Συγχρονισμός ήχου και εικόνων επίσης

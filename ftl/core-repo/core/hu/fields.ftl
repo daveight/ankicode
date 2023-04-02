@@ -1,0 +1,14 @@
+fields-add-field = Mező hozzáadása
+fields-delete-field-from = Törli a mezőt ebből: { $val }?
+fields-editing-font = Szerkesztési betűtípus
+fields-field = Mező:
+fields-field-name = Mezőnév:
+fields-fields-for = Mezők ehhez: { $val }
+fields-font = Betűtípus:
+fields-new-position-1 = Új sorrendi helye (1–{ $val }.):
+fields-notes-require-at-least-one-field = Egy jegyzeten legalább egy mezőnek lennie kell.
+fields-remember-last-input-when-adding = Legutóbbi szöveg megjelenítése hozzáadáskor
+fields-reverse-text-direction-rtl = Jobbról balra írt szöveg (RTL)
+fields-size = Méret:
+fields-sort-by-this-field-in-the = Rendezéskor ezt a mezőt vegye alapul a böngésző
+fields-that-field-name-is-already-used = Ez a mezőnév már használatban van.

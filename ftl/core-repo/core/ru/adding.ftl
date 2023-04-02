@@ -1,0 +1,11 @@
+adding-add-shortcut-ctrlandenter = Добавить (Ctrl+Enter)
+adding-added = Добавлено
+adding-close-and-lose-current-input = Закрыть и потерять текущий ввод?
+adding-edit = Править "{ $val }"
+adding-history = История
+adding-note-deleted = (запись удалена)
+adding-shortcut = Горячая клавиша: { $val }
+adding-the-first-field-is-empty = Первое поле пусто.
+adding-you-have-a-cloze-deletion-note = Тип записи - заполнение, но вы не заполнили пропуски. Продолжить?
+adding-cloze-outside-cloze-notetype = Пропуски можно использовать только в типах записей с пропусками.
+adding-cloze-outside-cloze-field = "Пробелы" может использоваться только для полей с фильтром "Заполнить пробелы". Обычно это первое поле.

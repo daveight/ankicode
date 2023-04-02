@@ -1,0 +1,9 @@
+adding-add-shortcut-ctrlandenter = Lägg till (genväg: ctrl+enter)
+adding-added = Tillagda
+adding-close-and-lose-current-input = Stäng och gå miste om nuvarande inmatning?
+adding-edit = Redigera "{ $val }"
+adding-history = Historik
+adding-note-deleted = (Not borttagen)
+adding-shortcut = Genväg: { $val }
+adding-the-first-field-is-empty = Det första fältet är tomt.
+adding-you-have-a-cloze-deletion-note = Du använder korttypen 'Lucktext' men har inte lagt till några luckor. Vill du verkligen fortsätta?

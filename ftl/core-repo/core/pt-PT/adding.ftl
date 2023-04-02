@@ -1,0 +1,9 @@
+adding-add-shortcut-ctrlandenter = Adicionar (atalho: ctrl+enter)
+adding-added = Adicionado
+adding-close-and-lose-current-input = Fechar e perder este cartão?
+adding-edit = Editar "{ $val }"
+adding-history = Histórico
+adding-note-deleted = (Nota eliminada)
+adding-shortcut = Atalho: { $val }
+adding-the-first-field-is-empty = O primeiro campo está vazio.
+adding-you-have-a-cloze-deletion-note = Você tem uma eliminação de nota do tipo Cloze, mas  não foram feitas quaisquer eliminações do tipo Cloze. Confirma?

@@ -1,0 +1,567 @@
+```
+$ pyoxidizer
+? 2
+Usage: pyoxidizer[EXE] [OPTIONS] [COMMAND]
+
+Commands:
+  analyze                              Analyze a built binary
+  build                                Build a PyOxidizer enabled project
+  cache-clear                          Clear PyOxidizer's user-specific cache
+  find-resources                       Find resources in a file or directory
+  generate-python-embedding-artifacts  Generate files useful for embedding Python in a [Rust] binary
+  init-config-file                     Create a new PyOxidizer configuration file.
+  init-rust-project                    Create a new Rust project embedding a Python interpreter
+  list-targets                         List targets available to resolve in a configuration file
+  python-distribution-extract          Extract a Python distribution archive to a directory
+  python-distribution-info             Show information about a Python distribution archive
+  python-distribution-licenses         Show licenses for a given Python distribution
+  run-build-script                     Run functionality that a build script would perform
+  run                                  Run a target in a PyOxidizer configuration file
+  rust-project-licensing               Show licensing information for a Rust project
+  help                                 Print this message or the help of the given subcommand(s)
+
+Options:
+      --system-rust  Use a system install of Rust instead of a self-managed Rust installation
+      --verbose...   Increase logging verbosity. Can be specified multiple times
+  -h, --help         Print help information (use `--help` for more detail)
+  -V, --version      Print version information
+
+```
+
+```
+$ pyoxidizer help
+Build and distribute Python applications
+
+Usage: pyoxidizer[EXE] [OPTIONS] [COMMAND]
+
+Commands:
+  analyze
+          Analyze a built binary
+  build
+          Build a PyOxidizer enabled project
+  cache-clear
+          Clear PyOxidizer's user-specific cache
+  find-resources
+          Find resources in a file or directory
+  generate-python-embedding-artifacts
+          Generate files useful for embedding Python in a [Rust] binary
+  init-config-file
+          Create a new PyOxidizer configuration file.
+  init-rust-project
+          Create a new Rust project embedding a Python interpreter
+  list-targets
+          List targets available to resolve in a configuration file
+  python-distribution-extract
+          Extract a Python distribution archive to a directory
+  python-distribution-info
+          Show information about a Python distribution archive
+  python-distribution-licenses
+          Show licenses for a given Python distribution
+  run-build-script
+          Run functionality that a build script would perform
+  run
+          Run a target in a PyOxidizer configuration file
+  rust-project-licensing
+          Show licensing information for a Rust project
+  help
+          Print this message or the help of the given subcommand(s)
+
+Options:
+      --system-rust
+          Use a system install of Rust instead of a self-managed Rust installation
+
+      --verbose...
+          Increase logging verbosity. Can be specified multiple times
+
+  -h, --help
+          Print help information (use `-h` for a summary)
+
+  -V, --version
+          Print version information
+
+```
+
+```
+$ pyoxidizer analyze --help
+Analyze a built binary
+
+Usage: pyoxidizer[EXE] analyze [OPTIONS] <path>
+
+Arguments:
+  <path>  Path to executable to analyze
+
+Options:
+      --system-rust  Use a system install of Rust instead of a self-managed Rust installation
+      --verbose...   Increase logging verbosity. Can be specified multiple times
+  -h, --help         Print help information
+
+```
+
+```
+$ pyoxidizer build --help
+Build a PyOxidizer project.
+
+The PATH argument is a filesystem path to a directory containing an
+existing PyOxidizer enabled project.
+
+This command will invoke Rust's build system tool (Cargo) to build
+the project.
+
+
+Usage: pyoxidizer[EXE] build [OPTIONS] [TARGET]...
+
+Arguments:
+  [TARGET]...
+          Target to resolve
+
+Options:
+      --system-rust
+          Use a system install of Rust instead of a self-managed Rust installation
+
+      --target-triple <target_triple>
+          Rust target triple to build for
+
+      --release
+          Build a release binary
+
+      --verbose...
+          Increase logging verbosity. Can be specified multiple times
+
+      --path <PATH>
+          Directory containing project to build
+          
+          [default: .]
+
+      --var <name> <value>
+          Defines a single string key to set in the VARS global dict.
+          
+          This argument can be used to inject variable content into the Starlark
+          execution context to influence evaluation.
+          
+          <name> defines the key in the dict to set and <value> is its string
+          value.
+          
+          For example, `--var my_var my_value` is functionally similar to the
+          Starlark expression `VARS["my_var"] = "my_value"`.
+          
+          If a Starlark variable is defined multiple times, an error occurs.
+          
+
+      --var-env <name> <env>
+          Defines a single string key to set in the VARS global dict from an environment variable.
+          
+          This is like --var except the value of the dict key comes from an
+          environment variable.
+          
+          The <env> environment variable is read and becomes the value of the
+          <name> key in the VARS dict.
+          
+          If the <env> environment variable is not set, the Starlark value will
+          be `None` instead of a `string`.
+          
+          If a Starlark variable is defined multiple times, an error occurs.
+          
+
+  -h, --help
+          Print help information (use `-h` for a summary)
+
+```
+
+```
+$ pyoxidizer cache-clear --help
+Clear PyOxidizer's user-specific cache
+
+Usage: pyoxidizer[EXE] cache-clear [OPTIONS]
+
+Options:
+      --system-rust  Use a system install of Rust instead of a self-managed Rust installation
+      --verbose...   Increase logging verbosity. Can be specified multiple times
+  -h, --help         Print help information
+
+```
+
+```
+$ pyoxidizer find-resources --help
+Scan a directory or file for Python resources.
+
+This command invokes the logic used by various PyOxidizer functionality
+walking a directory tree or parsing a file and categorizing seen files.
+
+The directory walking functionality is used by
+`oxidized_importer.find_resources_in_path()` and Starlark methods like
+`PythonExecutable.pip_install()` and
+`PythonExecutable.read_package_root()`.
+
+The file parsing logic is used for parsing the contents of wheels.
+
+This command can be used to debug failures with PyOxidizer's code
+for converting files/directories into strongly typed objects. This
+conversion is critical for properly packaging Python applications and
+bugs can result in incorrect install layouts, missing resources, etc.
+
+
+Usage: pyoxidizer[EXE] find-resources [OPTIONS] <PATH>
+
+Arguments:
+  <PATH>
+          Filesystem path to scan for resources. Must be a directory or Python wheel
+
+Options:
+      --distributions-dir <PATH>
+          Directory to extract downloaded Python distributions into
+
+      --system-rust
+          Use a system install of Rust instead of a self-managed Rust installation
+
+      --scan-distribution
+          Scan the Python distribution instead of a path
+
+      --verbose...
+          Increase logging verbosity. Can be specified multiple times
+
+      --target-triple <target_triple>
+          Target triple of Python distribution to use
+          
+          [default: [..]]
+
+      --no-classify-files
+          Whether to skip classifying files as typed resources
+
+      --no-emit-files
+          Whether to skip emitting File resources
+
+  -h, --help
+          Print help information (use `-h` for a summary)
+
+```
+
+```
+$ pyoxidizer generate-python-embedding-artifacts --help
+Generate files useful for embedding Python in a [Rust] binary.
+
+This low-level command can be used to write files that facilitate the
+embedding of Python in a larger binary. It can be used to write:
+
+* A custom libpython that can be linked into a binary.
+* A configuration file for the PyO3 Rust crate telling it how to
+  link against the aforementioned custom libpython.
+* A Python packed resources file containing the entirety of the Python
+  standard library.
+* A Rust file defining a default `pyembed::OxidizedPythonInterpreterConfig`
+  struct for configuring the embedded Python interpreter.
+* tcl/tk support files (for tkinter module support).
+* Microsoft Visual C++ Redistributable Runtime DLLs (Windows only).
+
+This command essentially does what the `run-build-script` command does except
+it doesn't require the presence of a PyOxidizer configuration file. Instead,
+it uses an opinionated default configuration suitable for producing a set of
+files suitable for common Python embedding scenarios. If the defaults are not
+appropriate for your use case, you can always define a configuration file to
+customize them and use `run-build-script` to produce similar output files.
+
+
+Usage: pyoxidizer[EXE] generate-python-embedding-artifacts [OPTIONS] <DESTINATION_PATH>
+
+Arguments:
+  <DESTINATION_PATH>
+          Output directory for written files
+
+Options:
+      --system-rust
+          Use a system install of Rust instead of a self-managed Rust installation
+
+      --target-triple <target_triple>
+          Rust target triple being targeted
+          
+          [default: [..]]
+
+      --flavor <flavor>
+          Python distribution flavor
+          
+          [default: standalone]
+
+      --verbose...
+          Increase logging verbosity. Can be specified multiple times
+
+      --python-version <python_version>
+          Python version (X.Y) to use
+
+  -h, --help
+          Print help information (use `-h` for a summary)
+
+```
+
+```
+$ pyoxidizer init-config-file --help
+Create a new PyOxidizer configuration file.
+
+Usage: pyoxidizer[EXE] init-config-file [OPTIONS] <PATH>
+
+Arguments:
+  <PATH>  Directory where configuration file should be created
+
+Options:
+      --python-code <python-code>  Default Python code to execute in built executable
+      --system-rust                Use a system install of Rust instead of a self-managed Rust installation
+      --pip-install <pip-install>  Python package to install via `pip install`
+      --verbose...                 Increase logging verbosity. Can be specified multiple times
+  -h, --help                       Print help information
+
+```
+
+```
+$ pyoxidizer init-rust-project --help
+Create a new Rust project embedding Python.
+
+The PATH argument is a filesystem path that should be created to hold the
+new Rust project.
+
+This command will call `cargo init PATH` and then install files and make
+modifications required to embed a Python interpreter in that application.
+
+The new project's binary will be configured to launch a Python REPL by
+default.
+
+Created projects inherit settings such as Python distribution URLs and
+dependency crate versions and locations from the PyOxidizer executable
+they were created with.
+
+On success, instructions on potential next steps are printed.
+
+
+Usage: pyoxidizer[EXE] init-rust-project [OPTIONS] <PATH>
+
+Arguments:
+  <PATH>
+          Path of project directory to create
+
+Options:
+      --system-rust
+          Use a system install of Rust instead of a self-managed Rust installation
+
+      --verbose...
+          Increase logging verbosity. Can be specified multiple times
+
+  -h, --help
+          Print help information (use `-h` for a summary)
+
+```
+
+```
+$ pyoxidizer list-targets --help
+List targets available to resolve in a configuration file
+
+Usage: pyoxidizer[EXE] list-targets [OPTIONS] [PATH]
+
+Arguments:
+  [PATH]  Path to project to evaluate [default: .]
+
+Options:
+      --system-rust  Use a system install of Rust instead of a self-managed Rust installation
+      --verbose...   Increase logging verbosity. Can be specified multiple times
+  -h, --help         Print help information
+
+```
+
+```
+$ pyoxidizer python-distribution-extract --help
+Extract a Python distribution archive to a directory
+
+Usage: pyoxidizer[EXE] python-distribution-extract [OPTIONS] <DESTINATION_PATH>
+
+Arguments:
+  <DESTINATION_PATH>  Path to directory where distribution should be extracted
+
+Options:
+      --download-default
+          Download and extract the default distribution for this platform
+      --system-rust
+          Use a system install of Rust instead of a self-managed Rust installation
+      --archive-path <DISTRIBUTION_PATH>
+          Path to a Python distribution archive
+      --verbose...
+          Increase logging verbosity. Can be specified multiple times
+  -h, --help
+          Print help information
+
+```
+
+```
+$ pyoxidizer python-distribution-info --help
+Show information about a Python distribution archive
+
+Usage: pyoxidizer[EXE] python-distribution-info [OPTIONS] <PATH>
+
+Arguments:
+  <PATH>  Path to Python distribution archive to analyze
+
+Options:
+      --system-rust  Use a system install of Rust instead of a self-managed Rust installation
+      --verbose...   Increase logging verbosity. Can be specified multiple times
+  -h, --help         Print help information
+
+```
+
+```
+$ pyoxidizer python-distribution-licenses --help
+Show licenses for a given Python distribution
+
+Usage: pyoxidizer[EXE] python-distribution-licenses [OPTIONS] <PATH>
+
+Arguments:
+  <PATH>  Path to Python distribution to analyze
+
+Options:
+      --system-rust  Use a system install of Rust instead of a self-managed Rust installation
+      --verbose...   Increase logging verbosity. Can be specified multiple times
+  -h, --help         Print help information
+
+```
+
+```
+$ pyoxidizer run --help
+Run a target in a PyOxidizer configuration file
+
+Usage: pyoxidizer[EXE] run [OPTIONS] [extra]...
+
+Arguments:
+  [extra]...
+          
+
+Options:
+      --system-rust
+          Use a system install of Rust instead of a self-managed Rust installation
+
+      --target-triple <target_triple>
+          Rust target triple to build for
+
+      --release
+          Run a release binary
+
+      --verbose...
+          Increase logging verbosity. Can be specified multiple times
+
+      --path <PATH>
+          Directory containing project to build
+          
+          [default: .]
+
+      --target <target>
+          Build target to run
+
+      --var <name> <value>
+          Defines a single string key to set in the VARS global dict.
+          
+          This argument can be used to inject variable content into the Starlark
+          execution context to influence evaluation.
+          
+          <name> defines the key in the dict to set and <value> is its string
+          value.
+          
+          For example, `--var my_var my_value` is functionally similar to the
+          Starlark expression `VARS["my_var"] = "my_value"`.
+          
+          If a Starlark variable is defined multiple times, an error occurs.
+          
+
+      --var-env <name> <env>
+          Defines a single string key to set in the VARS global dict from an environment variable.
+          
+          This is like --var except the value of the dict key comes from an
+          environment variable.
+          
+          The <env> environment variable is read and becomes the value of the
+          <name> key in the VARS dict.
+          
+          If the <env> environment variable is not set, the Starlark value will
+          be `None` instead of a `string`.
+          
+          If a Starlark variable is defined multiple times, an error occurs.
+          
+
+  -h, --help
+          Print help information (use `-h` for a summary)
+
+```
+
+```
+$ pyoxidizer run-build-script --help
+Runs a crate build script to generate Python artifacts.
+
+When the Rust crate embedding Python is built, it needs to consume various
+artifacts derived from processing the active PyOxidizer config file.
+These files are typically generated when the crate's build script runs.
+
+This command executes the functionality to derive various artifacts and
+emits special lines that tell the Rust build system how to consume them.
+
+
+Usage: pyoxidizer[EXE] run-build-script [OPTIONS] <build-script-name>
+
+Arguments:
+  <build-script-name>
+          Value to use for Rust build script
+
+Options:
+      --system-rust
+          Use a system install of Rust instead of a self-managed Rust installation
+
+      --target <target>
+          The config file target to resolve
+
+      --var <name> <value>
+          Defines a single string key to set in the VARS global dict.
+          
+          This argument can be used to inject variable content into the Starlark
+          execution context to influence evaluation.
+          
+          <name> defines the key in the dict to set and <value> is its string
+          value.
+          
+          For example, `--var my_var my_value` is functionally similar to the
+          Starlark expression `VARS["my_var"] = "my_value"`.
+          
+          If a Starlark variable is defined multiple times, an error occurs.
+          
+
+      --verbose...
+          Increase logging verbosity. Can be specified multiple times
+
+      --var-env <name> <env>
+          Defines a single string key to set in the VARS global dict from an environment variable.
+          
+          This is like --var except the value of the dict key comes from an
+          environment variable.
+          
+          The <env> environment variable is read and becomes the value of the
+          <name> key in the VARS dict.
+          
+          If the <env> environment variable is not set, the Starlark value will
+          be `None` instead of a `string`.
+          
+          If a Starlark variable is defined multiple times, an error occurs.
+          
+
+  -h, --help
+          Print help information (use `-h` for a summary)
+
+```
+
+```
+$ pyoxidizer rust-project-licensing --help
+Show licensing information for a Rust project
+
+Usage: pyoxidizer[EXE] rust-project-licensing [OPTIONS] <project_path>
+
+Arguments:
+  <project_path>  The path to the Rust project to evaluate
+
+Options:
+      --all-features                   Activate all crate features during evaluation
+      --system-rust                    Use a system install of Rust instead of a self-managed Rust installation
+      --target-triple <target_triple>  Rust target triple to simulate building for
+      --verbose...                     Increase logging verbosity. Can be specified multiple times
+      --unified-license                Print a unified license document
+  -h, --help                           Print help information
+
+```

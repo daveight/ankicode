@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+RELEASE=1 ./ninja wheels
+echo "wheels are in out/wheels"

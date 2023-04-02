@@ -1,0 +1,9 @@
+adding-add-shortcut-ctrlandenter = Hozzáadás (gyorsbillentyű: Ctrl+Enter)
+adding-added = Hozzáadva
+adding-close-and-lose-current-input = Bezárja az ablakot és veszni hagyja a beírt adatokat?
+adding-edit = „{ $val }” szerkesztése
+adding-history = Előzmény
+adding-note-deleted = Jegyzet törölve
+adding-shortcut = Gyorsbillentyű: { $val }
+adding-the-first-field-is-empty = Az első mező üres.
+adding-you-have-a-cloze-deletion-note = Van egy lyukasszöveg-jegyzettípusod, de még nem hoztál létre lyukas szöveget. Folytatod?

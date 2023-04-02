@@ -1,0 +1,10 @@
+profiles-anki-could-not-read-your-profile = Anki ne povis legi vian profilan datumojn. Fenestro-grandoj kaj viaj detaloj de la sinkonigo-ensaluto estis forgesitaj.
+profiles-anki-could-not-rename-your-profile = Anki ne povis alinomi vian profilon, ĉar ĝi ne povis alinomi vian profildosierujon sur la disko. Bonvolu certigi vin, ĉu vi havas skriborajton sur Documents/Anki kaj neniu alia programo atingas vian profildosierujon. Poste reprovu ĝin.
+profiles-folder-already-exists = La dosierujo jam ekzistas.
+profiles-open = Malfermi
+profiles-open-backup = Malfermi sekurkopion...
+profiles-please-remove-the-folder-and = Bonvolu forigi la dosierujon { $val } kaj reprovi ĝin.
+profiles-profile-corrupt = La profilo estas difektohava.
+profiles-profiles = Profiloj
+profiles-quit = Forlasi
+profiles-user-1 = 1-a uzanto

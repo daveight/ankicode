@@ -1,0 +1,14 @@
+fields-add-field = Aldoni kampon
+fields-delete-field-from = Ĉu forigi la kampon el { $val }?
+fields-editing-font = Redakta tiparo
+fields-field = Kampo:
+fields-field-name = Kamponomo:
+fields-fields-for = Kampoj por { $val }
+fields-font = Tiparo:
+fields-new-position-1 = Nova pozicio (1...{ $val }):
+fields-notes-require-at-least-one-field = Notoj bezonas almenaŭ unu kampon.
+fields-remember-last-input-when-adding = Memori lastan enigon kiam aldonante
+fields-reverse-text-direction-rtl = Dekstre-maldekstren tekstodirekto (RTL)
+fields-size = Grando:
+fields-sort-by-this-field-in-the = Ordigi per ĉi tiu kampo en la foliumilo
+fields-that-field-name-is-already-used = Tiu kamponomo jam estas uzata.

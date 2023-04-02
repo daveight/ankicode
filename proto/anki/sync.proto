@@ -1,0 +1,61 @@
+// Copyright: Ankitects Pty Ltd and contributors
+// License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package anki.sync;
+
+import "anki/generic.proto";
+
+service SyncService {
+  rpc SyncMedia(SyncAuth) returns (generic.Empty);
+  rpc AbortMediaSync(generic.Empty) returns (generic.Empty);
+
+  rpc SyncLogin(SyncLoginRequest) returns (SyncAuth);
+  rpc SyncStatus(SyncAuth) returns (SyncStatusResponse);
+  rpc SyncCollection(SyncAuth) returns (SyncCollectionResponse);
+  rpc FullUpload(SyncAuth) returns (generic.Empty);
+  rpc FullDownload(SyncAuth) returns (generic.Empty);
+  rpc AbortSync(generic.Empty) returns (generic.Empty);
+}
+
+message SyncAuth {
+  string hkey = 1;
+  optional string endpoint = 2;
+  optional uint32 io_timeout_secs = 3;
+}
+
+message SyncLoginRequest {
+  string username = 1;
+  string password = 2;
+  optional string endpoint = 3;
+}
+
+message SyncStatusResponse {
+  enum Required {
+    NO_CHANGES = 0;
+    NORMAL_SYNC = 1;
+    FULL_SYNC = 2;
+  }
+  Required required = 1;
+  optional string new_endpoint = 4;
+}
+
+message SyncCollectionResponse {
+  enum ChangesRequired {
+    NO_CHANGES = 0;
+    NORMAL_SYNC = 1;
+    FULL_SYNC = 2;
+    // local collection has no cards; upload not an option
+    FULL_DOWNLOAD = 3;
+    // remote collection has no cards; download not an option
+    FULL_UPLOAD = 4;
+  }
+
+  uint32 host_number = 1;
+  string server_message = 2;
+  ChangesRequired required = 3;
+  optional string new_endpoint = 4;
+}

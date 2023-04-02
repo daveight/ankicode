@@ -1,0 +1,14 @@
+card-stats-added = Dodano
+card-stats-ease = Težina
+card-stats-review-count = Ponavljanja
+card-stats-lapse-count = Promašaji
+card-stats-average-time = Prosječno vrijeme
+card-stats-deck-name = Špil
+card-stats-review-log-rating = Ocjena
+card-stats-review-log-type = Vrsta
+card-stats-review-log-date = Datum
+card-stats-review-log-time-taken = Vrijeme
+card-stats-review-log-type-learn = Učenje
+card-stats-review-log-type-review = Ponavljanje
+card-stats-review-log-type-filtered = Filtrirano
+card-stats-review-log-type-rescheduled = Prerasporedi

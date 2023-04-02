@@ -1,0 +1,8 @@
+pip-tools
+colorama # required on windows
+
+# anki-code
+throttle
+Jinja2
+psutil
+ordered-set

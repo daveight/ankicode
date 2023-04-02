@@ -1,0 +1,14 @@
+fields-add-field = Engadir un campo
+fields-delete-field-from = Eliminar campo de { $val }?
+fields-editing-font = Editando o tipo de letra
+fields-field = Campo:
+fields-field-name = Nome do campo:
+fields-fields-for = Campos para { $val }
+fields-font = Tipo de letra:
+fields-new-position-1 = Nova posición (1...{ $val }):
+fields-notes-require-at-least-one-field = As notas requiren polo menos un campo.
+fields-remember-last-input-when-adding = Lembrar a última entrada ao engadir
+fields-reverse-text-direction-rtl = Dirección inversa do texto (RTL)
+fields-size = Tamaño:
+fields-sort-by-this-field-in-the = Ordear segundo este campo no navegador
+fields-that-field-name-is-already-used = Este nome de campo xa está a ser usado.

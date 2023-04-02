@@ -1,0 +1,9 @@
+adding-add-shortcut-ctrlandenter = Додати (скорочення клавіш: Ctrl+Enter)
+adding-added = Додано
+adding-close-and-lose-current-input = Закрити та втратити поточні дані?
+adding-edit = Редагувати «{ $val }»
+adding-history = Історія
+adding-note-deleted = (Нотатку видалено)
+adding-shortcut = Гаряча клавіша: { $val }
+adding-the-first-field-is-empty = Перше поле порожнє.
+adding-you-have-a-cloze-deletion-note = У вас тип нотатки з тестом з пробілами, але ви не створили жодних тестових карток з пробілами. Продовжити?

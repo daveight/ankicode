@@ -1,0 +1,13 @@
+fields-add-field = Dodaj polje
+fields-delete-field-from = Obrisati polje iz { $val }?
+fields-editing-font = Mijenjanje fonta
+fields-field = Polje:
+fields-field-name = Ime polja:
+fields-fields-for = Polja za { $val }
+fields-font = Slovo:
+fields-new-position-1 = Novi položaj (1...{ $val }):
+fields-notes-require-at-least-one-field = Bilješka zahtijeva barem jedno polje.
+fields-remember-last-input-when-adding = Zapamti zadnji unos prilikom dodavanja
+fields-reverse-text-direction-rtl = Obrnuti smjer teksta (s desna)
+fields-sort-by-this-field-in-the = Sortiraj prema ovom polju u pregledniku
+fields-that-field-name-is-already-used = Taj naziv za polje je već u uporabi.

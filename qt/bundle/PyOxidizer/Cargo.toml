@@ -1,0 +1,23 @@
+[workspace]
+members = [
+    'pyembed-bench',
+    'pyembed',
+    'pyoxidizer',
+    'pyoxy',
+    'python-oxidized-importer',
+    'python-packaging',
+    'python-packed-resources',
+    'release',
+    'starlark-dialect-build-targets',
+    'tugger',
+    'tugger-apple',
+    'tugger-binary-analysis',
+    'tugger-code-signing',
+    'tugger-common',
+    'tugger-rust-toolchain',
+    'tugger-snapcraft',
+    'tugger-windows',
+    'tugger-windows-codesign',
+    'tugger-wix',
+]
+resolver = "2"

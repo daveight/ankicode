@@ -1,0 +1,13 @@
+actions-add = Apondre
+actions-cancel = Anullar
+actions-choose = Causir
+actions-close = Tampar
+actions-copy = Copiar
+actions-custom-study = Revisions particularas
+actions-decks = Paquets
+actions-delete = Suprimir
+actions-export = Exportar
+actions-filter = Filtrar
+actions-help = Ajuda
+actions-import = Importar
+actions-new = Novèl

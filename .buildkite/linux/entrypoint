@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+
+# check author has added themselves to CONTRIBUTORS
+echo "--- Checking CONTRIBUTORS"
+.buildkite/linux/check_contributors
+
+echo "+++ Building and testing"
+ln -sf out/node_modules .
+
+export PATH="$PATH:/state/rust/cargo/bin"
+export BUILD_ROOT=/state/build
+export ONLINE_TESTS=1
+
+./ninja pylib/anki qt/aqt check
+
+echo "--- Ensure libs importable"
+SKIP_RUN=1 ./run
+
+echo "--- Check Rust libs"
+cargo install cargo-deny
+cargo deny check -A duplicate
+

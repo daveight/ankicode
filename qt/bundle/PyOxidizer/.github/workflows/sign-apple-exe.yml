@@ -1,0 +1,71 @@
+name: Remotely code sign an Apple executable
+on:
+  workflow_dispatch:
+    inputs:
+      workflow:
+        description: 'Workflow file name or ID'
+        required: true
+        type: string
+      run_id:
+        description: 'Workflow run ID to use'
+        required: true
+        type: string
+      artifact:
+        description: 'Name of artifact to download'
+        required: true
+        type: string
+      exe_name:
+        description: 'Name of executable file to sign'
+        required: true
+        type: string
+      rcodesign_branch:
+        description: 'Name of branch to obtain rcodesign executable from'
+        required: false
+        default: main
+
+jobs:
+  sign:
+    name: Sign ${{ github.event.inputs.exe_name }}
+    runs-on: 'ubuntu-20.04'
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download rcodesign Linux executable
+        uses: dawidd6/action-download-artifact@9662f5cf4983f094c5b142e8fec9ddea560ca302
+        with:
+          repo: ${{github.repository}}
+          workflow: '.github/workflows/rcodesign.yml'
+          workflow_conclusion: success
+          branch: ${{ github.event.inputs.rcodesign_branch }}
+          event: push
+          name: exe-rcodesign-x86_64-unknown-linux-musl
+          path: bins/
+
+      - name: Download artifact to sign
+        uses: dawidd6/action-download-artifact@9662f5cf4983f094c5b142e8fec9ddea560ca302
+        with:
+          repo: ${{ github.repository }}
+          workflow: ${{ github.event.inputs.workflow }}
+          run_id: ${{ github.event.inputs.run_id }}
+          workflow_conclusion: completed
+          name: ${{ github.event.inputs.artifact }}
+          path: dist/input
+
+      - name: Perform remote code signing
+        run: |
+          # Just in case.
+          chmod +x bins/rcodesign
+
+          bins/rcodesign sign \
+              --remote-signer \
+              --remote-public-key-pem-file ci/developer-id-application.pem \
+              --code-signature-flags runtime \
+              dist/input/${{ github.event.inputs.exe_name }} \
+              dist/output/${{ github.event.inputs.exe_name }}
+
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: exe-${{ github.event.inputs.exe_name }}
+          path: dist/output/${{ github.event.inputs.exe_name }}

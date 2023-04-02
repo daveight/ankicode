@@ -1,0 +1,11 @@
+adding-add-shortcut-ctrlandenter = Afegeix (drecera: Ctrl+retorn)
+adding-added = S'ha afegit
+adding-close-and-lose-current-input = Voleu tancar i perdre l'entrada actual?
+adding-edit = Edita «{ $val }»
+adding-history = Història
+adding-note-deleted = (Nota esborrada)
+adding-shortcut = Drecera: { $val }
+adding-the-first-field-is-empty = El primer camp està buit.
+adding-you-have-a-cloze-deletion-note = Teniu un tipus de nota amb buits per omplir, però no hi heu inserit cap buit. Voleu continuar?
+adding-cloze-outside-cloze-notetype = Només podeu introduir buits amb el tipus de nota amb buits.
+adding-cloze-outside-cloze-field = Només podeu introduir buits en els camps que fan servir el filtre «cloze:» (generalment, el primer camp).
