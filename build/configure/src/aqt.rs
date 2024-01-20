@@ -115,7 +115,6 @@ fn build_data_folder(build: &mut Build) -> Result<()> {
     build_js(build)?;
     build_pages(build)?;
     build_icons(build)?;
-//     build_testing_lib(build)?;
     Ok(())
 }
 
@@ -289,74 +288,6 @@ fn build_icons(build: &mut Build) -> Result<()> {
     )?;
     Ok(())
 }
-
-fn build_testing_lib(build: &mut Build) -> Result<()> {
-    println!("Hello, console!");
-    build.add(
-//         "qt/aqt:data/qt/icons:mdi_unthemed",
-        "qt/aqt:data/testing_lib",
-        CopyFolder {
-//             inputs: inputs![glob!["testing/cpp_lib/jute.cpp"]],
-            input: "testing/cpp_lib".into(),
-//             inputs: inputs![glob!["testing/cpp_lib/*"]],
-//             inputs: inputs![glob!["qt/aqt/data/qt/icons/*.{png,svg}"]],
-//             inputs: inputs![":node_modules:mdi_unthemed"],
-//             output: "testing_lib",
-            output: "qt/_aqt2/data/testing_lib",
-//             output: "qt/_aqt/data/testing_lib",
-//             output_folder: "qt/_aqt/data/fucksake6/qt/icons",
-        },
-    )?;
-//     build.add(
-//         "qt/aqt:data/qt/icons:mdi_unthemed",
-//         CopyFile {
-//             input: "testing/cpp_lib".into(),
-//             output: "qt/_aqt/data/fucksake6"
-// //             input_folder: "testing/cpp_lib",
-// //             inputs: inputs![glob!["testing/cpp_lib/*"]],
-// //             inputs: inputs![glob!["qt/aqt/data/qt/icons/*.{png,svg}"]],
-// //             inputs: inputs![":node_modules:mdi_unthemed"],
-// //             output_folder: "qt/_aqt/data/lib/testing",
-// //             output_folder: "qt/_aqt/data/fucksake6/qt/icons",
-//         },
-//     )?;
-    Ok(())
-}
-
-// fn build_testing_lib(build: &mut Build) -> Result<()> {
-//     println!("Hello, console!");
-//     let base_path = PathBuf::from("./testing");
-//     let mut stack = vec![base_path.clone()];
-//
-//     while let Some(current_dir) = stack.pop() {
-//         if current_dir.is_dir() {
-//             for entry in fs::read_dir(&current_dir)? {
-//                 let entry = entry?;
-//                 let path = entry.path();
-//                 if path.is_dir() {
-//                     let relative_path = path.strip_prefix(&base_path) // Use a reference here
-//                                            .unwrap_or(&path)
-//                                            .to_path_buf();
-//
-//                     // Inline operations to be performed on each directory
-//                     println!("Processing folder: {:?}", relative_path);
-//
-//                     // Add the path to a Build object or other processing
-//                     build.add(
-//                         "qt/aqt:data/qt/icons:mdi_unthemed",
-//                         CopyFiles {
-//                             inputs: inputs![glob![format!("testing/{}", relative_path.display())]],
-//                             output_folder: format!("qt/_aqt/data/lib/testing/{}", relative_path.display()).as_str(),
-//                         },
-//                     )?;
-//
-//                     stack.push(path);
-//                 }
-//             }
-//         }
-//     }
-//     Ok(())
-// }
 
 fn build_themed_icons(build: &mut Build) -> Result<()> {
     let themed_icons_with_extra = hashmap! {
