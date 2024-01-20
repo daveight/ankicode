@@ -1,24 +1,28 @@
-from anki.testing.framework.java.java_type_mapper import JavaTypeMapper
+# Copyright: Ankitects Pty Ltd and contributors
+# License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
+
+from anki.testing.framework.python.python_type_mapper import PythonTypeMapper
 from anki.testing.framework.syntax.syntax_tree import SyntaxTree
-from anki.testing.framework.tests.test_utils import GeneratorTestCase
+from tests.ankicode.test_utils import GeneratorTestCase
 
 
-class JavaTypeMapperTests(GeneratorTestCase):
-    def setUp(self) -> None:
-        self.type_mapper = JavaTypeMapper()
+class PythonTypeMappingsGeneratorTests(GeneratorTestCase):
+
+    def setUp(self):
+        self.type_mapper = PythonTypeMapper()
 
     def test_array_of_integers(self):
         tree = SyntaxTree.of(['array(array(int))[a]'])
         args, _ = self.type_mapper.get_args(tree)
         self.assertEqual(1, len(args))
-        self.assertEqual('int[][]', args[0].type)
+        self.assertEqual('List[List[int]]', args[0].type)
         self.assertEqual('a', args[0].name)
 
     def test_list_of_integer(self):
         tree = SyntaxTree.of(['list(int)[a]'])
         args, _ = self.type_mapper.get_args(tree)
         self.assertEqual(1, len(args))
-        self.assertEqual('List<Integer>', args[0].type)
+        self.assertEqual('List[int]', args[0].type)
         self.assertEqual('a', args[0].name)
 
     def test_simple_int(self):
@@ -34,63 +38,57 @@ class JavaTypeMapperTests(GeneratorTestCase):
         self.assertEqual('Edge', args[0].type)
         self.assertEqual('a', args[0].name)
         self.assertEqual(1, len(type_defs.keys()))
-        self.assertEqual('''class Edge {\n\tint a;\n\tint b;\n}\n''', type_defs['Edge'])
+        self.assertEqualsIgnoreWhiteSpaces('''
+            class Edge:\n\tdef __init__(self, a: int, b: int):\n\t\tself.a = a\n\t\tself.b = b
+        ''', type_defs['Edge'])
 
     def test_object_list(self):
         tree = SyntaxTree.of(['list(object(int[a],int[b])<Edge>)[a]'])
         args, type_defs = self.type_mapper.get_args(tree)
         self.assertEqual(1, len(args))
-        self.assertEqual('List<Edge>', args[0].type)
+        self.assertEqual('List[Edge]', args[0].type)
         self.assertEqual('a', args[0].name)
         self.assertEqual(1, len(type_defs.keys()))
-        self.assertEqual('''class Edge {\n\tint a;\n\tint b;\n}\n''', type_defs['Edge'])
+        self.assertEqualsIgnoreWhiteSpaces('''
+            class Edge:\n\tdef __init__(self, a: int, b: int):\n\t\tself.a = a\n\t\tself.b = b
+        ''', type_defs['Edge'])
 
     def test_map(self):
         tree = SyntaxTree.of(['map(string, list(object(int[a],int[b])<Edge>))[a]'])
         args, type_defs = self.type_mapper.get_args(tree)
         self.assertEqual(1, len(args))
-        self.assertEqual('Map<String, List<Edge>>', args[0].type)
+        self.assertEqual('Dict[str, List[Edge]]', args[0].type)
         self.assertEqual('a', args[0].name)
         self.assertEqual(1, len(type_defs.keys()))
-        self.assertEqual('''class Edge {\n\tint a;\n\tint b;\n}\n''', type_defs['Edge'])
+        self.assertEqualsIgnoreWhiteSpaces('''
+            class Edge:\n\tdef __init__(self, a: int, b: int):\n\t\tself.a = a\n\t\tself.b = b
+        ''', type_defs['Edge'])
 
     def test_linked_list(self):
         tree = SyntaxTree.of(['linked_list(int)'])
         args, type_defs = self.type_mapper.get_args(tree)
         self.assertEqual(1, len(args))
-        self.assertEqual('ListNode<Integer>', args[0].type)
+        self.assertEqual('ListNode[int]', args[0].type)
         self.assertEqual(1, len(type_defs.keys()))
         self.assertEqualsIgnoreWhiteSpaces('''
-            class ListNode<T> {
-                T data;
-                ListNode<T> next;
-
-                public ListNode() { }
-
-                public ListNode(T data, ListNode<T> next) {
-                    this.data = data;
-                    this.next = next;
-                }
-            }''', type_defs['linked_list'])
+            T = TypeVar('T')
+            class ListNode(Generic[T]):
+                def __init__(self, data: Optional[Type[T]]=None, next: Optional=None):
+                    self.data = data
+                    self.next = None
+        ''', type_defs['linked_list'])
 
     def test_binary_tree(self):
         tree = SyntaxTree.of(['binary_tree(int)'])
         args, type_defs = self.type_mapper.get_args(tree)
         self.assertEqual(1, len(args))
-        self.assertEqual('BinaryTreeNode<Integer>', args[0].type)
+        self.assertEqual('BinaryTreeNode[int]', args[0].type)
         self.assertEqual(1, len(type_defs.keys()))
         self.assertEqualsIgnoreWhiteSpaces('''
-            class BinaryTreeNode<T> {
-                T data;
-                BinaryTreeNode<T> left;
-                BinaryTreeNode<T> right;
-
-                public BinaryTreeNode() { }
-
-                public BinaryTreeNode(T data, BinaryTreeNode<T> left, BinaryTreeNode<T> right) {
-                    this.data = data;
-                    this.left = left;
-                    this.right = right;
-                }
-            }''', type_defs['binary_tree'])
-
+            T = TypeVar('T')
+            class BinaryTreeNode(Generic[T]):
+                def __init__(self, data: Optional[Type[T]]=None, left=None, right=None):
+                    self.data = data
+                    self.left = left
+                    self.right = right
+        ''', type_defs['binary_tree'])

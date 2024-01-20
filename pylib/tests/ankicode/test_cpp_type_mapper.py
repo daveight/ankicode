@@ -1,6 +1,6 @@
 from anki.testing.framework.cpp.cpp_type_mapper import CppTypeMapper
 from anki.testing.framework.syntax.syntax_tree import SyntaxTree
-from anki.testing.framework.tests.test_utils import GeneratorTestCase
+from tests.ankicode.test_utils import GeneratorTestCase
 
 
 class CppTypeMapperTests(GeneratorTestCase):

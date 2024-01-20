@@ -6,11 +6,11 @@
  */
 
 // anki-code
-declare var CodeJar: any;
-declare var withLineNumbers: any;
-declare var Prism: any;
-declare var hljs: any;
-declare var console: Console;
+declare let CodeJar: any;
+declare let withLineNumbers: any;
+declare let Prism: any;
+declare let hljs: any;
+declare let console: Console;
 
 import "css-browser-selector/css_browser_selector.min";
 
@@ -36,9 +36,9 @@ export const onShownHook: Array<Callback> = [];
 export const ankiPlatform = "desktop";
 let typeans: HTMLInputElement | undefined;
 // anki-code
-var codeans;
-var log;
-var codeansJar;
+let codeans;
+let log;
+let codeansJar;
 
 export function getTypedAnswer(): string | null {
     return typeans?.value ?? null;
@@ -184,7 +184,7 @@ export function _showQuestion(q: string, a: string, bodyclass: string): void {
                 // return to top of window
                 window.scrollTo(0, 0);
 
-                _initializeProgress()
+                _initializeProgress();
                 document.body.className = bodyclass;
             },
             function() {
@@ -204,7 +204,7 @@ function scrollToAnswer(): void {
     document.getElementById("answer")?.scrollIntoView();
 }
 
-export function _showAnswer(a: string, bodyclass: string): void {
+export function _showAnswer(a: string, bodyclass: string, isCodingQuestion: boolean): void {
     _queueAction(() =>
         _updateQA(
             a,
@@ -232,54 +232,54 @@ export function _showAnswer(a: string, bodyclass: string): void {
 
 // anki-code
 export function highlight(editor: HTMLElement) {
-     // highlight.js does not trims old tags,
-     // let's do it by this hack.
-     editor.textContent = editor.textContent;
-     hljs.highlightBlock(editor);
- }
+    // highlight.js does not trims old tags,
+    // let's do it by this hack.
+    editor.textContent = editor.textContent;
+    hljs.highlightBlock(editor);
+}
 
 // anki-code
 export function _initializeProgress() {
-    _setProgress('0');
+    _setProgress("0");
 }
 
 // anki-code
 export function _setProgress(raise) {
-    _displayProgressBar(raise, '#38c172')
+    _displayProgressBar(raise, "#38c172");
 }
 
 // anki-code
 export function _setProgressError() {
-    _displayProgressBar('100', '#e3342f')
+    _displayProgressBar("100", "#e3342f");
 }
 
 // anki-code
 export function _displayProgressBar(raise, bgColor) {
-    (<any>$('#progressbar')).jQMeter({
-        goal: '100',
+    (<any> $("#progressbar")).jQMeter({
+        goal: "100",
         raised: raise,
-        height: '5px',
+        height: "5px",
         barColor: bgColor,
-        bgColor: 'transparent',
+        bgColor: "transparent",
         animationSpeed: 0,
-        displayTotal: false
+        displayTotal: false,
     });
 }
 
 // anki-code
 export function _activateRunButton() {
-    var $runBtn = $('#start-testing');
-    var $stopBtn = $('#stop-testing');
-    $stopBtn.addClass('disabled').attr('disabled', 'disabled')
-    $runBtn.removeClass('disabled').removeAttr('disabled')
+    let $runBtn = $("#start-testing");
+    let $stopBtn = $("#stop-testing");
+    $stopBtn.addClass("disabled").attr("disabled", "disabled");
+    $runBtn.removeClass("disabled").removeAttr("disabled");
 }
 
 // anki-code
 export function _activateStopButton() {
-    var $runBtn = $('#start-testing');
-    var $stopBtn = $('#stop-testing');
-    $runBtn.addClass('disabled').attr('disabled', 'disabled')
-    $stopBtn.removeClass('disabled').removeAttr('disabled')
+    let $runBtn = $("#start-testing");
+    let $stopBtn = $("#stop-testing");
+    $runBtn.addClass("disabled").attr("disabled", "disabled");
+    $stopBtn.removeClass("disabled").removeAttr("disabled");
 }
 
 // anki-code
@@ -297,12 +297,12 @@ export function _initalizeCodeEditor() {
 }
 
 export function getSolutionSrc() {
-    return codeansJar ? codeansJar.toString() : null
+    return codeansJar ? codeansJar.toString() : null;
 }
 
 // anki-code
 export function _switchSkin(name) {
-    $("head link[rel=stylesheet]").each(function () {
+    $("head link[rel=stylesheet]").each(function() {
         const $this = $(this);
         let $toEnable = null;
         if ($this.attr("href").indexOf("highlight/") > 0) {
@@ -316,8 +316,8 @@ export function _switchSkin(name) {
         }
     });
     setTimeout(function() {
-        codeansJar.highlight()
-    }, 50)
+        codeansJar.highlight();
+    }, 50);
 }
 
 export function _drawFlag(flag: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7): void {
@@ -354,12 +354,12 @@ export function _blockDefaultDragDropBehavior(): void {
 // anki-code
 export function _reloadCode(src, lang) {
     $(codeans).find(".editor").each(function() {
-        $(this).removeClass(function (index, className) {
+        $(this).removeClass(function(index, className) {
             return (className.match(/\blanguage-\S+/g) || []).join(" ");
         }).addClass("language-" + lang);
-    })
+    });
     codeansJar.updateCode(src);
-    currlang = lang
+    currlang = lang;
 }
 
 // anki-code
@@ -369,35 +369,37 @@ export function _cleanConsoleLog() {
 
 // anki-code
 export function _showConsoleLog(html) {
-    const $log = $('#log')
+    const $log = $("#log");
     $log.append(html).scrollTop($log.prop("scrollHeight"));
 }
 
 // anki-code
 export function _initializeCodeAnswers() {
-     const $qa = $('#qa')
-     const input = $qa.html()
+    const $qa = $("#qa");
+    const input = $qa.html();
 
-     let html = ''
-     let match
-     const regex = /```(\w+)(<br>|\\n)*([^`]+)```/g;
-     while (match = regex.exec(input)) {
-         const lang = match[1]
-         const src = match[3].replace(/<br>/g, '\n')
-         const height = src.split('\n').length
-         html += `<h4>${lang.replace(lang[0], lang[0].toUpperCase())}</h4><div class="editor language-${lang}" style="height:${height*20}px;">${src}</div><br><br>`
-     }
-     $qa.html(html)
-     $qa.find('.editor').each(function() {
-         let options = {
-             tab: ' '.repeat(4),
-             indentOn: /[(\[]$/,
-         };
-         CodeJar(this, withLineNumbers(highlight), options);
-         $(this).attr('contenteditable', 'false')
-     });
-     $(window).scrollTop(0);
- }
+    let html = "";
+    let match;
+    const regex = /```(\w+)(<br>|\\n)*([^`]+)```/g;
+    while (match = regex.exec(input)) {
+        const lang = match[1];
+        const src = match[3].replace(/<br>/g, "\n");
+        const height = src.split("\n").length;
+        html += `<h4>${
+            lang.replace(lang[0], lang[0].toUpperCase())
+        }</h4><div class="editor language-${lang}" style="height:${height * 20}px;">${src}</div><br><br>`;
+    }
+    $qa.html(html);
+    $qa.find(".editor").each(function() {
+        let options = {
+            tab: " ".repeat(4),
+            indentOn: /[(\[]$/,
+        };
+        CodeJar(this, withLineNumbers(highlight), options);
+        $(this).attr("contenteditable", "false");
+    });
+    $(window).scrollTop(0);
+}
 
 // work around WebEngine/IME bug in Qt6
 // https://github.com/ankitects/anki/issues/1952

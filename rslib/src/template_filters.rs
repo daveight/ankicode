@@ -173,7 +173,6 @@ fn code_filter<'a>(field_name: &str) -> Cow<'a, str> {
     format!("[[code:{}]]", field_name).into()
 }
 
-
 fn hint_filter<'a>(text: &'a str, field_name: &str) -> Cow<'a, str> {
     if text.trim().is_empty() {
         return text.into();

@@ -585,7 +585,7 @@ class AnkiQt(QMainWindow):
         except Exception as e:
             if "FileTooNew" in str(e):
                 showWarning(
-                    "This profile requires a newer version of Bobs to open. Did you forget to use the Downgrade button prior to switching Anki versions?"
+                    "This profile requires a newer version of AnkiCode to open. Did you forget to use the Downgrade button prior to switching Anki versions?"
                 )
             else:
                 showWarning(

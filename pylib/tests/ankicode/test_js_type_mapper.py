@@ -1,5 +1,5 @@
 from anki.testing.framework.js.js_type_mapper import JsTypeMapper
-from anki.testing.framework.tests.test_utils import GeneratorTestCase
+from tests.ankicode.test_utils import GeneratorTestCase
 from anki.testing.framework.syntax.syntax_tree import SyntaxTree
 
 

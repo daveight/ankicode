@@ -280,7 +280,6 @@ impl SqliteStorage {
             storage.upgrade_to_latest_schema(ver, server)?;
         }
 
-
         if create {
             storage.add_default_deck_config(tr)?;
             storage.add_default_deck(tr)?;

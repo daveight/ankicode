@@ -34,26 +34,7 @@ class LatestVersionFinder(QThread):
         }
 
     def run(self) -> None:
-        if not self.config["updates"]:
-            return
-        d = self._data()
-        d["proto"] = 1
-
-        try:
-            r = requests.post(aqt.appUpdate, data=d, timeout=60)
-            r.raise_for_status()
-            resp = r.json()
-        except:
-            # behind proxy, corrupt message, etc
-            print("update check failed")
-            return
-        if resp["msg"]:
-            self.newMsg.emit(resp)  # type: ignore
-        if resp["ver"]:
-            self.newVerAvail.emit(resp["ver"])  # type: ignore
-        diff = resp["time"] - time.time()
-        if abs(diff) > 300:
-            self.clockIsOff.emit(diff)  # type: ignore
+        return None  # disable version update
 
 
 def askAndUpdate(mw: aqt.AnkiQt, ver: str) -> None:

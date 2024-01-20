@@ -345,16 +345,16 @@ class ProfileManager:
         if is_win:
             from aqt.winpaths import get_appdata
 
-            return os.path.join(get_appdata(), "Bobs")
+            return os.path.join(get_appdata(), "AnkiCode")
         elif is_mac:
-            return os.path.expanduser("~/Library/Application Support/Bobs")
+            return os.path.expanduser("~/Library/Application Support/AnkiCode")
         else:
             dataDir = os.environ.get(
                 "XDG_DATA_HOME", os.path.expanduser("~/.local/share")
             )
             if not os.path.exists(dataDir):
                 os.makedirs(dataDir)
-            return os.path.join(dataDir, "Bobs")
+            return os.path.join(dataDir, "AnkiCode")
 
     def _loadMeta(self, retrying: bool = False) -> LoadMetaResult:
         result = LoadMetaResult()

@@ -55,14 +55,28 @@ def get_resource_path():
     """
     if not isMac and not isWin and not isLin:
         raise OSError('Unsupported OS')
-    if isMac and 'RESOURCEPATH' in os.environ:
-        result = os.environ['RESOURCEPATH']
-    elif (isWin or isLin) and getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-        result = sys._MEIPASS
+
+    if getattr(sys, "frozen", False):
+        prefix = pathlib.Path(sys.prefix)
+        path = prefix / "lib/vendor"
+        if path.exists():
+            result = str(path)
+        else:
+            result = str(prefix / "../Resources/vendor")
     else:
         """ dev mode """
-        result = os.path.join(pathlib.Path(__file__).parents[4], 'testing')
+        result = os.path.join(pathlib.Path(__file__).parents[4], 'testing_libs/vendor')
     return '"' + result + '"'
+    # if not isMac and not isWin and not isLin:
+    #     raise OSError('Unsupported OS')
+    # if isMac and 'RESOURCEPATH' in os.environ:
+    #     result = os.environ['RESOURCEPATH']
+    # elif (isWin or isLin) and getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    #     result = sys._MEIPASS
+    # else:
+    #     """ dev mode """
+    #     result = os.path.join(pathlib.Path(__file__).parents[4], 'testing_libs/vendor')
+    # return '"' + result + '"'
 
 
 def compare(obj1, obj2, ignore_order=True) -> bool:

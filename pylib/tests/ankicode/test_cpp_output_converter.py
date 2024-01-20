@@ -6,7 +6,7 @@ from anki.testing.framework.syntax.syntax_tree import SyntaxTree
 
 
 class CppOutputConverterTests(unittest.TestCase):
-    def setUp(self) -> None:n
+    def setUp(self) -> None:
         self.converter = CppOutputConverter()
         ConverterFn.reset_counter()
 

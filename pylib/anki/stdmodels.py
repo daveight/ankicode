@@ -24,6 +24,7 @@ def _get_stock_notetype(
 ) -> anki.models.NotetypeDict:
     return from_json_bytes(col._backend.get_stock_notetype_legacy(kind))
 
+
 def get_stock_notetypes(
     col: anki.collection.Collection,
 ) -> list[tuple[str, Callable[[anki.collection.Collection], anki.models.NotetypeDict]]]:

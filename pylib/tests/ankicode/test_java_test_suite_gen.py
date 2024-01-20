@@ -1,5 +1,5 @@
 from anki.testing.framework.java.java_test_suite_gen import JavaTestSuiteGenerator
-from anki.testing.framework.tests.test_utils import GeneratorTestCase
+from tests.ankicode.test_utils import GeneratorTestCase
 from anki.testing.framework.types import TestSuite, ConverterFn
 from anki.testing.framework.syntax.syntax_tree import SyntaxTree
 

@@ -29,7 +29,7 @@ class PythonTestRunner(TestRunner):
             cmd = f'set PYTHONPATH={resource_path}/{LIBS_FOLDER}/python && ' + \
                   f'{resource_path}/{LIBS_FOLDER}/python/python.exe -u {src_file.file.name}'
         else:
-            cmd = f'PYTHONPATH={resource_path}/{LIBS_FOLDER}/python/lib/python3:{resource_path}' + \
+            cmd = f'PYTHONHOME={resource_path}/{LIBS_FOLDER}/python PYTHONPATH={resource_path}/{LIBS_FOLDER}/python/lib/python3:{resource_path}' + \
                   f'/{LIBS_FOLDER}/python/lib/python3/lib-dynload ' + \
                   f'{resource_path}/{LIBS_FOLDER}/python/bin/python3 -u {src_file.file.name}'
         return cmd

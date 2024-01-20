@@ -28,7 +28,8 @@ class CppTemplateGenerator(TemplateGenerator):
         :return: solution template source
         """
         args, type_defs = self.type_mapper.get_args(tree)
-        return render_template('''
+        return render_template(
+            """
             /**
             {% for line in description.split('\n') %}* {{line}}\n{% endfor %}*/
             {% for type_def in type_defs %}{{ type_def }}{% endfor %}
@@ -37,5 +38,12 @@ class CppTemplateGenerator(TemplateGenerator):
             \t{{type}} {{fn}}({% for a in args %}{{a.type}} {{a.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
             \t\t//Add code here
             \t}
-            };''', type=args[-1].type, args=args[:-1], fn=ts.fn_name, type_defs=type_defs.values(),
-                  description=ts.description, retab=True)
+            };
+            """,
+            type=args[-1].type,
+            args=args[:-1],
+            fn=ts.fn_name,
+            type_defs=type_defs.values(),
+            description=ts.description,
+            retab=True,
+        )

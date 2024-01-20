@@ -50,18 +50,18 @@ class ConverterFn:
     def __eq__(self, other):
         if isinstance(other, ConverterFn):
             return re.sub(r'\s', '', other.src) == re.sub(r'\s', '', self.src) \
-                   and other.prop_name == self.prop_name \
-                   and other.arg_type == self.arg_type \
-                   and other.ret_type == self.ret_type
+                and other.prop_name == self.prop_name \
+                and other.arg_type == self.arg_type \
+                and other.ret_type == self.ret_type
         else:
             return False
 
     def __repr__(self):
         return "fn name: " + self.fn_name + " " + \
-               "arg_type: " + self.arg_type + " " + \
-               "ret_type: " + self.ret_type + " " + \
-               "prop name: " + self.prop_name + " " + \
-               "src: " + self.src
+            "arg_type: " + self.arg_type + " " + \
+            "ret_type: " + self.ret_type + " " + \
+            "prop name: " + self.prop_name + " " + \
+            "src: " + self.src
 
     @classmethod
     def reset_counter(cls):
@@ -80,7 +80,7 @@ class TestSuiteExecOpts:
     """
 
     def __init__(self, opts: str):
-        self.ignore_order = True
+        self.ignore_order = False  # by default order is important
 
         if opts:
             opts_dict = {}

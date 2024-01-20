@@ -12,8 +12,13 @@ from enum import Enum, auto
 from typing import Any, Literal, Match, Sequence, cast
 import html
 
-from anki.testing.framework.anki_testing_api import get_solution_template, run_tests, stop_tests, get_lang_title, \
-    get_supported_languages
+from anki.testing.framework.anki_testing_api import (
+    get_solution_template,
+    run_tests,
+    stop_tests,
+    get_lang_title,
+    get_supported_languages,
+)
 from anki.testing.framework.console_logger import ConsoleLogger
 
 import aqt
@@ -69,12 +74,26 @@ class ReviewerBottomBar:
         self.reviewer = reviewer
 
 
-# anki-code
-THEMES = ['dracula', 'agate', 'github', 'solarized-dark', 'code-brewer', 'solarized-light', 'railscasts',
-          'monokai-sublime',
-          'mono-blue', 'zenburn', 'androidstudio', 'atom-one-light', 'rainbow', 'atom-one-dark', 'tommorow', 'vs']
-DEFAULT_THEME_KEY = 'defaultCodeTheme'
-STORED_LANG_KEY = 'defaultCodeLang'
+THEMES = [
+    "dracula",
+    "agate",
+    "github",
+    "solarized-dark",
+    "code-brewer",
+    "solarized-light",
+    "railscasts",
+    "monokai-sublime",
+    "mono-blue",
+    "zenburn",
+    "androidstudio",
+    "atom-one-light",
+    "rainbow",
+    "atom-one-dark",
+    "tommorow",
+    "vs",
+]
+DEFAULT_THEME_KEY = "defaultCodeTheme"
+STORED_LANG_KEY = "defaultCodeLang"
 
 
 def replay_audio(card: Card, question_side: bool) -> None:
@@ -341,7 +360,7 @@ class Reviewer:
                 "css/reviewer.css",
                 # anki-code
                 "css/font.css",
-                "css/highlight/" + theme + ".css"
+                "css/highlight/" + theme + ".css",
             ],
             inactive_css=["css/highlight/" + t + ".css" for t in THEMES if t != theme],
             js=[
@@ -449,7 +468,10 @@ class Reviewer:
         a = gui_hooks.card_will_show(a, c, "reviewAnswer")
         # render and update bottom
         # anki-code
-        self.web.eval("_showAnswer(%s, '', %s);" % (json.dumps(a), json.dumps(self._isCodeQuestion).lower()))
+        self.web.eval(
+            "_showAnswer(%s, '', %s);"
+            % (json.dumps(a), json.dumps(self._isCodeQuestion).lower())
+        )
         self._showEaseButtons()
         self.mw.web.setFocus()
         # user hook
@@ -460,7 +482,7 @@ class Reviewer:
 
     def _answerCard(self, ease: Literal[1, 2, 3, 4]) -> None:
         "Reschedule card and show next."
-        self._synchronizer.set() # anki-code
+        self._synchronizer.set()  # anki-code
         if self.mw.state != "review":
             # showing resetRequired screen; ignore key
             return
@@ -658,19 +680,27 @@ class Reviewer:
             % dict(
                 typeFont=self.typeFont,
                 typeSize=self.typeSize,
-                selSkinLabel='Skin',
-                selLanguageLabel='Language',
+                selSkinLabel="Skin",
+                selLanguageLabel="Language",
                 language=self._getCurrentLang(),
                 downArrow=downArrow(),
-                template=html.escape(get_solution_template(self.card, self._getCurrentLang()))),
+                template=html.escape(
+                    get_solution_template(self.card, self._getCurrentLang())
+                )
+            ),
             buf,
         )
 
     def runTests(self):
         def onSolutionSrc(src):
             self.web.eval("_activateStopButton()")
-            run_tests(self.card, src, self._getCurrentLang(), self._logger,
-                      lambda: self.web.eval("_activateRunButton()"))
+            run_tests(
+                self.card,
+                src,
+                self._getCurrentLang(),
+                self._logger,
+                lambda: self.web.eval("_activateRunButton()")
+            )
         self.web.evalWithCallback("getSolutionSrc()", onSolutionSrc)
 
     def switchLang(self, lang):
@@ -778,12 +808,12 @@ class Reviewer:
     # anki-code
     def _skinContextMenu(self):
         curr = THEMES[0]
-        if 'defaultCodeTheme' in self.mw.pm.meta:
-            curr = self.mw.pm.meta['defaultCodeTheme']
+        if "defaultCodeTheme" in self.mw.pm.meta:
+            curr = self.mw.pm.meta["defaultCodeTheme"]
         menu = []
         for theme in THEMES:
             def addThemMenuItem(t=theme):
-                return [t, '', lambda: self.onThemeSelected(t), dict(checked=curr==t)]
+                return [t, "", lambda: self.onThemeSelected(t), dict(checked=curr==t)]
             menu.append(addThemMenuItem(theme))
         return menu
 
@@ -791,15 +821,22 @@ class Reviewer:
     def _langContextMenu(self):
         curr_lang = self._getCurrentLang()
         return [
-            [get_lang_title(lang), '', (lambda l: lambda: self.switchLang(l))(lang), dict(checked=curr_lang == lang)]
+            [
+                get_lang_title(lang),
+                "",
+                (lambda l: lambda: self.switchLang(l))(lang),
+                dict(checked=curr_lang == lang)
+            ]
             for lang in get_supported_languages()
         ]
 
     # anki-code
     def _getCurrentLang(self):
         lang = get_supported_languages()[0]
-        if STORED_LANG_KEY in self.mw.pm.meta \
-                and self.mw.pm.meta[STORED_LANG_KEY] in get_supported_languages():
+        if (
+            STORED_LANG_KEY in self.mw.pm.meta
+            and self.mw.pm.meta[STORED_LANG_KEY] in get_supported_languages()
+        ):
             lang = self.mw.pm.meta[STORED_LANG_KEY]
         return lang
 
@@ -999,12 +1036,12 @@ time = %(time)d;
 
     def _skinContextMenu(self):
         curr = THEMES[0]
-        if 'defaultCodeTheme' in self.mw.pm.meta:
-            curr = self.mw.pm.meta['defaultCodeTheme']
+        if "defaultCodeTheme" in self.mw.pm.meta:
+            curr = self.mw.pm.meta["defaultCodeTheme"]
         menu = []
         for theme in THEMES:
             def addThemMenuItem(t=theme):
-                return [t, '', lambda: self.onThemeSelected(t), dict(checked=curr==t)]
+                return [t, "", lambda: self.onThemeSelected(t), dict(checked=curr==t)]
             menu.append(addThemMenuItem(theme))
         return menu
 
@@ -1242,8 +1279,8 @@ time = %(time)d;
 
     # anki-code
     def onThemeSelected(self, theme) -> None:
-         self.mw.pm.set_code_theme(theme)
-         self.web.eval("_switchSkin('%s');" % theme)
+        self.mw.pm.set_code_theme(theme)
+        self.web.eval("_switchSkin('%s');" % theme)
 
     # anki-code
     def onCodeLangSelected(self, lang) -> None:
@@ -1255,7 +1292,7 @@ time = %(time)d;
     # anki-code
     def stopTests(self):
         lang = self._getCurrentLang()
-        self._logger.log('Stopping...')
+        self._logger.log("Stopping...")
         stop_tests(lang)
         self.web.eval("_activateRunButton()")
         self.web.eval("_initializeProgress()")

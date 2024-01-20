@@ -155,6 +155,7 @@ fn make_app(kind: DistKind, mut plist: plist::Dictionary, stamp: &Utf8Path) -> R
     fix_rpath(output_folder.join("Contents/MacOS/anki"))?;
     codesign_python_libs(&output_folder)?;
     copy_in_audio(&output_folder)?;
+    copy_testing_lib(&output_folder)?;
     copy_in_qt(&output_folder, kind)?;
     codesign_app(&output_folder)?;
     fixup_perms(&output_folder)?;
@@ -192,6 +193,13 @@ fn extend_app_contents(source: &Utf8Path, target_dir: &Utf8Path) -> Result<()> {
         bail!("error syncing {source:?}");
     }
     Ok(())
+}
+
+fn copy_testing_lib(bundle_dir: &Utf8Path) -> Result<()> {
+    println!("Copying in testing lib...");
+
+    let src_folder = Utf8Path::new("testing_libs");
+    extend_app_contents(src_folder, &bundle_dir.join("Contents/Resources"))
 }
 
 fn copy_in_audio(bundle_dir: &Utf8Path) -> Result<()> {
