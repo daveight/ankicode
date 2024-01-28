@@ -13,6 +13,9 @@ from anki.testing.framework.java.java_test_suite_gen import JavaTestSuiteGenerat
 from anki.testing.framework.js.js_template_gen import JsTemplateGenerator
 from anki.testing.framework.js.js_test_runner import JsTestRunner
 from anki.testing.framework.js.js_test_suite_gen import JsTestSuiteGenerator
+from anki.testing.framework.kotlin.kotlin_template_gen import KotlinTemplateGenerator
+from anki.testing.framework.kotlin.kotlin_test_runner import KotlinTestRunner
+from anki.testing.framework.kotlin.kotlin_test_suite_gen import KotlinTestSuiteGenerator
 from anki.testing.framework.python.python_template_gen import PythonTemplateGenerator
 from anki.testing.framework.python.python_test_runner import PythonTestRunner
 from anki.testing.framework.python.python_test_suite_gen import PythonTestSuiteGenerator
@@ -60,6 +63,15 @@ class JavaLangFactory(AbstractLangFactory):
                          JavaTestSuiteGenerator(),
                          JavaTestRunner())
 
+class KotlinLangFactory(AbstractLangFactory):
+    """
+    Kotlin Code-Generators Factory
+    """
+
+    def __init__(self):
+        super().__init__(KotlinTemplateGenerator(),
+                         KotlinTestSuiteGenerator(),
+                         KotlinTestRunner())
 
 class PythonLangFactory(AbstractLangFactory):
     """
@@ -104,6 +116,9 @@ def get_lang_factory(lang: str) -> AbstractLangFactory:
     if lang == 'java':
         global java_lang_factory
         return java_lang_factory
+    elif lang == 'kotlin':
+        global kotlin_lang_factory
+        return kotlin_lang_factory
     elif lang == 'python':
         global python_lang_factory
         return python_lang_factory
@@ -118,6 +133,7 @@ def get_lang_factory(lang: str) -> AbstractLangFactory:
 
 
 java_lang_factory = JavaLangFactory()
+kotlin_lang_factory = KotlinLangFactory()
 python_lang_factory = PythonLangFactory()
 cpp_lang_factory = CppLangFactory()
 js_lang_factory = JsLangFactory()

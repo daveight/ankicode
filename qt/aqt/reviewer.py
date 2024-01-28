@@ -553,6 +553,12 @@ class Reviewer:
             ("Ctrl+Alt+E", self.on_create_copy),
             ("Ctrl+Delete", self.delete_current_note),
             ("Ctrl+Shift+D", self.on_set_due),
+            ("Ctrl+R", self.runTests),
+            ("Ctrl+J", lambda: self.switchLang('java')),
+            ("Ctrl+K", lambda: self.switchLang('kotlin')),
+            ("Alt+P", lambda: self.switchLang('python')),
+            ("Alt+C", lambda: self.switchLang('cpp')),
+            ("Alt+J", lambda: self.switchLang('js')),
             ("v", self.onReplayRecorded),
             ("Shift+v", self.onRecordVoice),
             ("o", self.onOptions),
@@ -1291,14 +1297,11 @@ time = %(time)d;
 
     # anki-code
     def stopTests(self):
-        lang = self._getCurrentLang()
         self._logger.log("Stopping...")
-        stop_tests(lang)
+        stop_tests()
         self.web.eval("_activateRunButton()")
         self.web.eval("_initializeProgress()")
-        self._cleanConsole()
-
-    # legacy
+        # self.web.eval("_cleanConsoleLog()")
 
     onBuryCard = bury_current_card
     onBuryNote = bury_current_note

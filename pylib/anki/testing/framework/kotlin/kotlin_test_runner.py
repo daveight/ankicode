@@ -1,33 +1,37 @@
 # Copyright: Daveight and contributors
 # License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 """
-Java Test Runner API Implementation
+Kotlin Test Runner API Implementation
 """
+import re
 from anki.testing.framework.string_utils import get_line_number_prefix
 from anki.testing.framework.test_runner import TestRunner, LIBS_FOLDER
 from anki.testing.framework.types import SrcFile
 
 
-class JavaTestRunner(TestRunner):
+class KotlinTestRunner(TestRunner):
     """
-    Executes Java test code, processes STDERR
+    Executes Kotlin test code, processes STDERR
     """
 
     LIBS = [
         f'/{LIBS_FOLDER}/java/custom_libs/jackson-databind-2.11.3.jar',
         f'/{LIBS_FOLDER}/java/custom_libs/jackson-core-2.11.3.jar',
-        f'/{LIBS_FOLDER}/java/custom_libs/jackson-annotations-2.11.3.jar'
+        f'/{LIBS_FOLDER}/java/custom_libs/jackson-annotations-2.11.3.jar',
+        f'/{LIBS_FOLDER}/kotlin/lib/kotlin-stdlib.jar',
+        f'/{LIBS_FOLDER}/kotlin/lib/kotlin-stdlib-jdk8.jar',
+        f'/{LIBS_FOLDER}/kotlin/lib/kotlin-reflect.jar',
     ]
 
     def get_src_file_name(self) -> str:
         """
         :return: Name of the source file
         """
-        return 'Solution.java'
+        return 'Solution.kt'
 
     def get_run_cmd(self, src_file: SrcFile, resource_path: str, is_win: bool) -> str:
         """
-        Builds a java execute command.
+        Builds a Kotlin execute command.
 
         :param src_file: target source file containing a test suite
         :param resource_path: AnkiCode resource path
@@ -36,21 +40,21 @@ class JavaTestRunner(TestRunner):
         """
         class_paths = (';' if is_win else ':').join([f'{resource_path}{path}' for path in self.LIBS] +
                                                     [src_file.directory.name])
-        java_home = f'{resource_path}/{LIBS_FOLDER}/java' # todo win
-        return f'{java_home}/bin/java -Xss10m -cp {class_paths} Runner'
+        java_home = f'{resource_path}/{LIBS_FOLDER}/java'  # todo win
+        return f'JAVA_HOME={java_home} {java_home}/bin/java -Xss10m -cp {class_paths} Runner'
 
     def get_compile_cmd(self, src_file: SrcFile, resource_path: str, is_win: bool) -> str:
         """
-        Builds a java compile command.
+        Builds a kotlin compile command.
 
         :param src_file: target source file containing a test suite
         :param resource_path: AnkiCode resource path
         :param is_win: True - if windows, False - if Unix/MacOS
         :return: shell command to compile a source file
         """
-        java_home = f'{resource_path}/{LIBS_FOLDER}/java' # todo win
         class_paths = (';' if is_win else ':').join([f'{resource_path}{path}' for path in self.LIBS])
-        return f'{java_home}/bin/javac -cp {class_paths} {src_file.file.name}'
+        java_home = f'{resource_path}/{LIBS_FOLDER}/java'  # to-do win
+        return f'JAVA_HOME={java_home} {resource_path}/{LIBS_FOLDER}/kotlin/bin/kotlinc -cp {class_paths} {src_file.file.name} -d {src_file.directory.name}'
 
     def get_error_message(self, error: str, file_name: str, code_offset: int) -> str:
         """
@@ -60,19 +64,9 @@ class JavaTestRunner(TestRunner):
         :param code_offset: user solution code offset
         :return: error message
         """
-        text = ''
-        for error_line in error.split('\n'):
-            if error_line.strip() == '':
-                continue
-            lines = error_line.split(file_name)
-            if lines[0].startswith('Note:'):
-                continue
-            if file_name in error_line:
-                for line in lines[1:]:
-                    splitted = line.split(':')
-                    line_prefix = get_line_number_prefix(splitted[1], code_offset)
-                    text += (line_prefix + ' ' if line_prefix else '') + ''.join(splitted[2:])
-                text += '\n'
-            else:
-                text += error_line + '\n'
-        return text
+        error_pattern = r":(\d+):\d+: error: (.+?)\n"
+
+        matches = re.findall(error_pattern, error)
+
+        return "\n".join([f'{int(line) - code_offset}: {message}' for line, message in matches])
+

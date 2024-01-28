@@ -217,7 +217,8 @@ button.disabled {
 }
 
 #codeans {
-    height:60vh;
+    height:60vh !important;
+    overflow: scroll;
     text-align:left;
 }
 

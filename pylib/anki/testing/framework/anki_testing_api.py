@@ -112,6 +112,7 @@ def stop_tests():
 LANGUAGE_MAPPINGS = {
     'cpp': 'C++',
     'java': 'Java',
+    'kotlin': 'Kotlin',
     'js': 'JavaScript',
     'python': 'Python'
 }

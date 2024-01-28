@@ -5,7 +5,6 @@ use ninja_gen::action::BuildAction;
 use ninja_gen::command::RunCommand;
 use ninja_gen::copy::CopyFile;
 use ninja_gen::copy::CopyFiles;
-use ninja_gen::copy::CopyFolder;
 use ninja_gen::glob;
 use ninja_gen::hashmap;
 use ninja_gen::inputs;
