@@ -1297,11 +1297,8 @@ time = %(time)d;
 
     # anki-code
     def stopTests(self):
-        self._logger.log("Stopping...")
-        stop_tests()
-        self.web.eval("_activateRunButton()")
-        self.web.eval("_initializeProgress()")
-        # self.web.eval("_cleanConsoleLog()")
+        if stop_tests():
+            self.web.eval("_activateRunButton()")
 
     onBuryCard = bury_current_card
     onBuryNote = bury_current_note

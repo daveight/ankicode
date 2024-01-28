@@ -67,6 +67,7 @@ def get_resource_path():
         """ dev mode """
         result = os.path.join(pathlib.Path(__file__).parents[4], 'testing_libs/vendor')
     return '"' + result + '"'
+
     # if not isMac and not isWin and not isLin:
     #     raise OSError('Unsupported OS')
     # if isMac and 'RESOURCEPATH' in os.environ:
@@ -130,7 +131,6 @@ class TestRunner(ABC):
     """
 
     def __init__(self):
-        self.pid = None
         self.proc = None
         self.compile_proc = None
         self.stopped = False
@@ -161,8 +161,8 @@ class TestRunner(ABC):
                                                      stdout=subprocess.PIPE,
                                                      stderr=subprocess.PIPE,
                                                      text=True)
-                self.pid = self.compile_proc.pid
                 stdout, stderr = self.compile_proc.communicate()
+                self.compile_proc = None
                 if self.check_for_errors(stderr, src_file, logger):
                     return
 
@@ -287,11 +287,16 @@ class TestRunner(ABC):
         """
         Stop currently executing processes
         """
+        if self.compile_proc is not None:
+            return False
+
+        self.stopped = True
+        time.sleep(0.1)
+
         kill_proc(self.proc)
         self.proc = None
-        kill_proc(self.compile_proc)
-        self.compile_proc = None
-        self.stopped = True
+
+        return True
 
 
 def kill_proc(proc):

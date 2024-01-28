@@ -253,6 +253,10 @@ export function _setProgressError() {
     _displayProgressBar("100", "#e3342f");
 }
 
+export function _setProgressCancelled() {
+    _displayProgressBar('100', '#fff403');
+}
+
 // anki-code
 export function _displayProgressBar(raise, bgColor) {
     (<any> $("#progressbar")).jQMeter({

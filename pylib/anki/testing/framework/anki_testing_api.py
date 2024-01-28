@@ -106,7 +106,8 @@ def stop_tests():
     """
     global runner
     if runner is not None:
-        runner.kill()
+        return runner.kill()
+    return True
 
 
 LANGUAGE_MAPPINGS = {
