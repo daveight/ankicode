@@ -416,7 +416,7 @@ impl BuildAction for BuildWindowsInstallers {
     fn files(&mut self, build: &mut impl ninja_gen::build::FilesHandle) {
         let version = anki_version();
         let outputs = ["qt6", "qt5"].iter().map(|qt| {
-            let output_base = format!("anki-{version}-windows-{qt}");
+            let output_base = format!("ankicode-{version}-windows-{qt}");
             format!("bundle/package/{output_base}.exe")
         });
 
@@ -474,7 +474,7 @@ impl BuildAction for BuildDmgs {
         };
         let dmgs = qt
             .iter()
-            .map(|qt| format!("bundle/dmg/anki-{version}-mac-{platform}-{qt}.dmg"));
+            .map(|qt| format!("bundle/dmg/ankicode-{version}-mac-{platform}-{qt}.dmg"));
 
         build.add_inputs("", inputs![":bundle:app"]);
         build.add_outputs("dmgs", dmgs);

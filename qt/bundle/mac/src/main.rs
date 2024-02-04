@@ -53,7 +53,7 @@ impl DistKind {
     fn output_folder(&self) -> Utf8PathBuf {
         Utf8Path::new("out/bundle/app")
             .join(self.folder_name())
-            .join("Anki.app")
+            .join("AnkiCode.app")
     }
 
     fn macos_min(&self) -> &str {
