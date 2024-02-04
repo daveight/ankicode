@@ -28,6 +28,7 @@ class KotlinTestSuiteGeneratorTests(GeneratorTestCase):
             import com.fasterxml.jackson.databind.JsonNode;
             import com.fasterxml.jackson.annotation.JsonAutoDetect
             import com.fasterxml.jackson.annotation.PropertyAccessor
+            import java.util.LinkedList 
             import java.lang.reflect.Method
             import java.util.concurrent.TimeUnit
             import java.util.Scanner

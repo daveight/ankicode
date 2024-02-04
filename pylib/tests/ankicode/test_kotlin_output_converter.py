@@ -94,15 +94,16 @@ class KotlinOutputConverterTests(unittest.TestCase):
         self.assertEqual(2, len(converters))
         self.assertEqual(ConverterFn('', 'return value', 'Int', 'Int'), converters[0])
         self.assertEqual(ConverterFn('', '''
+            var v = value
             val visited = mutableSetOf<ListNode<Int>>()
             val result = mutableListOf<Any>()
-            while (value != null && !visited.contains(value)) {
-                result.add(converter1(value.data))
-                visited.add(value)
-                value = value.next
+            while (v != null && !visited.contains(v)) {
+                result.add(converter1(v.data))
+                visited.add(v)
+                v = v.next
             }
             return result
-        ''', 'ListNode<Int>', 'List<Any>'), converters[1])
+        ''', 'ListNode<Int>?', 'List<Any>'), converters[1])
 
     def test_binary_tree(self):
         tree = SyntaxTree.of(['binary_tree(int)'])
@@ -111,8 +112,11 @@ class KotlinOutputConverterTests(unittest.TestCase):
         self.assertEqual(2, len(converters))
         self.assertEqual(ConverterFn('', 'return value', 'Int', 'Int'), converters[0])
         self.assertEqual(ConverterFn('', '''
+            if (value == null) {
+                return emptyList()
+            }
             val result = mutableListOf<Int?>()
-            val queue: Queue<BinaryTreeNode<Int>> = LinkedList<>()
+            val queue = LinkedList<BinaryTreeNode<Int>?>()
             val visited = mutableSetOf<BinaryTreeNode<Int>>()
             queue.add(value)
             while (!queue.isEmpty()) {
@@ -137,5 +141,6 @@ class KotlinOutputConverterTests(unittest.TestCase):
                     break
                 }
             }
-            return result''', 'BinaryTreeNode<Int>', 'List<Int>'), converters[1])
+            return result
+            ''', 'BinaryTreeNode<Int>?', 'List<Int?>'), converters[1])
 

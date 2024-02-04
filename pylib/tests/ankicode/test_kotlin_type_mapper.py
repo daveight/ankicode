@@ -34,7 +34,7 @@ class KotlinTypeMapperTests(GeneratorTestCase):
         self.assertEqual('Edge', args[0].type)
         self.assertEqual('a', args[0].name)
         self.assertEqual(1, len(type_defs.keys()))
-        self.assertEqual('data class Edge(a: Int, b: Int)', type_defs['Edge'])
+        self.assertEqual('data class Edge(var a: Int, var b: Int)', type_defs['Edge'])
 
     def test_object_list(self):
         tree = SyntaxTree.of(['list(object(int[a],int[b])<Edge>)[a]'])
@@ -43,7 +43,7 @@ class KotlinTypeMapperTests(GeneratorTestCase):
         self.assertEqual('List<Edge>', args[0].type)
         self.assertEqual('a', args[0].name)
         self.assertEqual(1, len(type_defs.keys()))
-        self.assertEqual('data class Edge(a: Int, b: Int)', type_defs['Edge'])
+        self.assertEqual('data class Edge(var a: Int, var b: Int)', type_defs['Edge'])
 
     def test_map(self):
         tree = SyntaxTree.of(['map(string, list(object(int[a],int[b])<Edge>))[a]'])
@@ -52,7 +52,7 @@ class KotlinTypeMapperTests(GeneratorTestCase):
         self.assertEqual('Map<String, List<Edge>>', args[0].type)
         self.assertEqual('a', args[0].name)
         self.assertEqual(1, len(type_defs.keys()))
-        self.assertEqual('data class Edge(a: Int, b: Int)', type_defs['Edge'])
+        self.assertEqual('data class Edge(var a: Int, var b: Int)', type_defs['Edge'])
 
     def test_linked_list(self):
         tree = SyntaxTree.of(['linked_list(int)'])
@@ -61,14 +61,14 @@ class KotlinTypeMapperTests(GeneratorTestCase):
         self.assertEqual('ListNode<Int>', args[0].type)
         self.assertEqual(1, len(type_defs.keys()))
         self.assertEqualsIgnoreWhiteSpaces('''
-            data class ListNode<T>(data: T, next: ListNode<T>)''', type_defs['linked_list'])
+            data class ListNode<T>(var data: T, var next: ListNode<T>? = null)''', type_defs['linked_list'])
 
     def test_binary_tree(self):
         tree = SyntaxTree.of(['binary_tree(int)'])
         args, type_defs = self.type_mapper.get_args(tree)
         self.assertEqual(1, len(args))
-        self.assertEqual('BinaryTreeNode<Int>', args[0].type)
+        self.assertEqual('BinaryTreeNode<Int>?', args[0].type)
         self.assertEqual(1, len(type_defs.keys()))
         self.assertEqualsIgnoreWhiteSpaces('''
-            data class BinaryTreeNode<T>(data: T, left: BinaryTreeNode<T>, right: BinaryTreeNode<T>)''', type_defs['binary_tree'])
+            data class BinaryTreeNode<T>(var data: T, var left: BinaryTreeNode<T>? = null, var right: BinaryTreeNode<T>? = null)''', type_defs['binary_tree'])
 

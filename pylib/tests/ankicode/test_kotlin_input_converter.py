@@ -91,7 +91,7 @@ class KotlinInputConverterTests(unittest.TestCase):
         self.assertEqual(ConverterFn('', '''return value.asText()''', 'JsonNode', 'String'), converters[0])
         self.assertEqual(ConverterFn('', '''
             val nodes = mutableListOf<ListNode<String>>()
-            for (i in 0 until value.size step 2) {
+            for (i in 0 until value.size() step 2) {
                 val n = value[i]
                 val node = ListNode<String>(data=converter1(n))
                 nodes.add(node)
@@ -105,7 +105,7 @@ class KotlinInputConverterTests(unittest.TestCase):
                     node.next = nextNode
                 }
             }
-            return if (nodes.isEmpty()) null else nodes[0]
+            return nodes[0]
         ''', 'JsonNode', 'ListNode<String>'), converters[1])
 
     def test_binary_tree(self):
@@ -115,22 +115,21 @@ class KotlinInputConverterTests(unittest.TestCase):
         self.assertEqual(2, len(converters))
         self.assertEqual(ConverterFn('', '''return value.asText()''', 'JsonNode', 'String'), converters[0])
         self.assertEqual(ConverterFn('', '''
+            if (value.isNull()) {
+                return null
+            }
             val nodes = mutableListOf<BinaryTreeNode<String>?>()
             for (n in value) {
-                var node = BinaryTreeNode<String>()
-                if (n.isNull()) {
-                    node = null
+                var node: BinaryTreeNode<String>?
+                if (!n.isNull()) {
+                    node = BinaryTreeNode<String>(converter1(n))
                 } else {
-                    node.data = converter1(n)
+                    node = null
                 }
                 nodes.add(node)
             }
-            if (nodes.isEmpty()) {
-                return BinaryTreeNode<String>()
-            }
-            val children: Deque<BinaryTreeNode<String>> = LinkedList<BinaryTreeNode<String>>(nodes)
+            val children = ArrayDeque<BinaryTreeNode<String>?>(nodes)
             val root = children.removeFirst()
-
             for (node in nodes) {
                 if (node != null) {
                     if (children.isNotEmpty()) {
@@ -141,9 +140,9 @@ class KotlinInputConverterTests(unittest.TestCase):
                     }
                 }
             }
-            
+
             return root
-        ''', 'JsonNode', 'BinaryTreeNode<String>'), converters[1])
+        ''', 'JsonNode', 'BinaryTreeNode<String>?'), converters[1])
 
 
     def test_array_nested_linked_list(self):
