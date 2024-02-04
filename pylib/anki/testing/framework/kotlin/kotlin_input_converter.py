@@ -145,7 +145,7 @@ class KotlinInputConverter(TypeConverter):
         child: ConverterFn = self.render(node.first_child(), context)
         src = render_template('''
             val nodes = mutableListOf<ListNode<{{child.ret_type}}>>()
-            for (i in 0 until value.size step 2) {
+            for (i in 0 until value.size() step 2) {
             \tval n = value[i]
             \tval node = ListNode<{{child.ret_type}}>(data={{child.fn_name}}(n))
             \tnodes.add(node)
@@ -159,7 +159,7 @@ class KotlinInputConverter(TypeConverter):
             \t\tnode.next = nextNode
             \t}
             }
-            return if (nodes.isEmpty()) null else nodes[0]
+            return nodes[0]
         ''', child=child)
         return ConverterFn(node.name, src, 'JsonNode', 'ListNode<' + child.ret_type + '>')
 

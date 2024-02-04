@@ -153,16 +153,17 @@ class KotlinOutputConverter(TypeConverter):
         """
         child = self.render(node.first_child(), context)
         src = render_template('''
+            var v = value
             val visited = mutableSetOf<ListNode<{{child.arg_type}}>>()
             val result = mutableListOf<Any>()
-            while (value != null && !visited.contains(value)) {
-            \tresult.add({{child.fn_name}}(value.data))
-            \tvisited.add(value)
-            \tvalue = value.next
+            while (v != null && !visited.contains(v)) {
+            \tresult.add({{child.fn_name}}(v.data))
+            \tvisited.add(v)
+            \tv = v.next
             }
             return result''', child=child)
 
-        return ConverterFn(node.name, src, 'ListNode<' + child.arg_type + '>', 'List<Any>')
+        return ConverterFn(node.name, src, 'ListNode<' + child.arg_type + '>?', 'List<Any>')
 
     def visit_binary_tree(self, node: SyntaxTree, context):
         """

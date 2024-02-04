@@ -129,7 +129,7 @@ class KotlinTypeMapper(TypeMapper):
         child: SyntaxTree = node.first_child()
         if node.node_type not in context:
             context[node.node_type] = '''
-                data class ListNode<T>(data: T, next: ListNode<T>)
+                data class ListNode<T>(var data: T, var next: ListNode<T>? = null)
             '''
         return 'ListNode<' + self.render(child, context) + '>'
 

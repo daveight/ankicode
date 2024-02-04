@@ -36,8 +36,13 @@ class JavaTestRunner(TestRunner):
         """
         class_paths = (';' if is_win else ':').join([f'{resource_path}{path}' for path in self.LIBS] +
                                                     [src_file.directory.name])
-        java_home = f'{resource_path}/{LIBS_FOLDER}/java' # todo win
-        return f'{java_home}/bin/java -Xss10m -cp {class_paths} Runner'
+        if is_win:
+            java_home = f'set "JAVA_HOME={resource_path}/{LIBS_FOLDER}/java" && ' + \
+                        f'set "PATH={resource_path}/{LIBS_FOLDER}/java/bin;%PATH%" && '
+            return f'{java_home} "{resource_path}/{LIBS_FOLDER}/java/bin/java" -Xss10m -cp "{class_paths}" Runner'
+        else:
+            java_home = f'JAVA_HOME={resource_path}/{LIBS_FOLDER}/java'
+            return f'{java_home} {resource_path}/{LIBS_FOLDER}/java/bin/java -Xss10m -cp {class_paths} Runner'
 
     def get_compile_cmd(self, src_file: SrcFile, resource_path: str, is_win: bool) -> str:
         """
@@ -48,9 +53,14 @@ class JavaTestRunner(TestRunner):
         :param is_win: True - if windows, False - if Unix/MacOS
         :return: shell command to compile a source file
         """
-        java_home = f'{resource_path}/{LIBS_FOLDER}/java' # todo win
         class_paths = (';' if is_win else ':').join([f'{resource_path}{path}' for path in self.LIBS])
-        return f'{java_home}/bin/javac -cp {class_paths} {src_file.file.name}'
+        if is_win:
+            java_home = f'set "JAVA_HOME={resource_path}/{LIBS_FOLDER}/java" && ' + \
+                        f'set "PATH={resource_path}/{LIBS_FOLDER}/java/bin;%PATH%" && '
+            return f'{java_home} "{resource_path}/{LIBS_FOLDER}/java/bin/javac" -cp "{class_paths}" "{src_file.file.name}"'
+        else:
+            java_home = f'JAVA_HOME={resource_path}/{LIBS_FOLDER}/java'
+            return f'{java_home} {resource_path}/{LIBS_FOLDER}/java/bin/javac -cp {class_paths} {src_file.file.name}'
 
     def get_error_message(self, error: str, file_name: str, code_offset: int) -> str:
         """

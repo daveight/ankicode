@@ -26,8 +26,8 @@ class PythonTestRunner(TestRunner):
         :return: shell command to execute source file
         """
         if is_win:
-            cmd = f'set PYTHONPATH={resource_path}/{LIBS_FOLDER}/python && ' + \
-                  f'{resource_path}/{LIBS_FOLDER}/python/python.exe -u {src_file.file.name}'
+            cmd = f'set "PYTHONPATH={resource_path}/{LIBS_FOLDER}/python" && ' + \
+                  f'"{resource_path}/{LIBS_FOLDER}/python/python.exe" -u "{src_file.file.name}"'
         else:
             cmd = f'PYTHONHOME={resource_path}/{LIBS_FOLDER}/python PYTHONPATH={resource_path}/{LIBS_FOLDER}/python/lib/python3:{resource_path}' + \
                   f'/{LIBS_FOLDER}/python/lib/python3/lib-dynload ' + \

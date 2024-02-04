@@ -93,6 +93,11 @@ fn copy_windows_extras(folder_root: &Utf8Path) {
         "out/extracted/win_amd64_audio/",
         &with_slash(folder_root),
     ]));
+    run_silent(Command::new("rsync").args([
+        "-a",
+        "testing_libs/",
+        &with_slash(folder_root),
+    ]));
 }
 
 fn clean_top_level_files(folder_root: &Utf8Path) {

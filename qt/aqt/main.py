@@ -482,7 +482,7 @@ class AnkiQt(QMainWindow):
             restoreGeom(self, "mainWindow")
             restoreState(self, "mainWindow")
         # titlebar
-        self.setWindowTitle(f"{self.pm.name} - Bobs")
+        self.setWindowTitle(f"{self.pm.name} - AnkiCode")
         # show and raise window for osx
         self.show()
         self.activateWindow()
