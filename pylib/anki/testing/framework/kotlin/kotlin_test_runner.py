@@ -77,6 +77,11 @@ class KotlinTestRunner(TestRunner):
         error_pattern = r":(\d+):\d+: error: (.+?)\n"
 
         matches = re.findall(error_pattern, error)
+        if matches:
+            return "\n".join([f'{int(line) - code_offset}: {message}' for line, message in matches])
+        elif re.findall(r":(\d+):\d+: warning: (.+?)\n", error):
+            return ""  # ignore warnings
+        else:
+            return error
 
-        return "\n".join([f'{int(line) - code_offset}: {message}' for line, message in matches])
 
