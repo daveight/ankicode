@@ -32,7 +32,7 @@ class KotlinTypeMapper(TypeMapper):
         :param context: generation context
         :return: Kotlin list-type declaration
         """
-        return 'List<' + self.render(node.first_child(), context) + '>'
+        return 'MutableList<' + self.render(node.first_child(), context) + '>'
 
     def visit_map(self, node: SyntaxTree, context):
         """
@@ -42,7 +42,7 @@ class KotlinTypeMapper(TypeMapper):
         :param context: generation context
         :return: Kotlin map-type declaration
         """
-        return 'Map<' + self.render(node.first_child(), context) + ', ' \
+        return 'MutableMap<' + self.render(node.first_child(), context) + ', ' \
                + self.render(node.second_child(), context) + '>'
 
     def visit_int(self, node: SyntaxTree, context):

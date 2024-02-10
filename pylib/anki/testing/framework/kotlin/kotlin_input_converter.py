@@ -46,7 +46,7 @@ class KotlinInputConverter(TypeConverter):
             \t\tresult.add({{child.fn_name}}(node))
             \t}
             \treturn result''', child=child)
-        return ConverterFn(node.name, src, 'JsonNode', 'List<' + child.ret_type + '>')
+        return ConverterFn(node.name, src, 'JsonNode', 'MutableList<' + child.ret_type + '>')
 
     def visit_map(self, node: SyntaxTree, context):
         """
@@ -59,7 +59,7 @@ class KotlinInputConverter(TypeConverter):
         :return: converter fn
         """
         converters = [self.render(child, context) for child in node.nodes]
-        ret_type = render_template('Map<{{converters[0].ret_type}}, {{converters[1].ret_type}}>', converters=converters)
+        ret_type = render_template('MutableMap<{{converters[0].ret_type}}, {{converters[1].ret_type}}>', converters=converters)
         src = render_template('''
             \tval result = mutableMapOf<{{converters[0].ret_type}}, {{converters[1].ret_type}}>()
             \tval iterator = value.iterator()

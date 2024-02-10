@@ -3,7 +3,7 @@
 <plist version="1.0">
 	<dict>
 		<key>CFBundleDisplayName</key>
-		<string>Anki</string>
+		<string>AnkiCode</string>
 		<key>CFBundleShortVersionString</key>
 		<string>2.1.46</string>
 		<key>LSMinimumSystemVersion</key>
@@ -34,7 +34,7 @@
 		<key>CFBundleInfoDictionaryVersion</key>
 		<string>6.0</string>
 		<key>CFBundleName</key>
-		<string>Anki</string>
+		<string>AnkiCode</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>NSHighResolutionCapable</key>

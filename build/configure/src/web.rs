@@ -466,6 +466,96 @@ fn build_and_check_reviewer(build: &mut Build) -> Result<()> {
         },
     )?;
     build.add(
+        "ts:reviewer:highlight:github.css",
+        CompileSass {
+            input: inputs!["ts/reviewer/highlight/github.css"],
+            output: "ts/reviewer/highlight/github.css",
+            deps: ":sass".into(),
+            load_paths: vec!["."],
+        },
+    )?;
+    build.add(
+        "ts:reviewer:highlight:mono-blue.css",
+        CompileSass {
+            input: inputs!["ts/reviewer/highlight/mono-blue.css"],
+            output: "ts/reviewer/highlight/mono-blue.css",
+            deps: ":sass".into(),
+            load_paths: vec!["."],
+        },
+    )?;
+    build.add(
+        "ts:reviewer:highlight:monokai-sublime.css",
+        CompileSass {
+            input: inputs!["ts/reviewer/highlight/monokai-sublime.css"],
+            output: "ts/reviewer/highlight/monokai-sublime.css",
+            deps: ":sass".into(),
+            load_paths: vec!["."],
+        },
+    )?;
+    build.add(
+        "ts:reviewer:highlight:railscasts.css",
+        CompileSass {
+            input: inputs!["ts/reviewer/highlight/railscasts.css"],
+            output: "ts/reviewer/highlight/railscasts.css",
+            deps: ":sass".into(),
+            load_paths: vec!["."],
+        },
+    )?;
+    build.add(
+        "ts:reviewer:highlight:rainbow.css",
+        CompileSass {
+            input: inputs!["ts/reviewer/highlight/rainbow.css"],
+            output: "ts/reviewer/highlight/rainbow.css",
+            deps: ":sass".into(),
+            load_paths: vec!["."],
+        },
+    )?;
+    build.add(
+        "ts:reviewer:highlight:solarized-dark.css",
+        CompileSass {
+            input: inputs!["ts/reviewer/highlight/solarized-dark.css"],
+            output: "ts/reviewer/highlight/solarized-dark.css",
+            deps: ":sass".into(),
+            load_paths: vec!["."],
+        },
+    )?;
+    build.add(
+        "ts:reviewer:highlight:solarized-light.css",
+        CompileSass {
+            input: inputs!["ts/reviewer/highlight/solarized-light.css"],
+            output: "ts/reviewer/highlight/solarized-light.css",
+            deps: ":sass".into(),
+            load_paths: vec!["."],
+        },
+    )?;
+    build.add(
+        "ts:reviewer:highlight:tommorow.css",
+        CompileSass {
+            input: inputs!["ts/reviewer/highlight/tommorow.css"],
+            output: "ts/reviewer/highlight/tommorow.css",
+            deps: ":sass".into(),
+            load_paths: vec!["."],
+        },
+    )?;
+    build.add(
+        "ts:reviewer:highlight:vs.css",
+        CompileSass {
+            input: inputs!["ts/reviewer/highlight/vs.css"],
+            output: "ts/reviewer/highlight/vs.css",
+            deps: ":sass".into(),
+            load_paths: vec!["."],
+        },
+    )?;
+    build.add(
+        "ts:reviewer:highlight:zenburn.css",
+        CompileSass {
+            input: inputs!["ts/reviewer/highlight/zenburn.css"],
+            output: "ts/reviewer/highlight/zenburn.css",
+            deps: ":sass".into(),
+            load_paths: vec!["."],
+        },
+    )?;
+    build.add(
         "ts:reviewer:reviewer_extras_bundle.js",
         EsbuildScript {
             script: inputs!["ts/bundle_ts.mjs"],

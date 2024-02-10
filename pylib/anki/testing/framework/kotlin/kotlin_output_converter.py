@@ -42,7 +42,7 @@ class KotlinOutputConverter(TypeConverter):
             \t\tresult.add({{child.fn_name}}(item))
             \t}
             \treturn result''', child=child)
-        return ConverterFn(node.name, src, 'List<' + child.arg_type + '>', 'List<' + child.ret_type + '>')
+        return ConverterFn(node.name, src, 'MutableList<' + child.arg_type + '>', 'List<' + child.ret_type + '>')
 
     def visit_map(self, node: SyntaxTree, context):
         """
@@ -61,7 +61,7 @@ class KotlinOutputConverter(TypeConverter):
             \t\tresult.add({{converters[1].fn_name}}(entry.value))
             \t}
             return result''', converters=converters)
-        arg_type = 'Map<' + converters[0].arg_type + ', ' + converters[1].arg_type + '>'
+        arg_type = 'MutableMap<' + converters[0].arg_type + ', ' + converters[1].arg_type + '>'
         return ConverterFn(node.name, src, arg_type, 'List<Any>')
 
     def visit_int(self, node: SyntaxTree, context):
