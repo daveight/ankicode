@@ -30,7 +30,7 @@ This repo contains all the code for the computer version of AnkiCode.
 The following error: "App is Damaged and Can't Be Opened. You Should Move it to the Trash" can be fixed as follows:
 
 In terminal execute the following command:
-sudo xattr -cr /Applications/AnkiCode.app
+`sudo xattr -cr /Applications/AnkiCode.app`
 
 ---
 
