@@ -25,6 +25,13 @@ This repo contains all the code for the computer version of AnkiCode.
 | `Mac OS ARM`      | Python, Java, JavaScript, Kotlin  | [AnkiCode-1.3.0-mac-apple-qt6.dmg](https://github.com/daveight/ankicode/releases/download/ankicode-1.3.0/ankicode-1.3.0-mac-apple-qt6.dmg) | 485 MB  |
 
 
+### Running the app in MacOS Sonoma
+
+The following error: "App is Damaged and Can't Be Opened. You Should Move it to the Trash" can be fixed as follows:
+
+In terminal execute the following command:
+sudo xattr -cr /Applications/AnkiCode.app
+
 ---
 
 ### Programming Challenge Decks
