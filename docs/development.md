@@ -195,3 +195,16 @@ If you're using PyCharm:
 - click "Edit 'run'..." - in Script options and enter:
   "-p [dev profile name]" without the quotes
 - click "Ok"
+
+
+## Running AnkiCode Tests Locally
+
+Create "testing_libs/vendor/libs" directory in the project's root folder. For every programming language - copy language runtime libraries to the "libs" folder
+
+For Java it will look like this:
+    - $PROJECT_ROOT/testing_libs/vendor/libs/java -> /Library/Java/JavaVirtualMachines/jdk-x.x.x.jdk
+For Python
+    - $PROJECT_ROOT/testing/libs/python -> ~/.pyenv/versions/3.9.0
+For JS
+    - Download Windows (or MacOS) binary archive: https://nodejs.org/de/download/
+    - Extract it (or create link) to $PROJECT_ROOT/testing/libs/node
