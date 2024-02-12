@@ -504,8 +504,8 @@ Decks based on the book ["Elements of Programming Interviews"](http://elementsof
 ---
 
 ### Docs
-- For more information on building, please see [docs/development.md](README.development).
-- If you'd like to contribute code, please see [docs/contributing.md](README.contributing).
+- For more information on building, please see [docs/development.md](docs/development.md).
+- If you'd like to contribute code, please see [docs/contributing.md](docs/contributing.md).
 
 ### Videos
 > [AnkiCode Tutorial](https://www.youtube.com/watch?v=dB23wJ1b6Ik)
