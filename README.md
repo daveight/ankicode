@@ -12,7 +12,7 @@ This repo contains all the code for the computer version of AnkiCode.
 
 ---
 
-![AnkiCode](https://github.com/daveight/ankicode/raw/master/images/anki-editor.png "AnkiCode")
+![AnkiCode](https://github.com/daveight/ankicode/assets/50528209/9e06a656-1b31-4a57-bc14-d7304d09924c)
 
 ---
 
