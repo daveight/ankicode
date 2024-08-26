@@ -42,9 +42,9 @@ Decks based on LeetCode problems [https://github.com/interviewcoder/leetcode](ht
 
 | Name                | Count  |Link                                                        | Size    |
 | :------------------ |:-------|:-----------------------------------------------------------|:--------|
-| Easy                | 50     | [easy.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.0/leetcode_easy.apkg)                  | 31 KB   |
-| Medium              | 114    | [medium.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.0/leetcode_medium.apkg)                | 103 KB  |
-| Hard                | 44     | [hard.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.0/leetcode_hard.apkg)                  | 51 KB   |
+| Easy                | 50     | [easy.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/leetcode_easy.apkg)                  | 31 KB   |
+| Medium              | 114    | [medium.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/leetcode_medium.apkg)                | 103 KB  |
+| Hard                | 44     | [hard.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/leetcode_hard.apkg)                  | 51 KB   |
 
 ### Problems List
 <details><summary>Click to Expand/Collapse</summary>
@@ -270,21 +270,21 @@ Decks based on the book ["Elements of Programming Interviews"](http://elementsof
 
 | Name                | Count  | Link                                                       | Size    |
 | :------------------ |:-------|:-----------------------------------------------------------|:--------|
-| Arrays              | 27     | [arrays.apkg](https://1odg.short.gy/tDViiK)                | 3.36 MB |
-| Binary Search Trees | 13     | [binary_search_trees.apkg](https://1odg.short.gy/U5yHNx)   | 7.03 MB |
-| Binary Trees        | 16     | [binary_trees.apkg](https://1odg.short.gy/tGR2n2)          | 6.85 MB |
-| Dynamic Programming | 18     | [dynamic_programming.apkg](https://1odg.short.gy/168ujb)   | 745 KB  |
-| Graphs              | 12     | [graphs.apkg](https://1odg.short.gy/ShYHCo)                | 2.21 MB |
-| Greedy Algorithms   | 7      | [greedy_algorithms.apkg](https://1odg.short.gy/PtB3hq)     | 862 KB  |
-| Hash Tables         | 12     | [hash_tables.apkg](https://1odg.short.gy/uW1NNI)           | 2.06 MB |
-| Heaps               | 7      | [heaps.apkg](https://1odg.short.gy/ZfRNJw)                 | 1.77 MB |
-| Linked Lists        | 15     | [linked_lists.apkg](https://1odg.short.gy/0NzTR8)          | 5.7 MB  |
-| Primitive Types     | 11     | [primitive_types.apkg](https://1odg.short.gy/XjqTcw)       | 1.2 MB  |
-| Recursion           | 13     | [recursion.apkg](https://1odg.short.gy/IUP3ss)             | 567 KB  |
-| Searching           | 16     | [searching.apkg](https://1odg.short.gy/J3zfA9)             | 2.98 MB |
-| Sorting             | 12     | [sorting.apkg](https://1odg.short.gy/Vg6NeM)               | 1.28 MB |
-| Stacks & Queues     | 7      | [stacks_and_queues.apkg](https://1odg.short.gy/IULB1X)     | 839 KB  |
-| Strings             | 18     | [strings.apkg](https://1odg.short.gy/DxM1MV)               | 1.31 MB |
+| Arrays              | 27     | [arrays.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_arrays.apkg)                | 3.36 MB |
+| Binary Search Trees | 13     | [binary_search_trees.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_binary_search_trees.apkg)   | 7.03 MB |
+| Binary Trees        | 16     | [binary_trees.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_binary_trees.apkg)          | 6.85 MB |
+| Dynamic Programming | 18     | [dynamic_programming.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_dynamic_programming.apkg)   | 745 KB  |
+| Graphs              | 12     | [graphs.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_graphs.apkg)                | 2.21 MB |
+| Greedy Algorithms   | 7      | [greedy_algorithms.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_greedy_algorithms.apkg)     | 862 KB  |
+| Hash Tables         | 12     | [hash_tables.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_hash_tables.apkg)           | 2.06 MB |
+| Heaps               | 7      | [heaps.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_heaps.apkg)                 | 1.77 MB |
+| Linked Lists        | 15     | [linked_lists.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_linked_lists.apkg)          | 5.7 MB  |
+| Primitive Types     | 11     | [primitive_types.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_primitive_types.apkg)       | 1.2 MB  |
+| Recursion           | 13     | [recursion.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_recursion.apkg)             | 567 KB  |
+| Searching           | 16     | [searching.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_searching.apkg)             | 2.98 MB |
+| Sorting             | 12     | [sorting.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_sorting.apkg)               | 1.28 MB |
+| Stacks & Queues     | 7      | [stacks_and_queues.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_stacks_and_queues.apkg)     | 839 KB  |
+| Strings             | 18     | [strings.apkg](https://github.com/daveight/ankicode-decks/releases/download/v1.1.1/epi_strings.apkg)               | 1.31 MB |
 
 
 ### Problems List
