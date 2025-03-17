@@ -45,7 +45,7 @@ class CppTestRunner(TestRunner):
                    f'-I {resource_path} -liconv -static -std=c++11 -o {src_file.file.name}.run'
         else:
             return f'export CPATH={resource_path}/{LIBS_FOLDER}/cpp/headers:{resource_path} &&' + \
-                   f'{resource_path}/{LIBS_FOLDER}/cpp/bin/clang++ -Werror=return-type -std=c++14 -pedantic ' + \
+                   f'{resource_path}/{LIBS_FOLDER}/cpp/bin/gcc-14 -Werror=return-type -std=c++20 -pedantic ' + \
                    f'{libs_path}/*.cpp {src_file.file.name} -o {src_file.file.name}.run'
 
     def get_error_message(self, error: str, file_name: str, code_offset: int) -> str:
