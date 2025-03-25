@@ -6,7 +6,7 @@ This repo contains all the code for the computer version of AnkiCode.
 
 ### Features
 - New card "Programming Challenge" allows to memorize programming solutions using Anki algorithm.
-- Support of `Kotlin`, `Java`, `JavaScript`, `Python` languages.
+- Support of `C++`, `Kotlin`, `Java`, `JavaScript`, `Python` languages.
 - Code execution runtime is bundled inside the app, the code is executed locally.
 - Integrated code editor with syntax highlighting and theme selection.
 
@@ -24,6 +24,17 @@ This repo contains all the code for the computer version of AnkiCode.
 | `Mac OS Intel`    | Python, Java, JavaScript, Kotlin  | [AnkiCode-1.3.0-mac-intel-qt6.dmg](https://github.com/daveight/ankicode/releases/download/ankicode-1.3.0/ankicode-1.3.0-mac-intel-qt6.dmg) | 383 MB  |
 | `Mac OS ARM`      | Python, Java, JavaScript, Kotlin  | [AnkiCode-1.3.0-mac-apple-qt6.dmg](https://github.com/daveight/ankicode/releases/download/ankicode-1.3.0/ankicode-1.3.0-mac-apple-qt6.dmg) | 485 MB  |
 
+### C++ Setup on macOS for AnkiCode
+
+To run **AnkiCode decks** using C++, you need to install Apple's **Xcode Command Line Tools**. These tools provide the necessary runtime environment for executing C++ code within AnkiCode.
+
+#### Installation  
+
+Run the following command in your terminal to install Xcode Command Line Tools:
+
+```sh
+xcode-select --install
+```
 
 ### Running the app in MacOS Sonoma
 

@@ -41,10 +41,10 @@ class CppTestRunner(TestRunner):
         """
         libs_path = f'{resource_path}/cpp_lib'
         if is_win:
-            return f'cd {resource_path}/{LIBS_FOLDER}/cpp/bin && g++.exe {libs_path}/*.cpp {src_file.file.name} ' + \
-                   f'-I {resource_path} -liconv -static -std=c++11 -o {src_file.file.name}.run'
+            return f'pushd {resource_path}/{LIBS_FOLDER}/cpp/bin && g++.exe {libs_path}/*.cpp {src_file.file.name} ' + \
+                   f'-I {resource_path} -liconv -static -std=c++11 -o {src_file.file.name}.run && popd'
         else:
-            return f'{resource_path}/{LIBS_FOLDER}/cpp/bin/gcc-14 ' + \
+            return f'{resource_path}/{LIBS_FOLDER}/cpp/bin/c++-14 ' + \
                 f'-I {resource_path} {libs_path}/*.cpp {src_file.file.name} -o {src_file.file.name}.run'
 
     def get_error_message(self, error: str, file_name: str, code_offset: int) -> str:
