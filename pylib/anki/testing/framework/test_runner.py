@@ -217,8 +217,10 @@ class TestRunner(ABC):
             if self.stopped:
                 test_logger.cancel()
         finally:
-            src_file.directory.cleanup()
+            if isWin:
+                kill_process_tree(self.proc)
             self.kill()
+            src_file.directory.cleanup()
 
     @abstractmethod
     def get_src_file_name(self) -> str:
@@ -291,6 +293,15 @@ class TestRunner(ABC):
 
         return True
 
+
+def kill_process_tree(proc):
+    if proc is None:
+        return
+    parent = psutil.Process(proc.pid)
+    children = parent.children(recursive=True)
+    for c in children:
+        c.kill()
+        c.wait()
 
 def kill_proc(proc):
     if proc is not None:
