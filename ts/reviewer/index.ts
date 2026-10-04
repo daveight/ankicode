@@ -272,16 +272,16 @@ export function _displayProgressBar(raise, bgColor) {
 
 // anki-code
 export function _activateRunButton() {
-    let $runBtn = $("#start-testing");
-    let $stopBtn = $("#stop-testing");
+    const $runBtn = $("#start-testing");
+    const $stopBtn = $("#stop-testing");
     $stopBtn.addClass("disabled").attr("disabled", "disabled");
     $runBtn.removeClass("disabled").removeAttr("disabled");
 }
 
 // anki-code
 export function _activateStopButton() {
-    let $runBtn = $("#start-testing");
-    let $stopBtn = $("#stop-testing");
+    const $runBtn = $("#start-testing");
+    const $stopBtn = $("#stop-testing");
     $runBtn.addClass("disabled").attr("disabled", "disabled");
     $stopBtn.removeClass("disabled").removeAttr("disabled");
 }
@@ -293,7 +293,7 @@ export function _initalizeCodeEditor() {
         return;
     }
     log = document.getElementById("log");
-    let options = {
+    const options = {
         tab: " ".repeat(4), // default is '\t'
         indentOn: /[(\[]$/, // default is /{$/
     };
@@ -395,7 +395,7 @@ export function _initializeCodeAnswers() {
     }
     $qa.html(html);
     $qa.find(".editor").each(function() {
-        let options = {
+        const options = {
             tab: " ".repeat(4),
             indentOn: /[(\[]$/,
         };

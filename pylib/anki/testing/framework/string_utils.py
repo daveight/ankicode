@@ -5,6 +5,7 @@ String Utils
 """
 
 import re
+from html import unescape
 from jinja2.nativetypes import NativeEnvironment
 
 env = NativeEnvironment()
@@ -40,14 +41,14 @@ def render_template(template: str = '', retab: bool = False, **kwargs) -> str:
 
 def strip_html_tags(html: str) -> str:
     """
-    Remove html tags from html, replace <br> with \n, replce &lt; and &gt; by < and >
+    Remove html tags from html, replace <br> with \n, unescape html entities (e.g. &quot;, &lt;, &gt;)
     :param html: target html
     :return: stripped html
     """
     text = re.sub(r'<br>', '\n', html)
     text = text.replace('\\n', '\n')
     text = re.sub(r'<.*?>', '', text)
-    text = text.replace('&lt;', '<').replace('&gt;', '>')
+    text = unescape(text)
     return text.strip()
 
 
